@@ -1,0 +1,115 @@
+.Home{
+    background: url(../image/bannerBg.png);
+    min-height: 100vh;
+    padding-top: 78px;
+    .Banner{
+        padding-top: 215px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .BannerTokenName{
+            margin-top: 30px;
+        }
+        .introduce{
+            font-size: 50px;
+            text-align: center;
+            font-weight: bold;
+            line-height:1.44;
+            margin-top: 70px;
+        }
+        .StakeNow{
+            width: 300px;
+            height: 55px;
+            border-radius: 50px;
+            background: #FFAA00;
+            font-size: 28px;
+            color: #fff;
+            margin-top: 10px;
+        }
+    }
+    .TotalValue{
+        max-width: 950px;
+        display: flex;
+        justify-content: space-between;
+        margin:160px auto 0;
+        .TotalValueItem{
+            .label{
+                color: #fff;
+                font-size: 14px;
+                text-align: center;
+            }
+            .Value{
+                font-size: 24px;
+            }
+        }
+    }
+    .ModelGrid{
+        margin-top: 70px;
+        justify-content: center;
+        display: grid;
+        grid-template-columns:395px 395px;
+        grid-template-rows:300px 300px;
+        grid-row-gap:29px;
+        grid-column-gap:25px;
+        >div{
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            >img{
+                height: 195px;
+            }
+            p{
+                flex: 1;
+                color: #192E44;
+                font-size: 26px;
+            }
+            .Info{
+                padding:10px 20px 20px;
+                box-sizing: border-box;
+                flex: 1;
+                .Label{
+                    font-size: 26px;
+                    color: #192E44;
+                    line-height: 1;
+                }
+                .InfoRow{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 13px;
+                    .InfoLeft{
+                        display: flex;
+                        flex-direction: column;
+                        line-height: 1;
+                        span:nth-child(1){
+                            font-size: 22px;
+                            color: #1FB51A;
+                            margin-bottom: 5px;
+                        }
+                        span:nth-child(2){
+                            font-size: 16px;
+                            color: #808080;
+                        }
+                    }
+                    .StakeNow{
+                        width: 150px;
+                        height: 40px;
+                        border-radius: 50px;
+                        background: #FFAA00;
+                    }
+                }
+            }
+        }
+    }
+    .Step{
+        background: #fff;
+        padding: 67px 0 0;
+        margin-top: 135px;
+    }
+    .Title{
+        color: #192E44;
+        font-size: 36px;
+        text-align: center;
+    }
+}
