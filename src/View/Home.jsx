@@ -9,6 +9,9 @@ import ModelImg4 from '../assets/image/ModelImg4.png'
 import step1 from '../assets/image/step1.png'
 import step2 from '../assets/image/step2.png'
 import step3 from '../assets/image/step3.png'
+import rabbit from '../assets/image/rabbit.png'
+import Telegram from '../assets/image/Telegram.png'
+import Twitter from '../assets/image/Twitter.png'
 
 export default function Home() {
   return (
@@ -141,6 +144,31 @@ export default function Home() {
                     open source enthusiast, linux user, <br/>
                     background in private gaming sector, <br/>
                     gambling facilities and team manager.<br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div className="Join">
+            <div className="Title">Join our community</div>
+            <div className="subTitle">Join our community</div>
+            <div className="JoinGrid">
+                <div className="JoinMain">
+                    <span className="JoinMainTitle">LFT in LinkedIn</span>
+                    <span className="JoinMainsunTitle">Join the community and ask questions</span>
+                    <img src={rabbit} alt="" />
+                </div>
+                <div className="joinItem">
+                    <img src={Telegram} alt="" />
+                    <div className="joinItemInfo">
+                        <div className="InfoNmae">Telegram</div>
+                        <div className="InfoSub">Join chat</div>
+                    </div>
+                </div>
+                <div className="joinItem">
+                    <img src={Twitter} alt="" />
+                    <div className="joinItemInfo">
+                        <div className="InfoNmae">Twitter</div>
+                        <div className="InfoSub">Follow @LiftedStake</div>
                     </div>
                 </div>
             </div>

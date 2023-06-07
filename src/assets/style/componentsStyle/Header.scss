@@ -4,6 +4,7 @@
     width: 100%;
     left: 50%;
     transform:translateX(-50%);
+    z-index: 10;
     margin:  38px auto 0;
     height: 40px;
     display: flex;
@@ -20,6 +21,9 @@
                 height: 20px;
                 margin-right: 5px;
             }
+        }
+        .BlackMenuItem{
+            color: #192E44;
         }
     }
     .HeaderRight{

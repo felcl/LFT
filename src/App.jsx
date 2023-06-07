@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Router from './Router/Router'
 import Header from './components/Header'
 import './App.css'
@@ -11,8 +12,10 @@ function App() {
     useConnect()
   return (
     <>
-    <Header></Header>
-    <Router></Router>
+    <HashRouter>
+      <Header></Header>
+      <Router></Router>
+    </HashRouter>
     {/* <span onClick={()=>connect({ connector: connectors[1] })}> 链接</span> */}
     </>
   )
