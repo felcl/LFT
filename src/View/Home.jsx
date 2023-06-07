@@ -1,4 +1,4 @@
-import React from 'react'
+
 import '../assets/style/Home.scss'
 import bannerLogo from '../assets/image/bannerLogo.png'
 import BannerTokenName from '../assets/image/BannerTokenName.png'

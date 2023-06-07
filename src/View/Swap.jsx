@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Canvas from '@antv/f2-react';
 import { Chart, Line, Axis, Tooltip, Interval } from '@antv/f2';
 import '../assets/style/Swap.scss'
@@ -274,7 +274,7 @@ export default function Swap() {
                 </div>
                 <div className="submit flexCenter">Connect wallet</div>
             </div>
-            <div className="SwapRecord">
+            <div className="Record">
                 {'Swap record >'}
             </div>
         </div>

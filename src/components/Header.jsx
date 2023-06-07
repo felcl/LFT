@@ -1,4 +1,4 @@
-import React from 'react'
+
 import '../assets/style/componentsStyle/Header.scss'
 import HomeIcon from '../assets/image/HomeIcon.png'
 import SwapIcon from '../assets/image/SwapIcon.png'
@@ -16,6 +16,7 @@ export default function Header() {
         if(location.pathname !=='/'){
             return 'MenuItem BlackMenuItem'
         }
+        return 'MenuItem'
     }
     return (
         <div className="Header">
@@ -23,6 +24,7 @@ export default function Header() {
                 <div className={MenuClass('/')} onClick={()=>{navigate('/')}}><img src={HomeIcon} alt="" />Home</div>
                 <div className={MenuClass('/Swap')} onClick={()=>{navigate('/Swap')}}><img src={SwapIcon} alt="" />Swap</div>
                 <div className={MenuClass('/Convert')} onClick={()=>{navigate('/Convert')}}><img src={ConvertIcon} alt="" />Convert</div> 
+                <div className={MenuClass('/Wallet')} onClick={()=>{navigate('/Wallet')}}><img src={ConvertIcon} alt="" />Wallet</div> 
             </div>
             <div className="HeaderRight">
                 <div className='connect flexCenter'>Connect wallet</div>
