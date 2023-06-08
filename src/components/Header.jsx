@@ -1,15 +1,26 @@
-
+import { useState } from 'react';
+import { Drawer } from 'antd';
 import '../assets/style/componentsStyle/Header.scss'
+import bannerLogo from '../assets/image/bannerLogo.png'
 import HomeIcon from '../assets/image/HomeIcon.png'
 import SwapIcon from '../assets/image/SwapIcon.png'
 import ConvertIcon from '../assets/image/ConvertIcon.png'
 import LangIcon from '../assets/image/LangIcon.png'
+import MenuIcon from '../assets/image/MenuIcon.png'
 import {useNavigate ,useLocation} from 'react-router-dom'
 
 export default function Header() {
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    function MenuClass(path){
+    const showDrawer = () => {
+        setOpen(true);
+      };
+    
+      const onClose = () => {
+        setOpen(false);
+      };
+    const MenuClass = (path) => {
         if(location.pathname === path){
             return 'MenuItem activeMenuItem'
         }
@@ -19,6 +30,7 @@ export default function Header() {
         return 'MenuItem'
     }
     return (
+        <>
         <div className="Header">
             <div className="Menu">
                 <div className={MenuClass('/')} onClick={()=>{navigate('/')}}><img src={HomeIcon} alt="" />Home</div>
@@ -32,6 +44,14 @@ export default function Header() {
                     <img src={LangIcon} alt="" />
                 </div>
             </div>
+            <img className="MenuIcon" onClick={showDrawer} src={MenuIcon} alt="" />
         </div>
+        <Drawer placement="right" width="178" onClose={onClose} closable={false} open={open} rootClassName="DrawerBodyRoot" className="DrawerBody">
+            <img src={bannerLogo} alt="" />
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+            <p>Some contents...</p>
+        </Drawer>
+        </>
     )
 }

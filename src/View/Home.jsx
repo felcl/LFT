@@ -17,12 +17,12 @@ export default function Home() {
   return (
     <div className="Home">
         <div className="Banner">
-            <img src={bannerLogo} alt="" />
+            <img className="bannerLogo" src={bannerLogo} alt="" />
             <img className="BannerTokenName" src={BannerTokenName} alt="" />
             <div className="introduce">An innovative options trading platform on Arbitrum</div>
             <div className="StakeNow flexCenter">Stake now</div>
         </div>
-        <div className="TotalValue">
+         <div className="TotalValue">
             <div className="TotalValueItem">
                 <div className="label">Total staked tokens</div>
                 <div className="Value">$11,983,033,282</div>
