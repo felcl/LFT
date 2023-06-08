@@ -1,0 +1,107 @@
+.Subscribe{
+    background: url(../image/PolkaDotsBg.png);
+    min-height: 100vh;
+    overflow: hidden;
+    padding-top: 190px;
+    .Title{
+        font-size: 45px;
+        color: #192E44;
+        text-align: center;
+    }
+    .ordinary{
+        width: 800px;
+        background: #FFFFFF;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        border-radius: 30px;
+        margin:50px auto 60px;
+        padding: 75px 100px 35px 100px;
+        box-sizing: border-box;
+        .typeRow{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 47px;
+            .typeItem{
+                width: 179px;
+                height: 56px;
+                border: 1px solid #767676;
+                border-radius: 12px;
+            }
+        }
+        .infoRow{
+            padding: 0 82px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            .label,.value{
+                font-size: 14px;
+                color: #3D3D3D;
+            }
+        }
+        .submit{
+            background: #FFAA00;
+            height: 56px;
+            border-radius: 30px;
+            color: #FFFFFF;
+            font-size: 28px;
+            margin-top: 32px;
+        }
+        .record{
+            color: #767676;
+            font-size: 24px;
+            text-align: center;
+            width: max-content;
+            margin:32px auto 0;
+        }
+    }
+    .Svip{
+        width: 800px;
+        margin:47px auto 0;
+        background: #FFFFFF;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        border-radius: 30px;
+        padding: 0 0 115px 0;
+        box-sizing: border-box;
+        .Total{
+            height: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 1px solid #D4D4D4;
+            .label{
+                color: #000000;
+                font-size: 18px;
+                text-align: center;
+            }
+            .amount{
+                color: #192E44;
+                font-size: 45px;
+                text-align: center;
+            }
+        }
+        .subTypeLabel{
+            color: #3D3D3D;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 43px;
+        }
+        .subType{
+            margin: 63px 100px 0;
+            display: flex;
+            justify-content: space-between;
+            .typeItem{
+                width: 179px;
+                height: 56px;
+                border: 1px solid #767676;
+                border-radius: 12px;
+            }
+        }
+        .submit{
+            margin:80px 100px 0;
+            background: #FFAA00;
+            border-radius: 30px;
+            height: 56px;
+            color: #FFFFFF;
+            font-size: 28px;
+        }
+    }
+}

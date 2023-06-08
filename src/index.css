@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: PingFang,Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -11,7 +11,10 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
+@font-face{
+  font-family: PingFang;  /*定义字体名称*/
+  src: url(./assets/font/PingFangRegular.ttf);  /*定义字体文件路径及格式*/
+}
 a {
   font-weight: 500;
   color: #646cff;

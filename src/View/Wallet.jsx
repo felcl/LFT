@@ -1,6 +1,7 @@
 import '../assets/style/Wallet.scss'
 import copyIcon from '../assets/image/copyIcon.png'
 import VipIcon from '../assets/image/VipIcon.png'
+import JTRight from '../assets/image/JTRight.png'
 export default function Wallet() {
   return (
     <div className="Wallet">
@@ -54,9 +55,13 @@ export default function Wallet() {
             <span>Amount pledged</span>
             <div className="pledgedGo">
                 <div className="pledgedLFT">
-                    
+                LFT
+                <img src={JTRight} alt="" />
                 </div>
-                <div className="pledgedELFT"></div>
+                <div className="pledgedELFT">
+                ELFT
+                <img src={JTRight} alt="" />
+                </div>
             </div>
         </div>
     </div>

@@ -139,6 +139,14 @@
             width: 180px;
             height: 45px;
             border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: #FFFFFF;
+            img{
+                margin-left: 28px;
+            }
         }
         .pledgedLFT{
             background: #FFAA00;

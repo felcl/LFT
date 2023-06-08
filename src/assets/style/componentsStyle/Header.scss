@@ -71,10 +71,19 @@
 }
 .DrawerBody{
     background: #FFAA00 !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    .ant-drawer-body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     img{
         width: 64px;
+        margin-bottom: 30px;
+        text-align: center;
     }
+}
+.DrawerMenuItem{
+    color: #fff;
+    margin-bottom: 15px;
+    width: 100%;
 }

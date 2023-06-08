@@ -1,6 +1,6 @@
 
 import Canvas from '@antv/f2-react';
-import { Chart, Line, Axis, Tooltip, Interval } from '@antv/f2';
+import { Chart, Line, Tooltip } from '@antv/f2';
 import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 
