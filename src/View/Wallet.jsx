@@ -25,7 +25,38 @@ export default function Wallet() {
                 </div>
             </div>
             <div className="TotalInfo">
-                
+                <div className="TotalItem">
+                    <div className="TotalLabel">USDT balance</div>
+                    <div className="TotalValue">1,210,020.002</div>
+                </div>
+                <div className="TotalItem">
+                    <div className="TotalLabel">LFT balance</div>
+                    <div className="TotalValue">1,210,020.002</div>
+                </div>
+                <div className="TotalItem">
+                    <div className="TotalLabel">SLFT balance</div>
+                    <div className="TotalValue">1,210,020.002</div>
+                </div>
+            </div>
+        </div>
+        <div className="pledgeFee">
+            <div className="pledgeFeeItem">
+                <div className="pledgeFeeItemLabel">Proceeds of pledge</div>
+                <div className="pledgeFeeItemValue">1,210,020.002</div>
+            </div>
+            <div className="separate"></div>
+            <div className="pledgeFeeItem">
+                <div className="pledgeFeeItemLabel">Fee income</div>
+                <div className="pledgeFeeItemValue">1,210,020.002</div>
+            </div>
+        </div>
+        <div className="pledged">
+            <span>Amount pledged</span>
+            <div className="pledgedGo">
+                <div className="pledgedLFT">
+                    
+                </div>
+                <div className="pledgedELFT"></div>
             </div>
         </div>
     </div>

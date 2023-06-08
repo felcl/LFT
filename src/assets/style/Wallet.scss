@@ -67,6 +67,85 @@
         }
         .TotalInfo{
             height: 130px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            .TotalItem{
+                width: 170px;
+                .TotalLabel{
+                    font-size: 15px;
+                    line-height: 1.46;
+                    color: #000000;
+                }
+                .TotalValue{
+                    font-size: 24px;
+                    line-height: 2;
+                    background: linear-gradient(180deg, #EB6120 29%, #ED059B 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    text-fill-color: transparent;
+                }
+            }
+        }
+    }
+    .pledgeFee{
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        background: #EAEAEA;
+        width: 800px;
+        height: 135px;
+        margin: 37px auto 0;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content:space-between;
+        padding: 0 60px;
+        box-sizing: border-box;
+        .separate{
+            height: 60%;
+            border-right: 1px solid #000000;
+        }
+        .pledgeFeeItem{
+            .pledgeFeeItemLabel{
+                color: #000000;
+                font-size: 15px;
+            }
+            .pledgeFeeItemValue{
+                color: #000000;
+                font-size: 24px;
+                line-height: 2;
+            }
+        }
+    }
+    .pledged{
+        width: 800px;
+        height: 120px;
+        background: #FFFFFF;
+        margin:37px auto 0;
+        border-radius: 15px;
+        padding: 0 60px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        >span{
+            color: #192E44;
+            font-size: 24px;
+        }
+        .pledgedGo{
+            display: flex;
+        }
+        .pledgedELFT,.pledgedLFT{
+            width: 180px;
+            height: 45px;
+            border-radius: 30px;
+        }
+        .pledgedLFT{
+            background: #FFAA00;
+        }
+        .pledgedELFT{
+            background: #FF25B2;
+            margin-left: 17px ;
         }
     }
 }
