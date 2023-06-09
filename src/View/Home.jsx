@@ -132,7 +132,7 @@ export default function Home() {
                     <div className="AboutRightItem"></div>
                 </div>
             </div>
-            <div className="Team">
+            <div className="HomeTeam">
                 <div className="Title">Our team</div>
                 <div className='TeamCard'>
                     <div className="CardHader"></div>

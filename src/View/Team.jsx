@@ -1,17 +1,32 @@
-import React, { useState } from 'react'
-import { Empty, Modal} from 'antd';
+import { useState } from 'react'
+import { Empty, Modal, Popover} from 'antd';
 import '../assets/style/Team.scss'
 import copyIcon from '../assets/image/copyIcon.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
+import LFTIcon from '../assets/image/LFTIcon.png'
+import JTDown from '../assets/image/JTDown.png'
 
 export default function Team() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
       };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+      };
     let RecordList = [].fill(1)
     RecordList = new Array(3).fill({});
     console.log(RecordList)
+    const content = (
+        <div className='PopoverContent'>
+            <div className='SelItem'>
+                <img src={LFTIcon} alt="" />USDT
+            </div>
+            <div className='SelItem'>
+                <img src={LFTIcon} alt="" />SLFT
+            </div>
+        </div>
+      );
   return (
     <div className="Team">
         <div className="Title">Team</div>
@@ -48,7 +63,7 @@ export default function Team() {
             </div>
             {
             RecordList.length > 0 ? 
-            RecordList.map((item,index)=><div className="RewardItem">
+            RecordList.map((item,index)=><div className="RewardItem" key={index}>
                     <span className="address">dadsda*****dadsdd</span>
                     <span className="time">2022/02/22 12:22:33</span>
                 </div>)
@@ -58,11 +73,20 @@ export default function Team() {
         </div>
 
         {/* 邀请弹窗 */}
-        <Modal open={isModalOpen} closable={false}>
+        <Modal open={isModalOpen} onCancel={handleCancel} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
             <img className="Close" src={CloseIcon} alt="" />
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            <div className="Title">Withdraw</div>
+            <div className='putBox'>
+                <input type="text" placeholder='Enter the withdrawal amount' />
+                <Popover content={content} placement="bottom" trigger="click">
+                    <div className="selToken">
+                        <img src={LFTIcon} alt="" />
+                        LFT
+                        <img src={JTDown} alt="" />
+                    </div>
+                </Popover>
+            </div>
+            <div className="Confirm flexCenter">Confirm</div>
         </Modal>
     </div>
   )
