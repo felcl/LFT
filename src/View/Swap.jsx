@@ -1,10 +1,14 @@
 
 import Canvas from '@antv/f2-react';
 import { Chart, Line, Tooltip } from '@antv/f2';
+import {useNavigate} from 'react-router-dom'
 import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
+import LFTIcon from '../assets/image/LFTIcon.png'
+import USDTIcon from '../assets/image/USDTIcon.png'
 
 export default function Swap() {
+    const navigate = useNavigate();
     const data = [
         {
           date: '2017-06-05',
@@ -229,6 +233,7 @@ export default function Swap() {
                     <div className="putRow">
                         <input type="text" />
                         <div className="token">
+                            <img src={LFTIcon} alt="" />
                             LFT
                         </div>
                     </div>
@@ -236,6 +241,7 @@ export default function Swap() {
                     <div className="putRow">
                         <input type="text" />
                         <div className="token">
+                            <img src={USDTIcon} alt="" />
                             USDT
                         </div>
                     </div>
@@ -274,7 +280,7 @@ export default function Swap() {
                 </div>
                 <div className="submit flexCenter">Connect wallet</div>
             </div>
-            <div className="Record">
+            <div className="goRecord" onClick={()=>{navigate('/SwapRecord')}}>
                 {'Swap record >'}
             </div>
         </div>

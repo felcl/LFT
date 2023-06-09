@@ -1,0 +1,123 @@
+.Team{
+    background: url(../image/PolkaDotsBg.png);
+    min-height: 100vh;
+    overflow: hidden;
+    padding-top: 190px;
+    .Title{
+        font-size: 45px;
+        color: #192E44;
+        text-align: center;
+    }
+    .TeamBox{
+        width: 750px;
+        margin:25px auto 0;
+        background:url(../image/TeamBoxBg.png) no-repeat center center / 100% 100%;
+        padding:58px 60px 100px;
+        box-sizing: border-box;
+        .AmountRow{
+            display: flex;
+            justify-content: space-between;
+            .AmountItem{
+                .AmountLabel{
+                    font-size: 22px;
+                    color: #000000;
+                }
+                .AmountValue{
+                    font-size: 40px;
+                    font-weight: bold;
+                    background: linear-gradient(180deg, #EB6120 29%, #ED059B 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    text-fill-color: transparent;
+                }
+            }
+            .AmountItem:nth-child(2){
+                text-align: right;
+            }
+        }
+        .invitedInfo{
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            .invitedMe{
+                .invitedMeLabel{
+                    font-size: 22px;
+                    color: #000000;
+                    font-weight: bold;
+                }
+                .invitedMeValue{
+                    font-size: 16px;
+                    color: #232323;
+                }
+            }
+            .invitedLink{
+                text-align: right;
+                .invitedLinkLabel{
+                    font-size: 22px;
+                    color: #000000;
+                }
+                .invitedLinkValue{
+                    display: flex;
+                    align-items: center;
+                    font-size: 16px;
+                    color: #232323;
+                    img{
+                        margin-left:5px;
+                    }
+                    .invitedBtn{
+                        padding: 0 25px;
+                        background: #FFAA00;
+                        border-radius: 30px;
+                        color: #FFFFFF;
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+    }
+    .RewardList{
+        width: 750px;
+        margin: -65px auto 0;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        background: #FFFFFF;
+        border-radius: 30px;
+        padding-bottom: 46px;
+        .RewardTotal{
+            padding: 0 60px;
+            height: 87px;
+            border-bottom: 1px solid #EEEEEE;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            .label{
+                color: #000000;
+                font-size: 22px;
+                font-weight: bold;
+            }
+            .value{
+                font-size: 20px;
+                background: linear-gradient(180deg, #EB6120 29%, #ED059B 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
+            }
+        }
+        .RewardItem{
+            display: flex;
+            justify-content: space-between;
+            padding: 0 60px;
+            margin-bottom: 20px;
+            .address{
+                font-size: 16px;
+                color: #000000;
+            }
+            .time{
+                font-size: 16px;
+                color: #232323;
+            }
+        }
+    }
+}

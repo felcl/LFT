@@ -70,3 +70,8 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
 }
+.Close{
+  position: absolute;
+  right: 35px;
+  top: 35px;
+}
