@@ -3,26 +3,50 @@
     min-height: 100vh;
     overflow: hidden;
     padding-top: 190px;
+    box-sizing: border-box;
+    @media (max-width:780px) {
+        padding-top: 100px;
+    }
+    @media (max-width:500px) {
+        padding-top: 40px;
+    }
     .Title{
         font-size: 45px;
         color: #192E44;
         text-align: center;
+        @media (max-width:500px) {
+            font-size: 30px;
+        }
     }
     .SwapBox{
         width: 800px;
-        height: 750px;
+        // height: 750px;
         background: #FFFFFF;
         border-radius: 30px;
         box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
         margin: 47px auto 0;
+        padding-bottom: 35px;
+        @media (max-width:850px) {
+            width: auto;
+            margin: 47px 25px 0;
+        }
+        @media (max-width:600px) {
+            margin: 27px 25px 0;
+        }
         .Tabs{
             padding: 40px 20px 30px;
             display: flex;
             align-items: center;
+            @media (max-width:600px) {
+                padding: 25px 20px 15px;
+            }
             .tabItem{
                 font-size: 24px;
                 color: #000000;
                 margin-right: 43px;
+                @media (max-width:600px) {
+                    font-size: 20px;
+                }
             }
             .tabItemActive{
                 font-weight: bold;
@@ -36,20 +60,30 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%,-50%);
+                @media (max-width:600px) {
+                    width: 50px;
+                }
             }
             .putRow{
-                height: 87px;
+                height: 56px;
                 border-radius: 30px;
                 background: #EEEEEE;
                 display: flex;
                 align-items: center;
                 padding: 0 25px;
+                @media (max-width:600px) {
+                    height: 46px;
+                    padding: 0 10px;
+                }
                 input{
-                    flex: 1;border: none;
+                    width: 100%;
+                    flex: 1;
+                    border: none;
                     outline: none;
                     background:transparent;
                     color: #AAAAAA;
                     font-size: 35px;
+                    flex-shrink:1;
                 }
                 .token{
                     width: 110px;
@@ -64,17 +98,34 @@
                     // justify-content: center;
                     padding-left: 10px;
                     box-sizing: border-box;
+                    @media (max-width:600px) {
+                        width: 88px;
+                        height: 32px;
+                        font-size: 14px;
+                    }
+                    @media (max-width:450px) {
+                        width: 77px;
+                        height: 28px;
+                        font-size: 14px;
+                    }
                     img{
                         margin-right: 15px;
+                        @media (max-width:600px) {
+                            margin-right: 8px;
+                            width: 18px;
+                        }
                     }
                 }
             }
             .putRow:nth-child(3){
                 margin-top: 30px;
+                @media (max-width:600px) {
+                    margin-top: 20px;
+                }
             }
         }
         .swapInfo{
-            margin: 0 15px;
+            margin: 20px 15px 0;
             border-radius: 30px;
             padding:20px 25px;
             border: 1px solid #EEEEEE;
@@ -85,6 +136,11 @@
                 border-bottom: 1px solid #D8D8D8;
                 padding-bottom: 7px;
                 margin-bottom: 8px;
+                @media (max-width:600px) {
+                    flex-direction: column-reverse;
+                    align-items:center;
+                    // justify-content:;
+                }
                 .increaseText{
                     font-size: 14px;
                     color: #3D3D3D;
@@ -96,6 +152,9 @@
                 font-size: 14px;
                 color: #3D3D3D;
                 margin-bottom: 15px;
+                @media (max-width:600px) {
+                    margin-bottom: 10px;
+                }
             }
             .borderTop{
                 border-top: 1px solid #D8D8D8;
@@ -109,6 +168,10 @@
             font-size: 28px;
             color: #FFFFFF;
             margin: 25px 15px 0;
+            @media (max-width:600px) {
+                height: 46px;
+                font-size: 22px;
+            }
         }
         .Disabled{
             background: #D8D8D8;
@@ -121,5 +184,9 @@
         text-align: center;
         width: max-content;
         margin: 110px auto;
+        @media (max-width:600px) {
+            margin: 40px auto;
+            font-size: 18px;
+        }
     }
 }

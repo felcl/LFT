@@ -12,7 +12,8 @@ export default function Wallet() {
                     <div className="userHeaderBox">
                         <div className="userHeader"></div>
                     </div>
-                    <span>0x3Bd8CA9023897224b01fE25b33137b67A89ec70F</span>
+                    <span className="long">0x3Bd8CA9023897224b01fE25b33137b67A89ec70F</span>
+                    <span className="short">0x3Bd8****9ec70F</span>
                     <img className='copyIcon' src={copyIcon} alt="" />
                     <img className='VipIcon' src={VipIcon} alt="" />
                 </div>

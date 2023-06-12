@@ -53,10 +53,10 @@ export default function Header() {
         </div>
         <Drawer placement="right" width="178" onClose={onClose} closable={false} open={open} rootClassName="DrawerBodyRoot" className="DrawerBody">
             <img src={bannerLogo} alt="" />
-            <div className='DrawerMenuItem'>Home</div>
-            <div className='DrawerMenuItem'>Swap</div>
-            <div className='DrawerMenuItem'>Convert</div>
-            <div className='DrawerMenuItem'>Wallet</div>
+            <div className='DrawerMenuItem' onClick={()=>{navigate('/')}}>Home</div>
+            <div className='DrawerMenuItem' onClick={()=>{navigate('/Swap')}}>Swap</div>
+            <div className='DrawerMenuItem' onClick={()=>{navigate('/Convert')}}>Convert</div>
+            <div className='DrawerMenuItem' onClick={()=>{navigate('/Wallet')}}>Wallet</div>
         </Drawer>
         </>
     )

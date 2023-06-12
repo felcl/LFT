@@ -6,8 +6,14 @@ import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
+import { useState } from 'react';
 
 export default function Swap() {
+  // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
+  const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
+  window.onresize = ()=>{
+    setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
+  }
     const navigate = useNavigate();
     const data = [
         {
@@ -249,7 +255,7 @@ export default function Swap() {
                 <div className="swapInfo">
                     <div className="increaseRow">
                         <div className="increaseText">1 ETH = 30.3079 AAVE ($1,866.92)</div>
-                        <Canvas  width="350" height="80">
+                        <Canvas  width={canvasWidth} height={canvasWidth * 0.21}>
                             <Chart data={data}>
                                 <Line x="date" y="value" />
                                 <Tooltip />
