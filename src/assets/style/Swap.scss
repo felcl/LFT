@@ -44,12 +44,21 @@
                 font-size: 24px;
                 color: #000000;
                 margin-right: 43px;
+                cursor: pointer;
                 @media (max-width:600px) {
                     font-size: 20px;
                 }
             }
             .tabItemActive{
                 font-weight: bold;
+            }
+            .SlippageIcon{
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+                img{
+                    cursor: pointer;
+                }
             }
         }
         .putMain{

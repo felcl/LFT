@@ -6,6 +6,7 @@ import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
+import SlippageIcon from '../assets/image/SlippageIcon.png'
 import { useState } from 'react';
 
 export default function Swap() {
@@ -234,6 +235,9 @@ export default function Swap() {
                 <div className="Tabs">
                     <div className="tabItem tabItemActive">Swap</div>
                     <div className="tabItem">Buy</div>
+                    <div className='SlippageIcon' onClick={()=>{navigate('/Slippage')}}>
+                      <img src={SlippageIcon} alt="" />
+                    </div>
                 </div>
                 <div className="putMain">
                     <div className="putRow">

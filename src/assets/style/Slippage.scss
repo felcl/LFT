@@ -1,0 +1,134 @@
+.Slippage{
+    background: url(../image/PolkaDotsBg.png);
+    min-height: 100vh;
+    overflow: hidden;
+    padding-top: 190px;
+    box-sizing: border-box;
+    @media (max-width:780px) {
+        padding-top: 100px;
+    }
+    @media (max-width:500px) {
+        padding-top: 40px;
+    }
+    .Title{
+        font-size: 45px;
+        color: #192E44;
+        text-align: center;
+        @media (max-width:500px) {
+            font-size: 30px;
+        }
+    }
+    .SlippageBox{
+        width: 800px;
+        height: 900px;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        background: #FFFFFF;
+        border-radius: 30px;
+        margin: 45px auto 0;
+        padding:35px 40px;
+        box-sizing: border-box;
+        .SlippageHeader{
+            padding-bottom: 32px;
+            border-bottom: 1px solid #D8D8D8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .HeaderTitle{
+                color: #000000;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .Reset{
+                color: #767676;
+                font-size: 24px;
+            }
+        }
+        .SlippageLabel{
+            color: #000000;
+            font-size: 24px;
+            margin-top: 43px;
+            font-weight: 400;
+        }
+        .SlippageSubLabel{
+            margin-top: 36px;
+            color: #000000;
+            font-size: 22px;
+        }
+        .percentageRow{
+            height: 56px;
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            .percentageTab{
+                width: 550px;
+                height: 100%;
+                border-radius: 30px;
+                background: #EEEEEE;
+                border: 0.5px solid #D8D8D8;
+                display: flex;
+                padding: 2px 0;
+                box-sizing: border-box;
+                .TabItem{
+                    height: 100%;
+                    border-radius: 30px;
+                    flex: 1;
+                    border-radius: 30px;
+                    font-size: 28px;
+                    color: #192E44;
+                }
+                .ActiveTabItem{
+                    background: #FFAA00;
+                }
+            }
+            .percentagePut{
+                margin-left: 18px;
+                flex: 1;
+                height: 100%;
+                padding: 0 20px;
+                border: 0.5px solid #D8D8D8;
+                background: #EEEEEE;
+                border-radius: 30px;
+                font-size: 28px;
+                color: #192E44;
+                display: flex;
+
+                input{
+                    flex: 1;
+                    width: 100%;
+                    font-size: 28px;
+                    color: #192E44;
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                }
+            }
+        }
+        .switchLabel{
+            color: #192E44;
+            font-size: 24px;
+            margin-top:54px;
+            margin-bottom: 70px;
+        }
+
+    }
+}
+button:focus{
+    outline: none !important;
+}
+.percentageSwitch.ant-switch-checked{
+    background: #15BA11 !important;
+}
+.percentageSwitch{
+    width: 112px;
+    height: 64px;
+}
+.ant-switch-handle{
+    width: 60px !important;
+    height: 60px !important;
+}
+.ant-switch-handle::before{
+    border-radius: 50% !important;
+}
+.ant-switch-checked .ant-switch-handle{
+    inset-inline-start: calc(100% - 62px) !important;
+}

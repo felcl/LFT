@@ -11,9 +11,13 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+/* @font-face{
+  font-family: PingFang;  
+  src: url(./assets/font/PingFangRegular.ttf);
+} */
 @font-face{
-  font-family: PingFang;  /*定义字体名称*/
-  src: url(./assets/font/PingFangRegular.ttf);  /*定义字体文件路径及格式*/
+  font-family: PingFang; 
+  src: url(./assets/font/PingFangMedium.ttf);
 }
 a {
   font-weight: 500;

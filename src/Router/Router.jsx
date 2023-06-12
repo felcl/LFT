@@ -8,6 +8,7 @@ import Subscribe from '../View/Subscribe'
 import SwapRecord from '../View/SwapRecord'
 import ConvertRecord from '../View/ConvertRecord'
 import Team from '../View/Team'
+import Slippage from '../View/Slippage'
 
 export default function Router() {
     const location = useLocation();
@@ -19,6 +20,7 @@ export default function Router() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Swap' element={<Swap />} />
+          <Route path='/Slippage' element={<Slippage />} />
           <Route path='/Convert' element={<Convert />} />
           <Route path='/Wallet' element={<Wallet />} />
           <Route path='/Subscribe' element={<Subscribe />} />
