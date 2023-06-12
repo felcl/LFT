@@ -12,16 +12,20 @@ import ConvertIcon from '../assets/image/ConvertIcon.png'
 import ConvertIconBlack from '../assets/image/ConvertIconBlack.png'
 import LangIcon from '../assets/image/LangIcon.png'
 import MenuIcon from '../assets/image/MenuIcon.png'
+import blackMenuIcon from '../assets/image/blackMenuIcon.png'
 import {useNavigate ,useLocation} from 'react-router-dom'
 
 export default function Header() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const goPath = (path)=>{
+        setOpen(false)
+        navigate(path)
+    }
     const showDrawer = () => {
         setOpen(true);
       };
-    
       const onClose = () => {
         setOpen(false);
       };
@@ -38,10 +42,10 @@ export default function Header() {
         <>
         <div className="Header">
             <div className="Menu">
-                <div className={MenuClass('/')} onClick={()=>{navigate('/')}}><img src={location.pathname ==='/' ? HomeIcon:HomeIconBlack} alt="" />Home</div>
-                <div className={MenuClass('/Swap')} onClick={()=>{navigate('/Swap')}}><img src={location.pathname ==='/' ? SwapIcon : SwapIconBlack} alt="" />Swap</div>
-                <div className={MenuClass('/Convert')} onClick={()=>{navigate('/Convert')}}><img src={location.pathname ==='/' ? ConvertIcon : ConvertIconBlack} alt="" />Convert</div> 
-                <div className={MenuClass('/Wallet')} onClick={()=>{navigate('/Wallet')}}><img src={location.pathname ==='/' ? WalletIcon : WalletIconBlack } alt="" />Wallet</div> 
+                <div className={MenuClass('/')} onClick={()=>{goPath('/')}}><img src={location.pathname ==='/' ? HomeIcon:HomeIconBlack} alt="" />Home</div>
+                <div className={MenuClass('/Swap')} onClick={()=>{goPath('/Swap')}}><img src={location.pathname ==='/' ? SwapIcon : SwapIconBlack} alt="" />Swap</div>
+                <div className={MenuClass('/Convert')} onClick={()=>{goPath('/Convert')}}><img src={location.pathname ==='/' ? ConvertIcon : ConvertIconBlack} alt="" />Convert</div> 
+                <div className={MenuClass('/Wallet')} onClick={()=>{goPath('/Wallet')}}><img src={location.pathname ==='/' ? WalletIcon : WalletIconBlack } alt="" />Wallet</div> 
             </div>
             <div className="HeaderRight">
                 <div className='connect flexCenter'>Connect wallet</div>
@@ -49,14 +53,14 @@ export default function Header() {
                     <img src={LangIcon} alt="" />
                 </div>
             </div>
-            <img className="MenuIcon" onClick={showDrawer} src={MenuIcon} alt="" />
+            <img className="MenuIcon" onClick={showDrawer} src={location.pathname ==='/' ? MenuIcon :blackMenuIcon} alt="" />
         </div>
         <Drawer placement="right" width="178" onClose={onClose} closable={false} open={open} rootClassName="DrawerBodyRoot" className="DrawerBody">
             <img src={bannerLogo} alt="" />
-            <div className='DrawerMenuItem' onClick={()=>{navigate('/')}}>Home</div>
-            <div className='DrawerMenuItem' onClick={()=>{navigate('/Swap')}}>Swap</div>
-            <div className='DrawerMenuItem' onClick={()=>{navigate('/Convert')}}>Convert</div>
-            <div className='DrawerMenuItem' onClick={()=>{navigate('/Wallet')}}>Wallet</div>
+            <div className='DrawerMenuItem' onClick={()=>{goPath('/')}}>Home</div>
+            <div className='DrawerMenuItem' onClick={()=>{goPath('/Swap')}}>Swap</div>
+            <div className='DrawerMenuItem' onClick={()=>{goPath('/Convert')}}>Convert</div>
+            <div className='DrawerMenuItem' onClick={()=>{goPath('/Wallet')}}>Wallet</div>
         </Drawer>
         </>
     )

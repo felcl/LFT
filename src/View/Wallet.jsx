@@ -19,7 +19,8 @@ export default function Wallet() {
                 </div>
                 <div className="inviteLink">
                     <div>
-                        <span>http://sadfs.dadsf.com/sdadsf</span>
+                        <span className="long">http://sadfs.dadsf.com/sdadsf</span>
+                        <span className="short">http://sa****dadsf</span>
                     </div>
                     <div className="Withdraw flexCenter">
                         Withdraw

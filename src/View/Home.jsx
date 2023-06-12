@@ -115,7 +115,7 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="Title">About LFT</div>
+            {/* <div className="Title">About LFT</div>
             <div className='About'>
                 <div className="AboutLeft">
                 · Staking reserves 22.5%<br/>
@@ -149,7 +149,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="Join">
                 <div className="Title">Join our community</div>
                 <div className="subTitle">Join our community</div>

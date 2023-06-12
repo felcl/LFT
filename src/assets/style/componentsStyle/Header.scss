@@ -16,6 +16,10 @@
         transform:translateX(0);
         width: calc(100% - 50px);
     }
+    @media (max-width:800px) {
+        margin: 0 25px;
+        flex-direction: row-reverse;
+    }
     .Menu{
         display: flex;
         @media (max-width:800px) {
