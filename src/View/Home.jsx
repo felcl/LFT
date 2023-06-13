@@ -68,7 +68,7 @@ export default function Home() {
                             <div className="InfoLeft">
                                 <div className="Infoa"></div>
                             </div>
-                            <div className="StakeNow flexCenter">Stake now</div>
+                            <div className="StakeNow flexCenter" onClick={()=>{navigate('/Subscribe')}}>Stake now</div>
                         </div>
                     </div>
                 </div>

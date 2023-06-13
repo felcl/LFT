@@ -1,8 +1,10 @@
 import '../assets/style/Wallet.scss'
+import {useNavigate} from 'react-router-dom'
 import copyIcon from '../assets/image/copyIcon.png'
 import VipIcon from '../assets/image/VipIcon.png'
 import JTRight from '../assets/image/JTRight.png'
 export default function Wallet() {
+    const navigate = useNavigate();
   return (
     <div className="Wallet">
         <div className="Title">Wallet</div>
@@ -56,11 +58,11 @@ export default function Wallet() {
         <div className="pledged">
             <span>Amount pledged</span>
             <div className="pledgedGo">
-                <div className="pledgedLFT">
+                <div className="pledgedLFT" onClick={()=>{navigate('/PledgedRecord?type=LFT')}}>
                 LFT
                 <img src={JTRight} alt="" />
                 </div>
-                <div className="pledgedELFT">
+                <div className="pledgedELFT" onClick={()=>{navigate('/PledgedRecord?type=ELFT')}}>
                 ELFT
                 <img src={JTRight} alt="" />
                 </div>

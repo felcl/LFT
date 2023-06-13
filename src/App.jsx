@@ -1,17 +1,21 @@
 import { useState , useEffect} from 'react'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork} from 'wagmi'
+import { switchNetwork, getNetwork } from '@wagmi/core'
 import { HashRouter, Route, Routes} from "react-router-dom";
 import Router from './Router/Router'
 import Header from './components/Header'
 import './App.css'
 
 function App() {
-  
-  const [count, setCount] = useState(0)
+  const { switchNetwork  } = useSwitchNetwork()
   const { connector, isConnected } = useAccount()
-  const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect()
-
+  const { chain, chains } = useNetwork()
+  const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
+  // useEffect(()=>{
+  //   if(isConnected && chain !== chains[0].id){
+  //     switchNetwork(chains[0].id)
+  //   }
+  // },[isConnected])
   return (
     <>
     <HashRouter>

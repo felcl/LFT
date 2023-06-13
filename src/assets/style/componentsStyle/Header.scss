@@ -25,15 +25,25 @@
         @media (max-width:800px) {
             display: none;
         }
-        .MenuItem{
+        .MenuItem,.HoverMenuItem{
             margin-right: 60px;
             display: flex;
             align-items: center;
             color: #fff;
+            cursor: pointer;
             img{
                 height: 20px;
                 margin-right: 5px;
             }
+        }
+        .HoverMenuItem:hover{
+            color: #FFAA00;
+            >img{
+                content: url(../../image/AboutIconOrange.png);
+            }
+        }
+        .activeMenuItem{
+            color: #FFAA00;
         }
         .BlackMenuItem{
             color: #192E44;
@@ -91,3 +101,70 @@
     margin-bottom: 15px;
     width: 100%;
 }
+.AboutPopover{
+    .ant-popover-inner{
+        padding: 0;
+        border-radius: 15px;
+    }
+    .ant-popover-arrow:before{
+        background: #505050 !important;
+    }
+    .AboutPopoverContent{
+        width: 200px;
+        background: #505050;
+        border-radius: 15px;
+        padding: 20px 24px;
+        box-sizing: border-box;
+        .SelItem{
+            height: 36px;
+            display: flex;
+            align-items: center;
+            color: #FFFFFF;
+            font-size: 18px;
+            img{
+                margin-right: 5px;
+            }
+        }
+        .SelItem:hover{
+            color: #FFAA00;
+        }
+    }
+    .AboutPopoverContent:hover{
+
+    }
+}
+svg {
+    width: 1.5em;
+    transform-origin: center;
+    animation: rotate 2s linear infinite;
+  }
+  
+  circle {
+    fill: none;
+    stroke: #fc2f70;
+    stroke-width: 5;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 200;
+      stroke-dashoffset: -35px;
+    }
+    100% {
+      stroke-dashoffset: -125px;
+    }
+  }

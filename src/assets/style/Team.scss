@@ -3,17 +3,35 @@
     min-height: 100vh;
     overflow: hidden;
     padding-top: 190px;
+    box-sizing: border-box;
+    @media (max-width:780px) {
+        padding-top: 100px;
+    }
+    @media (max-width:500px) {
+        padding-top: 40px;
+    }
     .Title{
         font-size: 45px;
         color: #192E44;
         text-align: center;
+        @media (max-width:500px) {
+            font-size: 30px;
+        }
     }
     .TeamBox{
         width: 750px;
         margin:25px auto 0;
+        border-radius: 30px;
         background:url(../image/TeamBoxBg.png) no-repeat center center / 100% 100%;
         padding:58px 60px 100px;
         box-sizing: border-box;
+        @media (max-width:800px) {
+            width: auto;
+            margin:25px 25px 0;
+        }
+        @media (max-width:600px) {
+            padding:58px 30px 100px;
+        }
         .AmountRow{
             display: flex;
             justify-content: space-between;
@@ -21,6 +39,9 @@
                 .AmountLabel{
                     font-size: 22px;
                     color: #000000;
+                    @media (max-width:600px) {
+                        font-size: 18px;
+                    }
                 }
                 .AmountValue{
                     font-size: 40px;
@@ -30,6 +51,12 @@
                     -webkit-text-fill-color: transparent;
                     background-clip: text;
                     text-fill-color: transparent;
+                    @media (max-width:600px) {
+                        font-size: 30px;
+                    }
+                    @media (max-width:500px) {
+                        font-size: 24px;
+                    }
                 }
             }
             .AmountItem:nth-child(2){
@@ -40,11 +67,17 @@
             margin-top: 20px;
             display: flex;
             justify-content: space-between;
+            @media (max-width:750px) {
+                flex-direction: column;
+            }
             .invitedMe{
                 .invitedMeLabel{
                     font-size: 22px;
                     color: #000000;
                     font-weight: bold;
+                    @media (max-width:600px) {
+                        font-size: 18px;
+                    }
                 }
                 .invitedMeValue{
                     font-size: 16px;
@@ -53,6 +86,10 @@
             }
             .invitedLink{
                 text-align: right;
+                @media (max-width:750px) {
+                    text-align: left;
+                    margin-top: 15px;
+                }
                 .invitedLinkLabel{
                     font-size: 22px;
                     color: #000000;
@@ -62,6 +99,17 @@
                     align-items: center;
                     font-size: 16px;
                     color: #232323;
+                    .long{
+                        @media (max-width:600px) {
+                            display: none;
+                        }
+                    }
+                    .short{
+                        display: none;
+                        @media (max-width:600px) {
+                            display: inline;
+                        }
+                    }
                     img{
                         margin-left:5px;
                     }
@@ -83,6 +131,11 @@
         background: #FFFFFF;
         border-radius: 30px;
         padding-bottom: 46px;
+        @media (max-width:800px) {
+            width: auto;
+            margin: -65px 25px 0;
+            padding-bottom: 25px;
+        }
         .RewardTotal{
             padding: 0 60px;
             height: 87px;
@@ -91,10 +144,20 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 28px;
+            @media (max-width:600px) {
+                padding: 0 30px;
+                height: 66px;
+            }
+            @media (max-width:500px) {
+                padding: 0 25px;
+            }
             .label{
                 color: #000000;
                 font-size: 22px;
                 font-weight: bold;
+                @media (max-width:500px) {
+                    font-size: 18px;
+                }
             }
             .value{
                 font-size: 20px;
@@ -103,6 +166,9 @@
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
                 text-fill-color: transparent;
+                @media (max-width:500px) {
+                    font-size: 18px;
+                }
             }
         }
         .RewardItem{
@@ -110,13 +176,25 @@
             justify-content: space-between;
             padding: 0 60px;
             margin-bottom: 20px;
+            @media (max-width:600px) {
+                padding: 0 30px;
+            }
+            @media (max-width:500px) {
+                padding: 0 15px;
+            }
             .address{
                 font-size: 16px;
                 color: #000000;
+                @media (max-width:500px) {
+                    font-size: 14px;
+                }
             }
             .time{
                 font-size: 16px;
                 color: #232323;
+                @media (max-width:500px) {
+                    font-size: 14px;
+                }
             }
         }
     }
@@ -168,38 +246,40 @@
         margin: 70px auto 0;
     }
 }
-.ant-popover-content{
-    padding: 0 !important;
-    background-color: transparent !important;
-    border-radius: 30px;
-    overflow: hidden;
-}
-.ant-popover-inner{
-    padding: 0 !important;
-    background-color: transparent !important;
-    border-radius: 30px;
-    overflow: hidden;
-}
-.PopoverContent{
-    width: 109.5px;
-    padding: 20px 12px 14px;
-    box-sizing: border-box;
-    border-radius: 30px;
-    background: #6C6C6C;
-    .SelItem{
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        color: #FFFFFF;
-        margin-bottom: 14px;
-        img{
-            margin-right: 8px;
+.TeamPopover{
+    .ant-popover-content{
+        padding: 0 !important;
+        background-color: transparent !important;
+        border-radius: 30px;
+        overflow: hidden;
+    }
+    .ant-popover-inner{
+        padding: 0 !important;
+        background-color: transparent !important;
+        border-radius: 30px;
+        overflow: hidden;
+    }
+    .PopoverContent{
+        width: 109.5px;
+        padding: 20px 12px 14px;
+        box-sizing: border-box;
+        border-radius: 30px;
+        background: #6C6C6C;
+        .SelItem{
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            color: #FFFFFF;
+            margin-bottom: 14px;
+            img{
+                margin-right: 8px;
+            }
+        }
+        .SelItem:nth-last-child(1){
+            margin: 0;
         }
     }
-    .SelItem:nth-last-child(1){
-        margin: 0;
+    .ant-popover-arrow:before{
+        background: #6C6C6C !important;
     }
-}
-.ant-popover-arrow:before{
-    background: #6C6C6C !important;
 }

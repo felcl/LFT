@@ -49,7 +49,8 @@ export default function Team() {
                 <div className="invitedLink">
                     <div className="invitedLinkLabel">My invitation link</div>
                     <div className="invitedLinkValue">
-                    http://sadfs.dadsf.com/sdadsf
+                        <span className="long">http://sadfs.dadsf.com/sdadsf</span>
+                        <span className="short">http://sadf***dadsf</span>
                     <img src={copyIcon} alt="" />
                     <div className="invitedBtn" onClick={showModal}>invited</div>
                     </div>
@@ -78,7 +79,7 @@ export default function Team() {
             <div className="Title">Withdraw</div>
             <div className='putBox'>
                 <input type="text" placeholder='Enter the withdrawal amount' />
-                <Popover content={content} placement="bottom" trigger="click">
+                <Popover content={content} placement="bottom" overlayClassName="TeamPopover" trigger="click">
                     <div className="selToken">
                         <img src={LFTIcon} alt="" />
                         LFT
