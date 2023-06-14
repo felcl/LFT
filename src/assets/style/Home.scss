@@ -93,6 +93,10 @@
         grid-row-gap:29px;
         grid-column-gap:25px;
         @media (max-width:850px) {
+            grid-template-columns:355px;
+            grid-template-rows:270px 270px 270px 270px;
+        }
+        @media (max-width:400px) {
             grid-template-columns:284px;
             grid-template-rows:240px 240px 240px 240px;
         }
@@ -369,7 +373,7 @@
         .JoinGrid{
             display: grid;
             grid-template-columns: 517px 517px;
-            grid-template-rows: 220px 142px;
+            grid-template-rows: 205px 142px;
             grid-row-gap: 38px;
             grid-column-gap: 41px;
             margin-top: 30px;
@@ -390,7 +394,7 @@
             @media (max-width:600px) {
                 width: 95%;
                 grid-template-columns: repeat(1,1fr);
-                grid-template-rows: 102px 72px 72px;
+                grid-template-rows: 80px 72px 72px;
             }
             .JoinMain{
                 grid-column-start: 1;
@@ -398,9 +402,15 @@
                 background: url(../image/JoinMain.png) no-repeat center center / 100% auto;
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: flex-start;
                 padding-top: 44px;
                 position: relative;
+                @media (max-width:1125px) {
+                    padding-top: 20px;
+                }
+                @media (max-width:750px) {
+                    // padding-top: px;
+                }
                 @media (max-width:600px) {
                     grid-column-start: 1;
                     grid-column-end: 2;
@@ -408,26 +418,28 @@
                 img{
                     position: absolute;
                     height: 120%;
-                    bottom: 10px;
+                    bottom: 0;
                     right: 10%;
                     @media (max-width:500px) {
                         right: 5%;
                     }
                 }
                 .JoinMainTitle{
-                    color: #E27C00;
-                    font-size: 32px;
+                    color: #FFAA00;
+                    font-size: 36px;
                     text-align: center;
-                    @media (max-width:600px) {
+                    @media (max-width:750px) {
                         font-size: 22px;
                     }
                 }
                 .JoinMainsunTitle{
-                    font-size: 16px;
-                    color: #192E44;
+                    font-size: 28px;
+                    color: #FFAA00;
                     text-align: center;
+                    // margin-bottom: 25x;
                     @media (max-width:768px) {
-                        margin-bottom: 15px;
+                        // margin-bottom: 15px;
+                        font-size: 16px;
                     }
                     @media (max-width:600px) {
                         font-size: 12px;

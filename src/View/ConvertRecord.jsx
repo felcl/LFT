@@ -1,14 +1,16 @@
 import '../assets/style/Record.scss'
 import { Empty } from 'antd';
+import {useNavigate} from 'react-router-dom'
 import JTReturn from '../assets/image/JTReturn.png'
 export default function SwapRecord() {
+    const navigate = useNavigate();
     let RecordList = [].fill(1)
     RecordList = new Array(3).fill({});
     console.log(RecordList)
   return (
     <div className="Record">
         <div className="Title">
-            <img src={JTReturn} alt="" />
+            <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" />
             Convert record
              <span></span>
         </div>

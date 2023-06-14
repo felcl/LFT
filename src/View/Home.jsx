@@ -151,12 +151,12 @@ export default function Home() {
                 </div>
             </div> */}
             <div className="Join">
-                <div className="Title">Join our community</div>
-                <div className="subTitle">Join our community</div>
+                {/* <div className="Title">Join our community</div>
+                <div className="subTitle">Join our community</div> */}
                 <div className="JoinGrid">
                     <div className="JoinMain">
-                        <span className="JoinMainTitle">LFT in LinkedIn</span>
-                        <span className="JoinMainsunTitle">Join the community and ask questions</span>
+                        <span className="JoinMainTitle">Social Media</span>
+                        <span className="JoinMainsunTitle">Join our community</span>
                         <img src={rabbit} alt="" />
                     </div>
                     <div className="joinItem">

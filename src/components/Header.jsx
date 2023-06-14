@@ -21,7 +21,7 @@ import AboutIcon from '../assets/image/AboutIcon.png'
 import AboutIconBlack from '../assets/image/AboutIconBlack.png'
 import AboutIconOrange from '../assets/image/AboutIconOrange.png'
 import LangIcon from '../assets/image/LangIcon.png'
-import MenuIcon from '../assets/image/MenuIcon.png'
+import MenuIconImg from '../assets/image/MenuIcon.png'
 import blackMenuIcon from '../assets/image/blackMenuIcon.png'
 import DocumentationIcon from '../assets/image/DocumentationIcon.png'
 import TeamIcon from '../assets/image/TeamIcon.png'
@@ -94,7 +94,7 @@ export default function Header() {
                 <div className={MenuClass('/')} onClick={()=>{goPath('/')}}><img src={MenuIcon('/',HomeIcon,HomeIconBlack,HomeIconOrange)} alt="" />Home</div>
                 <div className={MenuClass('/Swap')} onClick={()=>{goPath('/Swap')}}><img src={MenuIcon('/Swap',SwapIcon,SwapIconBlack,SwapIconOrange)} alt="" />Swap</div>
                 <div className={MenuClass('/Convert')} onClick={()=>{goPath('/Convert')}}><img src={MenuIcon('/Convert',ConvertIcon,ConvertIconBlack,ConvertIconOrange)} alt="" />Convert</div> 
-                <div className={MenuClass('/Wallet')} onClick={()=>{goPath('/Wallet')}}><img src={MenuIcon('/Wallet',WalletIcon,WalletIconBlack,WalletIconOrange)} alt="" />Wallet</div> 
+                <div className={MenuClass('/Wallet')} onClick={()=>{goPath('/Wallet')}}><img src={MenuIcon('/Wallet',WalletIcon,WalletIconBlack,WalletIconOrange)} alt="" />Wallet</div>
                 {/* <div className={MenuClass()}><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div> */}
                 <Popover content={content} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
                     <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div>
@@ -113,9 +113,9 @@ export default function Header() {
                     <img src={LangIcon} alt="" />
                 </div>
             </div>
-            <img className="MenuIcon" onClick={showDrawer} src={location.pathname ==='/' ? MenuIcon :blackMenuIcon} alt="" />
+            <img className="MenuIcon" onClick={showDrawer} src={location.pathname ==='/' ? MenuIconImg :blackMenuIcon} alt="" />
         </div>
-        <Drawer placement="right" width="178" onClose={onClose} closable={false} open={open} rootClassName="DrawerBodyRoot" className="DrawerBody">
+        <Drawer placement="right" width={178} onClose={onClose} closable={false} open={open} rootClassName="DrawerBodyRoot" className="DrawerBody">
             <img src={bannerLogo} alt="" />
             <div className='DrawerMenuItem' onClick={()=>{goPath('/')}}>Home</div>
             <div className='DrawerMenuItem' onClick={()=>{goPath('/Swap')}}>Swap</div>
