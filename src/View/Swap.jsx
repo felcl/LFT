@@ -7,9 +7,17 @@ import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getReserves } from '../web3'
+import BigNumber from "big.js";
+BigNumber.NE = -40;
+BigNumber.PE = 40;
 
 export default function Swap() {
+  useEffect(()=>{
+    getReserves()
+  },[])
+ 
   // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
   const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
   window.onresize = ()=>{
