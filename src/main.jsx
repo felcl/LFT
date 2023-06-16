@@ -7,9 +7,9 @@ import { config } from './wagmi'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <WagmiConfig config={config}>
       <App />
     </WagmiConfig>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

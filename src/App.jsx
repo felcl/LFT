@@ -11,7 +11,6 @@ function App() {
   // const { switchNetwork  } = useSwitchNetwork()
   const {isConnected } = useAccount()
   useEffect(()=>{
-    console.log(isConnected)
     if(isConnected && Object.keys(contract).length <=0){
       contractInit()
     }

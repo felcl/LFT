@@ -2,27 +2,66 @@
 import Canvas from '@antv/f2-react';
 import { Chart, Line, Tooltip } from '@antv/f2';
 import {useNavigate} from 'react-router-dom'
+import classnames from 'classnames';
 import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
-import { useEffect, useState } from 'react';
-import { getReserves } from '../web3'
+import { useEffect, useState, useMem, useMemo} from 'react';
+import {useAccount} from 'wagmi'
+import { getReserves, getLftAllowance, getUsdtAllowance, LftApprove} from '../web3'
+import { ContractAddress, TokenConfig} from '../config'
 import BigNumber from "big.js";
 BigNumber.NE = -40;
 BigNumber.PE = 40;
 
 export default function Swap() {
-  useEffect(()=>{
-    getReserves()
-  },[])
- 
-  // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
-  const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
-  window.onresize = ()=>{
-    setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
-  }
+  const {isConnected, address } = useAccount()
+  const [SellOrBuy , setSellOrBuy] = useState('Sell')
+  const [rate , setRate] = useState(0)
+  const [LftNum , setLftNum] = useState('')
+  const [UsdtNum , setUsdtNum] = useState('')
+  const [inApprove , setInApprove] = useState(false)
+  const [LftAllowance , setLftAllowance] = useState(new BigNumber(0))
+  const [UsdtAllowance , setUsdtAllowance] = useState(new BigNumber(0))
+  // const isApprove = useMemo(()=>{
+  //   if(SellOrBuy === 'Sell'){
+  //     if(LftAllowance.gte(LftNum)){
+  //       return true
+  //     }
+  //     return false
+  //   }else{
+  //     if(UsdtAllowance.gte(UsdtNum)){
+  //       return true
+  //     }
+  //     return false
+  //   }
+  //   return
+  // },[])
+    useEffect(()=>{
+      if(isConnected){
+        getReserves().then(res=>{
+          console.log(res)
+          // new BigNumber(res._reserve0).div(res._reserve1)
+          setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
+          console.log(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)).toString())
+        })
+        getLftAllowance(address,ContractAddress.Swap).then(res=>{
+          setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
+          console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'LFT授权额度')
+        })
+        getUsdtAllowance(address,ContractAddress.Swap).then(res=>{
+          setUsdtAllowance(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals))
+          console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'USDT授权额度')
+        })
+      }
+    },[isConnected])
+    // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
+    const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
+    window.onresize = ()=>{
+      setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
+    }
     const navigate = useNavigate();
     const data = [
         {
@@ -225,39 +264,78 @@ export default function Swap() {
           date: '2017-07-24',
           value: 60,
         },
-      ];
-    // const context = document.getElementById('container').getContext('2d');
-    // const LineChart = (
-    //     <Canvas>
-    //         <Chart data={data}>
-    //             <Interval x="genre" y="sold" />
-    //         </Chart>
-    //     </Canvas>
-    // );
-    // const chart = new Canvas(LineChart.props);
-    // chart.render();
+    ];
+    const ApproveFun = ()=>{
+      setInApprove(true)
+      LftApprove(address,ContractAddress.Swap,100).then(res=>{
+        console.log(res,"授权结果")
+      }).finally(()=>{
+        setInApprove(false)
+      })
+    }
+    const changeSellOrBuy = ()=>{
+      if(SellOrBuy == 'Sell'){
+        setSellOrBuy('Buy')
+      }else{
+        setSellOrBuy('Sell')
+      }
+    }
+    const putLftNUm = (e)=>{
+      console.log(changeNumPut(e.target.value))
+      let putVal = changeNumPut(e.target.value)
+      setLftNum(putVal)
+      if(putVal){
+        setUsdtNum(new BigNumber(putVal).div(rate))
+      }
+    }
+    const putUsdtNUm = (e)=>{
+      console.log(changeNumPut(e.target.value))
+      let putVal = changeNumPut(e.target.value)
+      setUsdtNum(putVal)
+      if(putVal){
+        setLftNum(new BigNumber(putVal).times(rate))
+      }
+    }
+    const changeNumPut = (value, accuracy)=>{
+      if (/^\./g.test(value)) {
+        value = "0" + value;
+      }
+      let putVal = value.replace(/[^\d.]/g, "");
+      if(putVal.split('.').length>2){
+        putVal = [putVal.split('.')[0],putVal.split('.').slice(1,3).join('')].join('.')
+      }
+      if (accuracy !== undefined) {
+        let putArr = putVal.split(".");
+        if (putArr[1] && putArr[1].length > accuracy) {
+          putArr[1] = putArr[1].slice(0, accuracy);
+        }
+        putVal = putArr.join(".");
+      }
+      return putVal;
+    }
+    
     return (
         <div className='Swap'>
             <div className="Title">Swap</div>
             <div className="SwapBox">
                 <div className="Tabs">
-                    <div className="tabItem tabItemActive">Swap</div>
-                    <div className="tabItem">Buy</div>
+                    <div className="tabItem tabItemActive" onClick={()=>{setSellOrBuy('Sell')}}>Swap</div>
+                    <div className="tabItem" onClick={()=>{setSellOrBuy('Buy')}}>Buy</div>
                     <div className='SlippageIcon' onClick={()=>{navigate('/Slippage')}}>
                       <img src={SlippageIcon} alt="" />
                     </div>
                 </div>
-                <div className="putMain">
-                    <div className="putRow">
-                        <input type="text" />
+                <div className={classnames(['putMain'])}>
+                    <div className={classnames(['putRow', SellOrBuy === 'Sell' ? 'top':'bottom'])}>
+                        <input type="text" value={LftNum} onInput={(e)=>{putLftNUm(e)}} />
                         <div className="token">
                             <img src={LFTIcon} alt="" />
                             LFT
                         </div>
                     </div>
-                    <img className="ChangeIcon" src={ChangeIcon} alt="" />
-                    <div className="putRow">
-                        <input type="text" />
+                    <img className={classnames(['ChangeIcon',{ChangeIconReverse:SellOrBuy === 'Buy'}])} src={ChangeIcon} onClick={changeSellOrBuy} alt="" />
+                    <div  className={classnames(['putRow', SellOrBuy === 'Sell' ? 'bottom':'top'])}>
+                        <input type="text" value={UsdtNum} onInput={(e)=>{putUsdtNUm(e)}} />
                         <div className="token">
                             <img src={USDTIcon} alt="" />
                             USDT
@@ -296,7 +374,13 @@ export default function Swap() {
                         <div className="value">LFTswap API</div>
                     </div>
                 </div>
-                <div className="submit flexCenter">Connect wallet</div>
+                <div className="submit flexCenter" onClick={ApproveFun}>
+                  <svg viewBox="25 25 50 50" v-if="inSVIPAllowance">
+                    <circle cx="50" cy="50" r="20"></circle>
+                  </svg>
+                  Approve
+                </div>
+                {/* <div className="submit flexCenter">Connect wallet</div> */}
             </div>
             <div className="goRecord" onClick={()=>{navigate('/SwapRecord')}}>
                 {'Swap record >'}

@@ -67,22 +67,43 @@
         .putMain{
             margin: 0 15px;
             position: relative;
+            // display: flex;
+            // flex-direction: column;
+            // flex-direction: column-reverse;
+            height:142px;
+            // position: relative;
             .ChangeIcon{
                 position: absolute;
                 top: 50%;
                 left: 50%;
+                z-index: 10;
                 transform: translate(-50%,-50%);
+                transition: all 0.5s;
                 @media (max-width:600px) {
                     width: 50px;
                 }
             }
+            .ChangeIconReverse{
+                transform: translate(-50%,-50%) rotate(180deg);
+            }
+            .top{
+                top: 0;
+            }
+            .bottom{
+                top: 80px;
+            }
             .putRow{
+                position: absolute;
                 height: 56px;
+                width: 100%;
+                box-sizing: border-box;
+                transition: all 0.5s;
                 border-radius: 30px;
                 background: #EEEEEE;
                 display: flex;
                 align-items: center;
                 padding: 0 25px;
+                transition: all 0.5s;
                 @media (max-width:600px) {
                     height: 46px;
                     padding: 0 10px;
@@ -129,12 +150,15 @@
                     }
                 }
             }
-            .putRow:nth-child(3){
-                margin-top: 30px;
-                @media (max-width:600px) {
-                    margin-top: 20px;
-                }
-            }
+            // .putRow:nth-child(3){
+            //     margin-top: 30px;
+            //     @media (max-width:600px) {
+            //         margin-top: 20px;
+            //     }
+            // }
+        }
+        .reverse{
+            flex-direction:column-reverse;
         }
         .swapInfo{
             margin: 20px 15px 0;
@@ -184,6 +208,39 @@
                 height: 46px;
                 font-size: 22px;
             }
+            svg {
+                width: 1.5em;
+                transform-origin: center;
+                animation: rotate 2s linear infinite;
+                margin-right: 10px;
+              }
+              circle {
+                fill: none;
+                stroke: #fc2f70;
+                stroke-width: 5;
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+                stroke-linecap: round;
+                animation: dash 1.5s ease-in-out infinite;
+              }
+              @keyframes rotate {
+                100% {
+                  transform: rotate(360deg);
+                }
+              }
+              @keyframes dash {
+                0% {
+                  stroke-dasharray: 1, 200;
+                  stroke-dashoffset: 0;
+                }
+                50% {
+                  stroke-dasharray: 90, 200;
+                  stroke-dashoffset: -35px;
+                }
+                100% {
+                  stroke-dashoffset: -125px;
+                }
+              }
         }
         .Disabled{
             background: #D8D8D8;
