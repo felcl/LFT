@@ -375,9 +375,11 @@ export default function Swap() {
                     </div>
                 </div>
                 <div className="submit flexCenter" onClick={ApproveFun}>
-                  <svg viewBox="25 25 50 50" v-if="inSVIPAllowance">
-                    <circle cx="50" cy="50" r="20"></circle>
-                  </svg>
+                  {
+                    inApprove && <svg viewBox="25 25 50 50">
+                                    <circle cx="50" cy="50" r="20"></circle>
+                                  </svg>
+                  }
                   Approve
                 </div>
                 {/* <div className="submit flexCenter">Connect wallet</div> */}
