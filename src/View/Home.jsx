@@ -56,7 +56,7 @@ export default function Home() {
                                 <span>300%</span>
                                 <span>interests</span>
                             </div>
-                            <div className="StakeNow flexCenter" onClick={()=>{navigate('/Subscribe')}}>Stake now</div>
+                            <div className="StakeNow flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
                         </div>
                     </div>
                 </div>

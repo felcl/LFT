@@ -4,6 +4,7 @@ import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
 import { publicProvider } from 'wagmi/providers/public'
 
@@ -13,7 +14,12 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 //   [arbitrum, ...(import.meta.env?.MODE === 'development' ? [goerli] : [])],
   [arbitrumGoerli],
   [
-    publicProvider(),
+    // publicProvider(),
+    jsonRpcProvider({
+      rpc: () => ({
+        http: `https://arbitrum-goerli.publicnode.com`,
+      }),
+    }),
   ],
 )
 

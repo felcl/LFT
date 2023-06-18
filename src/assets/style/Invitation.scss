@@ -1,4 +1,4 @@
-.Team{
+.Invitation{
     background: url(../image/PolkaDotsBg.png);
     min-height: 100vh;
     overflow: hidden;
@@ -23,7 +23,7 @@
         margin:25px auto 0;
         border-radius: 30px;
         background:url(../image/TeamBoxBg.png) no-repeat center center / 100% 100%;
-        padding:58px 60px 100px;
+        padding:35px 60px 100px;
         box-sizing: border-box;
         @media (max-width:800px) {
             width: auto;
@@ -31,6 +31,52 @@
         }
         @media (max-width:600px) {
             padding:58px 30px 100px;
+        }
+        .userAddress{
+            display: flex;
+            align-items: center;
+            margin-bottom: 35px;
+            .userHeaderBox{
+                padding: 3px;
+                background: linear-gradient(180deg, #EB6120 29%, #ED059B 100%);
+                border-radius: 50%;
+            }
+            .userHeader{
+                width: 50px;
+                height: 50px;
+                background: #E0EAFF;
+                border-radius: 50%;
+                @media (max-width:600px) {
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+            span{
+                font-size: 18px;
+                color: #000000;
+                margin-left: 10px;
+            }
+            .long{
+                @media (max-width:750px) {
+                    display: none;
+                }
+            }
+            .short{
+                display: none;
+                @media (max-width:750px) {
+                    display: block;
+                    font-size: 14px;
+                }
+            }
+            .copyIcon{
+                margin-left: 8px;
+            }
+            .VipIcon{
+                margin-left: 6px;
+                @media (max-width:600px) {
+                    width: 18px;
+                }
+            }
         }
         .AmountRow{
             display: flex;
@@ -82,6 +128,13 @@
                 .invitedMeValue{
                     font-size: 16px;
                     color: #232323;
+                    
+                }
+                .invitedBtn{
+                    background: #FFAA00;
+                    border-radius: 30px;
+                    color: #FFFFFF;
+                    cursor: pointer;
                 }
             }
             .invitedLink{
@@ -112,13 +165,6 @@
                     }
                     img{
                         margin-left:5px;
-                    }
-                    .invitedBtn{
-                        padding: 0 25px;
-                        background: #FFAA00;
-                        border-radius: 30px;
-                        color: #FFFFFF;
-                        margin-left: 8px;
                     }
                 }
             }

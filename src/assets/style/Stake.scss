@@ -1,0 +1,156 @@
+.Stake{
+    background: url(../image/PolkaDotsBg.png);
+    min-height: 100vh;
+    overflow: hidden;
+    padding-top: 190px;
+    padding-top: 190px;
+    box-sizing: border-box;
+    @media (max-width:780px) {
+        padding-top: 100px;
+    }
+    @media (max-width:500px) {
+        padding-top: 40px;
+    }
+    .Title{
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+        padding:  0 32px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 45px;
+        color: #192E44;
+        @media (max-width:780px) {
+            img{
+                width: 16px;
+            }
+        }
+        @media (max-width:780px) {
+            img{
+                width: 16px;
+            }
+        }
+        @media (max-width:500px) {
+            font-size: 30px;
+            img{
+                width: 14px;
+            }
+        }
+    }
+    .StakeBox{
+        width: 800px;
+        margin: 35px auto 0;
+        padding: 75px 100px 55px;
+        background: #FFFFFF;
+        border-radius: 30px;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        box-sizing: border-box;
+        @media (max-width:850px) {
+            width: auto;
+            margin: 35px 25px 0;
+        }
+        .PutAmount{
+            height: 56px;
+            border-radius: 30px;
+            background: #EEEEEE;
+            padding:  0 8px 0 20px;
+            display: flex;
+            align-items: center;
+            input{
+                flex: 1;
+                height: 100%;
+                border: none;
+                outline: none;
+                font-size: 18px;
+                background: transparent;
+            }
+            input::placeholder{
+                color: #B3B3B3;
+            }
+            .selToken{
+                width: 110px;
+                height: 40px;
+                border-radius: 30px;
+                background: #B6CDFF;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 18px;
+                color: #000000;
+                padding: 0 10px 0 5px;
+                box-sizing: border-box;
+            }
+        }
+        .StakeInfo{
+            padding: 47px 85px;
+            .InfoRow{
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 33px;
+                .label,.value{
+                    color: #3D3D3D;
+                    font-size: 14px;
+                }
+                // .value{
+                //     color: #3D3D3D;
+                //     font-size: 14px;
+                // }
+            }
+            .InfoRow:nth-of-type(3){
+                margin-bottom: 0;
+            }
+        }
+        .submit{
+            height: 56px;
+            border-radius: 30px;
+            background: #D8D8D8;
+            color: #FFFFFF;
+            font-size: 28px;
+        }
+    }
+    .goRecord{
+        color: #767676;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 90px;
+    }
+}
+.StakePopover{
+    .ant-popover-content{
+        padding: 0 !important;
+        background-color: transparent !important;
+        border-radius: 30px;
+        overflow: hidden;
+    }
+    .ant-popover-inner{
+        padding: 0 !important;
+        background-color: transparent !important;
+        border-radius: 30px;
+        overflow: hidden;
+    }
+    .PopoverContent{
+        width: 109.5px;
+        padding: 5px 12px;
+        box-sizing: border-box;
+        border-radius: 30px;
+        background: #6C6C6C;
+        .SelItem{
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            color: #FFFFFF;
+            margin-bottom: 14px;
+            img{
+                margin-right: 8px;
+            }
+        }
+        .SelItem:nth-last-child(1){
+            margin: 0;
+        }
+    }
+    .ant-popover-arrow:before{
+        background: #6C6C6C !important;
+    }
+}

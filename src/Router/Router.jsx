@@ -8,8 +8,11 @@ import Subscribe from '../View/Subscribe'
 import SwapRecord from '../View/SwapRecord'
 import PledgedRecord from '../View/PledgedRecord'
 import ConvertRecord from '../View/ConvertRecord'
-import Team from '../View/Team'
+import Invitation from '../View/Invitation'
 import Slippage from '../View/Slippage'
+import Earn from '../View/Earn'
+import Stake from '../View/Stake'
+import Tradingview from '../View/Tradingview'
 
 export default function Router() {
     const location = useLocation();
@@ -28,7 +31,10 @@ export default function Router() {
           <Route path='/SwapRecord' element={<SwapRecord />} />
           <Route path='/PledgedRecord' element={<PledgedRecord />} />
           <Route path='/ConvertRecord' element={<ConvertRecord />} />
-          <Route path='/Team' element={<Team />} />
+          <Route path='/Invitation' element={<Invitation />} />
+          <Route path='/Earn' element={<Earn />} />
+          <Route path='/Stake' element={<Stake />} />
+          <Route path='/Tradingview' element={<Tradingview />} />
         </Routes>
     );
   }

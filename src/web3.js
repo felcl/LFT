@@ -36,6 +36,7 @@ function verifyExistence (contractName){
         return contract[contractName]
     }
 }
+/* 获取汇率 */
 export function getReserves(){
     if(verifyExistence('Swap')){
         return contract.Swap.methods.getReserves().call()
@@ -43,6 +44,43 @@ export function getReserves(){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* 获取输出数量 */
+export function getAmountOut(amountIn,reserveIn,reserveOut){
+    if(verifyExistence('Swap')){
+        return contract.Swap.methods.getAmountOut(amountIn,reserveIn,reserveOut).call()
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* 获取输入数量 */
+export function getAmountIn(amountOut,reserveIn,reserveOut){
+    if(verifyExistence('Swap')){
+        return contract.Swap.methods.getAmountIn(amountOut,reserveIn,reserveOut).call()
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* 购买LFT */
+export function swapBuy(address,amountIn,amountOutMin,deadline){
+    if(verifyExistence('Swap')){
+        return contract.Swap.methods.swapBuy(amountIn,amountOutMin,deadline).send({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* 售卖LFT */
+export function swapSell(address,amountIn,amountOutMin,deadline){
+    if(verifyExistence('Swap')){
+        return contract.Swap.methods.swapSell(amountIn,amountOutMin,deadline).send({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* 获取LFT授权额度 */
 export function getLftAllowance(address,toAddress){
     if(verifyExistence('LFT')){
         return contract.LFT.methods.allowance(address, toAddress).call()
@@ -50,6 +88,7 @@ export function getLftAllowance(address,toAddress){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* LFT授权 */
 export function LftApprove(address,toAddress,amount){
     if(verifyExistence('LFT')){
         return contract.LFT.methods.approve(toAddress, amount).send({
@@ -59,9 +98,31 @@ export function LftApprove(address,toAddress,amount){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* 获取USDT授权额度 */
 export function getUsdtAllowance(address,toAddress){
     if(verifyExistence('USDT')){
         return contract.USDT.methods.allowance(address, toAddress).call()
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* USDT授权 */
+export function USDTApprove(address,toAddress,amount){
+    if(verifyExistence('USDT')){
+        return contract.USDT.methods.approve(toAddress, amount).send({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* 监听LFT事件 */
+export function subscribeLFT(EventName,callback){
+    if(verifyExistence('LFT')){
+        return contract.LFT.events[EventName]({
+            filter: {},
+            fromBlock: "latest",
+          }).on("data",callback)
     }else{
         return Promise.reject('contract Uninitialized')
     }

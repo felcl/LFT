@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { Empty, Modal, Popover} from 'antd';
-import '../assets/style/Team.scss'
+import '../assets/style/Invitation.scss'
 import copyIcon from '../assets/image/copyIcon.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
+import VipIcon from '../assets/image/VipIcon.png'
 import JTDown from '../assets/image/JTDown.png'
 
 export default function Team() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isinvitationModal, setIsinvitationModal] = useState(false);
     const showModal = () => {
-        setIsModalOpen(true);
+        setIsModalOpen(true);``
       };
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -26,11 +28,20 @@ export default function Team() {
                 <img src={LFTIcon} alt="" />SLFT
             </div>
         </div>
-      );
+    );
   return (
-    <div className="Team">
+    <div className="Invitation">
         <div className="Title">Team</div>
         <div className="TeamBox">
+            <div className="userAddress">
+                <div className="userHeaderBox">
+                    <div className="userHeader"></div>
+                </div>
+                <span className="long">0x3Bd8CA9023897224b01fE25b33137b67A89ec70F</span>
+                <span className="short">0x3Bd8****9ec70F</span>
+                <img className='copyIcon' src={copyIcon} alt="" />
+                <img className='VipIcon' src={VipIcon} alt="" />
+            </div>
             <div className="AmountRow">
                 <div className="AmountItem">
                     <div className="AmountLabel">Members</div>
@@ -44,6 +55,7 @@ export default function Team() {
             <div className="invitedInfo">
                 <div className="invitedMe">
                     <div className="invitedMeLabel">who invited me</div>
+                    <div className="invitedBtn flexCenter" onClick={()=>{setIsinvitationModal(true)}}>Invitation address</div>
                     <div className="invitedMeValue">asdfasdasd**asdasd9dad</div>
                 </div>
                 <div className="invitedLink">
@@ -51,8 +63,7 @@ export default function Team() {
                     <div className="invitedLinkValue">
                         <span className="long">http://sadfs.dadsf.com/sdadsf</span>
                         <span className="short">http://sadf***dadsf</span>
-                    <img src={copyIcon} alt="" />
-                    <div className="invitedBtn" onClick={showModal}>invited</div>
+                        <img src={copyIcon} alt="" />
                     </div>
                 </div>
             </div>
@@ -74,6 +85,15 @@ export default function Team() {
         </div>
 
         {/* 邀请弹窗 */}
+        <Modal open={isinvitationModal} onCancel={()=>{setIsinvitationModal(false)}} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
+            <img className="Close" src={CloseIcon} alt="" />
+            <div className="Title">invitation address</div>
+            <div className='putBox'>
+                <input type="text" placeholder='Enter invitation address' />
+            </div>
+            <div className="Confirm flexCenter">Confirm</div>
+        </Modal>
+        {/* 领取收益弹窗 */}
         <Modal open={isModalOpen} onCancel={handleCancel} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
             <img className="Close" src={CloseIcon} alt="" />
             <div className="Title">Withdraw</div>

@@ -8,9 +8,9 @@ import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
-import { useEffect, useState, useMem, useMemo} from 'react';
-import {useAccount} from 'wagmi'
-import { getReserves, getLftAllowance, getUsdtAllowance, LftApprove} from '../web3'
+import { useEffect, useState, useMemo} from 'react';
+import {useAccount,} from 'wagmi'
+import { getReserves, getLftAllowance, getUsdtAllowance, LftApprove, USDTApprove, subscribeLFT, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
 import { ContractAddress, TokenConfig} from '../config'
 import BigNumber from "big.js";
 BigNumber.NE = -40;
@@ -19,42 +19,42 @@ BigNumber.PE = 40;
 export default function Swap() {
   const {isConnected, address } = useAccount()
   const [SellOrBuy , setSellOrBuy] = useState('Sell')
-  const [rate , setRate] = useState(0)
+  const [ , setRate] = useState(0)
+  const [reserveUsdt , setReserveUsdt] = useState(0)
+  const [reserveLft , setReserveLft] = useState(0)
   const [LftNum , setLftNum] = useState('')
   const [UsdtNum , setUsdtNum] = useState('')
   const [inApprove , setInApprove] = useState(false)
   const [LftAllowance , setLftAllowance] = useState(new BigNumber(0))
   const [UsdtAllowance , setUsdtAllowance] = useState(new BigNumber(0))
-  // const isApprove = useMemo(()=>{
-  //   if(SellOrBuy === 'Sell'){
-  //     if(LftAllowance.gte(LftNum)){
-  //       return true
-  //     }
-  //     return false
-  //   }else{
-  //     if(UsdtAllowance.gte(UsdtNum)){
-  //       return true
-  //     }
-  //     return false
-  //   }
-  //   return
-  // },[])
+  /**
+   * true 已授权
+   * false 未授权
+   */
+  const isApprove = useMemo(()=>{
+    if(SellOrBuy === 'Sell' && LftNum && LftAllowance.gte(LftNum)){
+      return true
+    }
+    if(SellOrBuy === 'Buy' && UsdtNum && UsdtAllowance.gte(UsdtNum)){
+      return true
+    }
+    return false
+  },[SellOrBuy,LftAllowance,UsdtAllowance,LftNum,UsdtNum])
     useEffect(()=>{
       if(isConnected){
+        subscribeLFT('Approval',(event)=>{
+          console.log(event,"授权事件监听")
+        })
         getReserves().then(res=>{
           console.log(res)
+          setReserveUsdt(res._reserve1)
+          setReserveLft(res._reserve0)
           // new BigNumber(res._reserve0).div(res._reserve1)
           setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
           console.log(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)).toString())
         })
-        getLftAllowance(address,ContractAddress.Swap).then(res=>{
-          setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
-          console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'LFT授权额度')
-        })
-        getUsdtAllowance(address,ContractAddress.Swap).then(res=>{
-          setUsdtAllowance(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals))
-          console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'USDT授权额度')
-        })
+        getLftAllowanceFun()
+        getUsdtAllowanceFun()
       }
     },[isConnected])
     // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
@@ -265,10 +265,29 @@ export default function Swap() {
           value: 60,
         },
     ];
+
+    const getLftAllowanceFun = ()=>{
+      getLftAllowance(address,ContractAddress.Swap).then(res=>{
+        setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
+        console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'LFT授权额度')
+      })
+    }
+    const getUsdtAllowanceFun = ()=>{
+      getUsdtAllowance(address,ContractAddress.Swap).then(res=>{
+        setUsdtAllowance(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals))
+        console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),'USDT授权额度')
+      })
+    }
     const ApproveFun = ()=>{
-      setInApprove(true)
-      LftApprove(address,ContractAddress.Swap,100).then(res=>{
-        console.log(res,"授权结果")
+      if(inApprove){
+        return console.log('请勿重复提交')
+      }
+      setInApprove(true);
+      let amount = SellOrBuy === 'Sell' ? new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString() : new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString();
+      // eslint-disable-next-line no-unexpected-multiline
+      (SellOrBuy === 'Sell' ? LftApprove : USDTApprove)(address,ContractAddress.Swap,amount).then(()=>{
+        /* 查询授权结果 */
+        (SellOrBuy === 'Sell' ? getLftAllowanceFun : getUsdtAllowanceFun)()
       }).finally(()=>{
         setInApprove(false)
       })
@@ -285,7 +304,19 @@ export default function Swap() {
       let putVal = changeNumPut(e.target.value)
       setLftNum(putVal)
       if(putVal){
-        setUsdtNum(new BigNumber(putVal).div(rate))
+        let amount = new BigNumber(putVal).times(10 ** TokenConfig.LFT.decimals).toString()
+        if(SellOrBuy === 'Buy'){
+          getAmountIn(amount,reserveUsdt,reserveLft).then(res=>{
+            setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
+            console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输入量")
+          })
+        }
+        if(SellOrBuy === 'Sell'){
+          getAmountOut(amount,reserveLft,reserveUsdt).then(res=>{
+            setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
+            console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输出量")
+          })
+        }
       }
     }
     const putUsdtNUm = (e)=>{
@@ -293,7 +324,20 @@ export default function Swap() {
       let putVal = changeNumPut(e.target.value)
       setUsdtNum(putVal)
       if(putVal){
-        setLftNum(new BigNumber(putVal).times(rate))
+        let amount = new BigNumber(putVal).times(10 ** TokenConfig.USDT.decimals).toString()
+        if(SellOrBuy === 'Buy'){
+          getAmountOut(amount,reserveUsdt,reserveLft).then(res=>{
+            setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+            console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
+          })
+        }
+        if(SellOrBuy === 'Sell'){
+          getAmountIn(amount,reserveLft,reserveUsdt).then(res=>{
+            setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+            console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输入量")
+          })
+        }
+        // setLftNum(new BigNumber(putVal).times(rate))
       }
     }
     const changeNumPut = (value, accuracy)=>{
@@ -313,7 +357,45 @@ export default function Swap() {
       }
       return putVal;
     }
-    
+    const Submit = ()=>{
+      let USDTAmount = new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString()
+      let LFTAmount = new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString()
+      if(SellOrBuy === 'Buy'){
+        console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
+        swapBuy(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60).then(res=>{
+          console.log(res,"购买结果")
+        })
+      }
+      if(SellOrBuy === 'Sell'){
+        console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
+        swapSell(address,LFTAmount,USDTAmount,Date.parse(new Date())/1000+60).then(res=>{
+          console.log(res,"售卖结果")
+        })
+      }
+    }
+    const submitBtnRun = ()=>{
+      /* 未链接钱包 */
+      if(!address){
+        return <div className="submit flexCenter" >Connect wallet</div>
+      }
+      /* 未输入数量 */
+      if((SellOrBuy === 'Sell' && !LftNum) || (SellOrBuy === 'Buy' && !UsdtNum)){
+        return <div className="submit flexCenter Disabled" >Enter</div>
+      }
+      /* 未授权 */
+      if(!isApprove){
+        return <div className="submit flexCenter" onClick={ApproveFun}>
+          {
+            inApprove && <svg viewBox="25 25 50 50">
+                            <circle cx="50" cy="50" r="20"></circle>
+                          </svg>
+          }
+          Approve
+        </div>
+      }
+      /* 验证通过发起交易 */
+      return <div className="submit flexCenter" onClick={Submit}>Enter</div>
+    }
     return (
         <div className='Swap'>
             <div className="Title">Swap</div>
@@ -374,15 +456,9 @@ export default function Swap() {
                         <div className="value">LFTswap API</div>
                     </div>
                 </div>
-                <div className="submit flexCenter" onClick={ApproveFun}>
-                  {
-                    inApprove && <svg viewBox="25 25 50 50">
-                                    <circle cx="50" cy="50" r="20"></circle>
-                                  </svg>
-                  }
-                  Approve
-                </div>
-                {/* <div className="submit flexCenter">Connect wallet</div> */}
+                {
+                  submitBtnRun()
+                }
             </div>
             <div className="goRecord" onClick={()=>{navigate('/SwapRecord')}}>
                 {'Swap record >'}
