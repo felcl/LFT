@@ -17,7 +17,7 @@ export default function Stake() {
     <div className='Stake'>
         <div className="Title">
             <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" />
-            Earn
+            Stake
             <span></span>
         </div>
         <div className="StakeBox">

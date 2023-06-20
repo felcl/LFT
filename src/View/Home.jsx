@@ -1,6 +1,8 @@
 
 import '../assets/style/Home.scss'
+import CountUp from 'react-countup'
 import {useNavigate} from 'react-router-dom'
+import Axios from '../axios'
 import bannerLogo from '../assets/image/bannerLogo.png'
 import BannerTokenName from '../assets/image/BannerTokenName.png'
 import ModelImg1 from '../assets/image/ModelImg1.png'
@@ -13,9 +15,17 @@ import step3 from '../assets/image/step3.png'
 import rabbit from '../assets/image/rabbit.png'
 import Telegram from '../assets/image/Telegram.png'
 import Twitter from '../assets/image/Twitter.png'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+    const [HomeData,setHomeData] = useState(null)
     const navigate = useNavigate();
+    useEffect(()=>{
+        Axios.get('/home/data').then((res)=>{
+            setHomeData(res.data.data)
+            console.log("首页数据",res)
+        })
+    },[])
     return (
         <div className="Home">
             <div className="Banner">
@@ -27,15 +37,21 @@ export default function Home() {
             <div className="TotalValue">
                 <div className="TotalValueItem">
                     <div className="label">Total staked tokens</div>
-                    <div className="Value">$11,983,033,282</div>
+                    {
+                        HomeData && <div className="Value">$<CountUp start={0} end={HomeData.arbStaked} duration={1} decimals="0"></CountUp></div>
+                    }
                 </div>
                 <div className="TotalValueItem">
                     <div className="label">Total rewards paid</div>
-                    <div className="Value">$572,854,126</div>
+                    {
+                        HomeData && <div className="Value">$<CountUp start={0} end={HomeData.totalReward} duration={1} decimals="0"></CountUp></div>
+                    }
                 </div>
                 <div className="TotalValueItem">
                     <div className="label">Total Treasury</div>
-                    <div className="Value">$11,983,033,282</div>
+                    {
+                        HomeData && <div className="Value">$<CountUp start={0} end={HomeData.nationalAmount} duration={1} decimals="0"></CountUp></div>
+                    }
                 </div>
             </div>
             <div className="ModelGrid">
@@ -68,7 +84,7 @@ export default function Home() {
                             <div className="InfoLeft">
                                 <div className="Infoa"></div>
                             </div>
-                            <div className="StakeNow flexCenter" onClick={()=>{navigate('/Subscribe')}}>Stake now</div>
+                            <div className="StakeNow flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
                         </div>
                     </div>
                 </div>

@@ -54,7 +54,7 @@ export default function Earn() {
             </div>
             <div className="separate"></div>
             <div className='BtnRow'>
-                <div className="Btn flexCenter">Buy LFT</div>
+                <div className="Btn flexCenter" onClick={()=>{navigate('/Swap?type=Buy')}}>Buy LFT</div>
             </div>
         </div>
         <div className="InfoBox mt50">
@@ -100,7 +100,7 @@ export default function Earn() {
             </div>
             <div className="separate"></div>
             <div className='BtnRow'>
-            <div className="Btn flexCenter">Buy LFT</div>
+            <div className="Btn flexCenter">Buy eLFT</div>
             <div className="Btn roseRed flexCenter">Redeem eLFT</div>
             </div>
         </div>

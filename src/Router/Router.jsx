@@ -13,6 +13,7 @@ import Slippage from '../View/Slippage'
 import Earn from '../View/Earn'
 import Stake from '../View/Stake'
 import Tradingview from '../View/Tradingview'
+import SwapChart from '../View/SwapChart'
 
 export default function Router() {
     const location = useLocation();
@@ -35,6 +36,7 @@ export default function Router() {
           <Route path='/Earn' element={<Earn />} />
           <Route path='/Stake' element={<Stake />} />
           <Route path='/Tradingview' element={<Tradingview />} />
+          <Route path='/SwapChart' element={<SwapChart />} />
         </Routes>
     );
   }

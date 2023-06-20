@@ -1,0 +1,137 @@
+.SwapChart{
+    background: url(../image/PolkaDotsBg.png);
+    min-height: 100vh;
+    overflow: hidden;
+    padding-top: 190px;
+    padding-top: 190px;
+    box-sizing: border-box;
+    @media (max-width:780px) {
+        padding-top: 100px;
+    }
+    @media (max-width:500px) {
+        padding-top: 40px;
+    }
+    .Title{
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+        padding:  0 32px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 45px;
+        color: #192E44;
+        @media (max-width:780px) {
+            img{
+                width: 16px;
+            }
+        }
+        @media (max-width:780px) {
+            img{
+                width: 16px;
+            }
+        }
+        @media (max-width:500px) {
+            font-size: 30px;
+            img{
+                width: 14px;
+            }
+        }
+    }
+    .chartBox{
+        width: 800px;
+        // height: 750px;
+        background: #FFFFFF;
+        border-radius: 30px;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        padding: 40px 50px 28px;
+        box-sizing: border-box;
+        margin: 35px auto 30px;
+        @media (max-width:850px) {
+            width: auto;
+            margin: 47px 25px 30px;
+        }
+        @media (max-width:600px) {
+            margin: 27px 25px 30px;
+        }
+        .ChartInfo{
+            border-radius: 30px;
+            height: 65px;
+            background: #EEEEEE;
+            display: flex;
+            justify-content: space-evenly;
+            // justify-content: space-around;
+            align-items: center;
+            .infoItem{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .label{
+                    color: #767676;
+                    font-size: 14px;
+                    margin-bottom: 5px;
+                }
+                .value{
+                    color: #000000;
+                    font-size: 16px;
+                }
+            }
+        }
+        .Chart{
+            margin-top: 30px;
+        }
+    }
+    .HistoryBox{
+        width: 800px;
+        // height: 750px;
+        padding: 32px 50px;
+        background: #FFFFFF;
+        border-radius: 30px;
+        box-sizing: border-box;
+        margin: 35px auto 30px;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        @media (max-width:850px) {
+            width: auto;
+            margin: 47px 25px 30px;
+        }
+        @media (max-width:600px) {
+            margin: 27px 25px 30px;
+        }
+        .th{
+            padding-bottom: 22px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #D8D8D8;
+            margin-bottom: 14px;
+            div{
+                color: #767676;
+                font-size: 16px;
+            }
+        }
+        .tr{
+            display: flex;
+            justify-content: space-between;
+            color: #000;
+            font-size: 16px;
+            margin-bottom: 18px;
+        }
+        .th,.tr{
+            >div:nth-of-type(1){
+                width: 120px;
+            }
+            >div:nth-of-type(2){
+                width: 80px;
+                text-align: center;
+            }
+            >div:nth-of-type(3){
+                width: 120px;
+                text-align: center;
+            }
+            >div:nth-of-type(4){
+                width: 180px;
+                text-align: right;
+            }
+        }
+    }
+}

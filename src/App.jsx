@@ -13,7 +13,6 @@ function App() {
   // const { switchNetwork  } = useSwitchNetwork()
   const Token = useSelector(Store =>Store.token)
   const StoreAddress = useSelector(Store =>Store.address)
-  console.log()
   const dispatch = useDispatch()
   const {isConnected, address } = useAccount()
   useEffect(()=>{

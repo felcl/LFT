@@ -21,7 +21,7 @@ export default function Convert() {
                         ELFT
                     </div>
                 </div>
-                <div className="label">From</div>
+                <div className="label">To</div>
                 <div className="put">
                     <input type="text" />
                     <div className='TokenInfo flexCenter'>

@@ -1,14 +1,15 @@
 
 import Canvas from '@antv/f2-react';
 import { Chart, Line, Tooltip } from '@antv/f2';
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useSearchParams} from 'react-router-dom'
 import classnames from 'classnames';
 import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
+import chartIcon from '../assets/image/chartIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
-import { useEffect, useState, useMemo} from 'react';
+import { useEffect, useState, useMemo, useRef} from 'react';
 import {useAccount,} from 'wagmi'
 import { getReserves, getLftAllowance, getUsdtAllowance, LftApprove, USDTApprove, subscribeLFT, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
 import { ContractAddress, TokenConfig} from '../config'
@@ -17,14 +18,17 @@ BigNumber.NE = -40;
 BigNumber.PE = 40;
 
 export default function Swap() {
+  const navigate = useNavigate();
+  const [search] = useSearchParams();
   const {isConnected, address } = useAccount()
-  const [SellOrBuy , setSellOrBuy] = useState('Sell')
+  const [SellOrBuy , setSellOrBuy] = useState(search.get('type') || 'Sell')
   const [ , setRate] = useState(0)
   const [reserveUsdt , setReserveUsdt] = useState(0)
   const [reserveLft , setReserveLft] = useState(0)
   const [LftNum , setLftNum] = useState('')
   const [UsdtNum , setUsdtNum] = useState('')
   const [inApprove , setInApprove] = useState(false)
+  const SerchKey = useRef(0)
   const [LftAllowance , setLftAllowance] = useState(new BigNumber(0))
   const [UsdtAllowance , setUsdtAllowance] = useState(new BigNumber(0))
   /**
@@ -62,7 +66,6 @@ export default function Swap() {
     window.onresize = ()=>{
       setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
     }
-    const navigate = useNavigate();
     const data = [
         {
           date: '2017-06-05',
@@ -305,16 +308,22 @@ export default function Swap() {
       setLftNum(putVal)
       if(putVal){
         let amount = new BigNumber(putVal).times(10 ** TokenConfig.LFT.decimals).toString()
+        let key = SerchKey.current + 1
+        SerchKey.current = key
         if(SellOrBuy === 'Buy'){
           getAmountIn(amount,reserveUsdt,reserveLft).then(res=>{
-            setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
-            console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输入量")
+            if(key === SerchKey.current){
+              setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
+              console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输入量")
+            }
           })
         }
         if(SellOrBuy === 'Sell'){
           getAmountOut(amount,reserveLft,reserveUsdt).then(res=>{
-            setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
-            console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输出量")
+            if(key === SerchKey.current){
+              setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
+              console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输出量")
+            }
           })
         }
       }
@@ -325,16 +334,22 @@ export default function Swap() {
       setUsdtNum(putVal)
       if(putVal){
         let amount = new BigNumber(putVal).times(10 ** TokenConfig.USDT.decimals).toString()
+        let key = SerchKey.current + 1
+        SerchKey.current = key
         if(SellOrBuy === 'Buy'){
           getAmountOut(amount,reserveUsdt,reserveLft).then(res=>{
-            setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
-            console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
+            if(key === SerchKey.current){
+              setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+              console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
+            }
           })
         }
         if(SellOrBuy === 'Sell'){
           getAmountIn(amount,reserveLft,reserveUsdt).then(res=>{
-            setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
-            console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输入量")
+            if(key === SerchKey.current){
+              setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+              console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输入量")
+            }
           })
         }
         // setLftNum(new BigNumber(putVal).times(rate))
@@ -401,8 +416,11 @@ export default function Swap() {
             <div className="Title">Swap</div>
             <div className="SwapBox">
                 <div className="Tabs">
-                    <div className="tabItem tabItemActive" onClick={()=>{setSellOrBuy('Sell')}}>Swap</div>
-                    <div className="tabItem" onClick={()=>{setSellOrBuy('Buy')}}>Buy</div>
+                    {/* <div className="tabItem tabItemActive" onClick={()=>{setSellOrBuy('Sell')}}>Swap</div>
+                    <div className="tabItem" onClick={()=>{setSellOrBuy('Buy')}}>Buy</div> */}
+                    <div className='SlippageIcon' onClick={()=>{navigate('/SwapChart')}}>
+                      <img src={chartIcon} alt="" />
+                    </div>
                     <div className='SlippageIcon' onClick={()=>{navigate('/Slippage')}}>
                       <img src={SlippageIcon} alt="" />
                     </div>
@@ -425,7 +443,7 @@ export default function Swap() {
                     </div>
                 </div>
                 <div className="swapInfo">
-                    <div className="increaseRow">
+                    {/* <div className="increaseRow">
                         <div className="increaseText">1 ETH = 30.3079 AAVE ($1,866.92)</div>
                         <Canvas  width={canvasWidth} height={canvasWidth * 0.21}>
                             <Chart data={data}>
@@ -433,28 +451,27 @@ export default function Swap() {
                                 <Tooltip />
                             </Chart>
                         </Canvas>
-                        {/* <canvas id="container" width="350" height="80"></canvas> */}
+                    </div> */}
+                    <div className="InfoRow">
+                        <div className="label">Exchange Route</div>
+                        <div className="value">-</div>
                     </div>
                     <div className="InfoRow">
-                        <div className="label">Network fee</div>
-                        <div className="value">~$8.02</div>
+                        <div className="label">Reference price</div>
+                        <div className="value">-</div>
                     </div>
                     <div className="InfoRow">
-                        <div className="label">Price Impact</div>
-                        <div className="value">-0.05%</div>
-                    </div>
-                    <div className="InfoRow">
-                        <div className="label">Minimum output</div>
-                        <div className="value">0.000501389 ETH</div>
+                        <div className="label">Fee</div>
+                        <div className="value">-</div>
                     </div>
                     <div className="InfoRow">
                         <div className="label">Expected output</div>
-                        <div className="value">0.000526458 ETH</div>
+                        <div className="value">-</div>
                     </div>
-                    <div className="InfoRow borderTop">
+                    {/* <div className="InfoRow borderTop">
                         <div className="label">Order routing</div>
                         <div className="value">LFTswap API</div>
-                    </div>
+                    </div> */}
                 </div>
                 {
                   submitBtnRun()

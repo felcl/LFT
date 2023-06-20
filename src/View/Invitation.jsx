@@ -1,5 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Empty, Modal, Popover} from 'antd';
+import {useAccount,} from 'wagmi'
+import {AddrHandle, dateFormat} from '../utils/tool'
+import { useSelector } from "react-redux";
+import Axios from '../axios'
 import '../assets/style/Invitation.scss'
 import copyIcon from '../assets/image/copyIcon.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
@@ -8,17 +12,46 @@ import VipIcon from '../assets/image/VipIcon.png'
 import JTDown from '../assets/image/JTDown.png'
 
 export default function Team() {
+    const {isConnected, address } = useAccount()
+    const Token = useSelector(Store =>Store.token)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isinvitationModal, setIsinvitationModal] = useState(false);
+    const [isBind,setIsBind] = useState(-1)
+    const [refereeUserAddress,setRefereeUserAddress] = useState('')
+    const [teamAmount,setTeamAmount] = useState(0)
+    const [inviteLink,setInviteLink] = useState(0)
+    const [refereeList,setRefereeList] = useState([])
+
+    useEffect(()=>{
+        if(Token){
+            Axios.get('/uUser/checkBind').then(res=>{
+                setIsBind(res.data.data)
+                console.log(res,'用户是否绑定上级')
+            })
+            Axios.get('/uUser/teamAndReferee').then(res=>{
+                setRefereeUserAddress(res.data.data.refereeUserAddress)
+                setTeamAmount(res.data.data.teamAmount)
+                console.log(res,'获取上级地址和团队收益')
+            })
+            Axios.get('/dao/userReferee').then(res=>{
+                setRefereeList(res.data.data)
+                console.log(res,'邀请记录')
+            })
+        }
+    },[Token])
+    useEffect(()=>{
+        if(isConnected){
+            setInviteLink(location.origin+location.pathname+'#/?invite='+address)
+        }
+    },[isConnected,address])
     const showModal = () => {
-        setIsModalOpen(true);``
+        setIsModalOpen(true);
       };
     const handleCancel = () => {
         setIsModalOpen(false);
       };
     let RecordList = [].fill(1)
     RecordList = new Array(3).fill({});
-    console.log(RecordList)
     const content = (
         <div className='PopoverContent'>
             <div className='SelItem'>
@@ -37,8 +70,8 @@ export default function Team() {
                 <div className="userHeaderBox">
                     <div className="userHeader"></div>
                 </div>
-                <span className="long">0x3Bd8CA9023897224b01fE25b33137b67A89ec70F</span>
-                <span className="short">0x3Bd8****9ec70F</span>
+                <span className="long">{isConnected ? address : '请连接钱包'}</span>
+                <span className="short">{isConnected ? AddrHandle(address,6,6) : '请连接钱包'}</span>
                 <img className='copyIcon' src={copyIcon} alt="" />
                 <img className='VipIcon' src={VipIcon} alt="" />
             </div>
@@ -49,20 +82,25 @@ export default function Team() {
                 </div>
                 <div className="AmountItem">
                     <div className="AmountLabel">Total performance</div>
-                    <div className="AmountValue">$1,251,523.252</div>
+                    <div className="AmountValue">${teamAmount}</div>
                 </div>
             </div>
             <div className="invitedInfo">
                 <div className="invitedMe">
                     <div className="invitedMeLabel">who invited me</div>
-                    <div className="invitedBtn flexCenter" onClick={()=>{setIsinvitationModal(true)}}>Invitation address</div>
-                    <div className="invitedMeValue">asdfasdasd**asdasd9dad</div>
+                    {
+                        isBind !== -1 && <>
+                        {isBind === 0 && <div className="invitedBtn flexCenter" onClick={()=>{setIsinvitationModal(true)}}>Invitation address</div>}
+                        {isBind === 1 && refereeUserAddress && <div className="invitedMeValue">{AddrHandle(refereeUserAddress,5,5)}</div>}
+                        </>
+                    }
                 </div>
                 <div className="invitedLink">
                     <div className="invitedLinkLabel">My invitation link</div>
                     <div className="invitedLinkValue">
-                        <span className="long">http://sadfs.dadsf.com/sdadsf</span>
-                        <span className="short">http://sadf***dadsf</span>
+                        {AddrHandle(inviteLink,16,10)}
+                        {/* <span className="long">{inviteLink}</span>
+                        <span className="short">{AddrHandle(inviteLink,16,10)}</span> */}
                         <img src={copyIcon} alt="" />
                     </div>
                 </div>
@@ -71,13 +109,13 @@ export default function Team() {
         <div className='RewardList'>
             <div className="RewardTotal">
                 <div className="label">Invitation reward</div>
-                <div className="value">$1,251,523.252</div>
+                <div className="value">${teamAmount}</div>
             </div>
             {
-            RecordList.length > 0 ? 
-            RecordList.map((item,index)=><div className="RewardItem" key={index}>
-                    <span className="address">dadsda*****dadsdd</span>
-                    <span className="time">2022/02/22 12:22:33</span>
+            refereeList.length > 0 ? 
+            refereeList.map((item,index)=><div className="RewardItem" key={index}>
+                    <span className="address">{AddrHandle(item.refereeUserAddress,6,6)}</span>
+                    <span className="time">{dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime))}</span>
                 </div>)
             :
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
