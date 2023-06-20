@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Drawer, Popover } from 'antd';
-import { useAccount, useConnect, useDisconnect, useSwitchNetwork} from 'wagmi'
-import { arbitrum} from 'wagmi/chains'
+import { useAccount, useConnect, useNetwork, useSwitchNetwork  } from 'wagmi'
+import { arbitrumGoerli} from 'wagmi/chains'
 import {AddrHandle} from '../utils/tool'
 import '../assets/style/componentsStyle/Header.scss'
 import bannerLogo from '../assets/image/bannerLogo.png'
@@ -11,9 +11,9 @@ import HomeIconOrange from '../assets/image/HomeIconOrange.png'
 import SwapIcon from '../assets/image/SwapIcon.png'
 import SwapIconBlack from '../assets/image/SwapIconBlack.png'
 import SwapIconOrange from '../assets/image/SwapIconOrange.png'
-import WalletIcon from '../assets/image/WalletIcon.png'
-import WalletIconBlack from '../assets/image/WalletIconBlack.png'
-import WalletIconOrange from '../assets/image/WalletIconOrange.png'
+// import WalletIcon from '../assets/image/WalletIcon.png'
+// import WalletIconBlack from '../assets/image/WalletIconBlack.png'
+// import WalletIconOrange from '../assets/image/WalletIconOrange.png'
 import ConvertIcon from '../assets/image/ConvertIcon.png'
 import ConvertIconBlack from '../assets/image/ConvertIconBlack.png'
 import ConvertIconOrange from '../assets/image/ConvertIconOrange.png'
@@ -35,9 +35,12 @@ import {useNavigate ,useLocation} from 'react-router-dom'
 
 
 export default function Header() {
+    const { chain, chains } = useNetwork()
+    const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
     const { address, isConnected } = useAccount()
-    const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
-    const { chains, switchNetwork  } = useSwitchNetwork()
+    const { connect, connectors, isLoading } = useConnect({
+        chainId: arbitrumGoerli.id,
+    })
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
@@ -73,13 +76,14 @@ export default function Header() {
         return Icon
     }
     const ConnectWallet = ()=>{
-        console.log(chains, switchNetwork,arbitrum)
-        if(isConnected){
-            return
+        if(isConnected && chain.id !== chains[0].id){
+            return switchNetwork(arbitrumGoerli.id)
+        }
+        if(!isConnected){
+            connect({ connector: connectors[1] })
         }
         // console.log(switchNetwork(arbitrum.id))
         // console.log(chains, switchNetwork)
-        connect({ connector: connectors[1] })
     }
     const AboutContent = (
         <div className='AboutPopoverContent'>
@@ -114,11 +118,11 @@ export default function Header() {
             <div className="HeaderRight">
                 <div className='connect flexCenter' onClick={ConnectWallet}>
                 {
-                    isLoading && <svg viewBox="25 25 50 50">
+                    (isLoading || isLoadingSwitchNetwork) && <svg viewBox="25 25 50 50">
                         <circle cx="50" cy="50" r="20"></circle>
                     </svg>
                 }
-                { isConnected ? AddrHandle(address) : 'Connect wallet'}
+                { isConnected && chain.id === chains[0].id ? AddrHandle(address) : 'Connect wallet'}
                 </div>
                 <div className="Lang">
                     <img src={LangIcon} alt="" />

@@ -14,12 +14,12 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 //   [arbitrum, ...(import.meta.env?.MODE === 'development' ? [goerli] : [])],
   [arbitrumGoerli],
   [
-    // publicProvider(),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: `https://arbitrum-goerli.publicnode.com`,
-      }),
-    }),
+    publicProvider(),
+    // jsonRpcProvider({
+    //   rpc: () => ({
+    //     http: `https://arbitrum-goerli.publicnode.com`,
+    //   }),
+    // }),
   ],
 )
 

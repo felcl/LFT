@@ -114,7 +114,7 @@ export default function Team() {
             {
             refereeList.length > 0 ? 
             refereeList.map((item,index)=><div className="RewardItem" key={index}>
-                    <span className="address">{AddrHandle(item.refereeUserAddress,6,6)}</span>
+                    <span className="address">{AddrHandle(item.userAddress,6,6)}</span>
                     <span className="time">{dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime))}</span>
                 </div>)
             :

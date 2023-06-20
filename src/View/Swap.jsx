@@ -1,6 +1,4 @@
-
-import Canvas from '@antv/f2-react';
-import { Chart, Line, Tooltip } from '@antv/f2';
+import {useNetwork} from 'wagmi'
 import {useNavigate, useSearchParams} from 'react-router-dom'
 import classnames from 'classnames';
 import '../assets/style/Swap.scss'
@@ -19,6 +17,7 @@ BigNumber.PE = 40;
 
 export default function Swap() {
   const navigate = useNavigate();
+  const { chain, chains } = useNetwork()
   const [search] = useSearchParams();
   const {isConnected, address } = useAccount()
   const [SellOrBuy , setSellOrBuy] = useState(search.get('type') || 'Sell')
@@ -28,6 +27,7 @@ export default function Swap() {
   const [LftNum , setLftNum] = useState('')
   const [UsdtNum , setUsdtNum] = useState('')
   const [inApprove , setInApprove] = useState(false)
+  const [inSubmit , setInSubmit] = useState(false)
   const SerchKey = useRef(0)
   const [LftAllowance , setLftAllowance] = useState(new BigNumber(0))
   const [UsdtAllowance , setUsdtAllowance] = useState(new BigNumber(0))
@@ -45,10 +45,11 @@ export default function Swap() {
     return false
   },[SellOrBuy,LftAllowance,UsdtAllowance,LftNum,UsdtNum])
     useEffect(()=>{
-      if(isConnected){
-        subscribeLFT('Approval',(event)=>{
-          console.log(event,"授权事件监听")
-        })
+      // console.log(chain,chains)
+      if(isConnected && chain.id === chains[0].id){
+        // subscribeLFT('Approval',(event)=>{
+        //   console.log(event,"授权事件监听")
+        // })
         getReserves().then(res=>{
           console.log(res)
           setReserveUsdt(res._reserve1)
@@ -60,215 +61,12 @@ export default function Swap() {
         getLftAllowanceFun()
         getUsdtAllowanceFun()
       }
-    },[isConnected])
+    },[isConnected,chain])
     // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
-    const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
-    window.onresize = ()=>{
-      setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
-    }
-    const data = [
-        {
-          date: '2017-06-05',
-          value: 116,
-        },
-        {
-          date: '2017-06-06',
-          value: 129,
-        },
-        {
-          date: '2017-06-07',
-          value: 135,
-        },
-        {
-          date: '2017-06-08',
-          value: 86,
-        },
-        {
-          date: '2017-06-09',
-          value: 73,
-        },
-        {
-          date: '2017-06-10',
-          value: 85,
-        },
-        {
-          date: '2017-06-11',
-          value: 73,
-        },
-        {
-          date: '2017-06-12',
-          value: 68,
-        },
-        {
-          date: '2017-06-13',
-          value: 92,
-        },
-        {
-          date: '2017-06-14',
-          value: 130,
-        },
-        {
-          date: '2017-06-15',
-          value: 245,
-        },
-        {
-          date: '2017-06-16',
-          value: 139,
-        },
-        {
-          date: '2017-06-17',
-          value: 115,
-        },
-        {
-          date: '2017-06-18',
-          value: 111,
-        },
-        {
-          date: '2017-06-19',
-          value: 309,
-        },
-        {
-          date: '2017-06-20',
-          value: 206,
-        },
-        {
-          date: '2017-06-21',
-          value: 137,
-        },
-        {
-          date: '2017-06-22',
-          value: 128,
-        },
-        {
-          date: '2017-06-23',
-          value: 85,
-        },
-        {
-          date: '2017-06-24',
-          value: 94,
-        },
-        {
-          date: '2017-06-25',
-          value: 71,
-        },
-        {
-          date: '2017-06-26',
-          value: 106,
-        },
-        {
-          date: '2017-06-27',
-          value: 84,
-        },
-        {
-          date: '2017-06-28',
-          value: 93,
-        },
-        {
-          date: '2017-06-29',
-          value: 85,
-        },
-        {
-          date: '2017-06-30',
-          value: 73,
-        },
-        {
-          date: '2017-07-01',
-          value: 83,
-        },
-        {
-          date: '2017-07-02',
-          value: 125,
-        },
-        {
-          date: '2017-07-03',
-          value: 107,
-        },
-        {
-          date: '2017-07-04',
-          value: 82,
-        },
-        {
-          date: '2017-07-05',
-          value: 44,
-        },
-        {
-          date: '2017-07-06',
-          value: 72,
-        },
-        {
-          date: '2017-07-07',
-          value: 106,
-        },
-        {
-          date: '2017-07-08',
-          value: 107,
-        },
-        {
-          date: '2017-07-09',
-          value: 66,
-        },
-        {
-          date: '2017-07-10',
-          value: 91,
-        },
-        {
-          date: '2017-07-11',
-          value: 92,
-        },
-        {
-          date: '2017-07-12',
-          value: 113,
-        },
-        {
-          date: '2017-07-13',
-          value: 107,
-        },
-        {
-          date: '2017-07-14',
-          value: 131,
-        },
-        {
-          date: '2017-07-15',
-          value: 111,
-        },
-        {
-          date: '2017-07-16',
-          value: 64,
-        },
-        {
-          date: '2017-07-17',
-          value: 69,
-        },
-        {
-          date: '2017-07-18',
-          value: 88,
-        },
-        {
-          date: '2017-07-19',
-          value: 77,
-        },
-        {
-          date: '2017-07-20',
-          value: 83,
-        },
-        {
-          date: '2017-07-21',
-          value: 111,
-        },
-        {
-          date: '2017-07-22',
-          value: 57,
-        },
-        {
-          date: '2017-07-23',
-          value: 55,
-        },
-        {
-          date: '2017-07-24',
-          value: 60,
-        },
-    ];
-
+    // const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
+    // window.onresize = ()=>{
+    //   setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
+    // }
     const getLftAllowanceFun = ()=>{
       getLftAllowance(address,ContractAddress.Swap).then(res=>{
         setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
@@ -373,18 +171,26 @@ export default function Swap() {
       return putVal;
     }
     const Submit = ()=>{
+      if(inSubmit){
+        return console.log("请勿重复提交")
+      }
+      setInSubmit(true)
       let USDTAmount = new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString()
       let LFTAmount = new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString()
       if(SellOrBuy === 'Buy'){
         console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
         swapBuy(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"购买结果")
+        }).finally(()=>{
+          setInSubmit(false)
         })
       }
       if(SellOrBuy === 'Sell'){
         console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
         swapSell(address,LFTAmount,USDTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"售卖结果")
+        }).finally(()=>{
+          setInSubmit(false)
         })
       }
     }
@@ -409,7 +215,14 @@ export default function Swap() {
         </div>
       }
       /* 验证通过发起交易 */
-      return <div className="submit flexCenter" onClick={Submit}>Enter</div>
+      return <div className="submit flexCenter" onClick={Submit}>
+        {
+            inSubmit && <svg viewBox="25 25 50 50">
+                            <circle cx="50" cy="50" r="20"></circle>
+                          </svg>
+        }
+        Enter
+        </div>
     }
     return (
         <div className='Swap'>

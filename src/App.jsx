@@ -1,4 +1,5 @@
 import {useEffect} from 'react'
+import { arbitrum} from 'wagmi/chains'
 import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork} from 'wagmi'
 import { useDispatch ,useSelector} from "react-redux";
 // import { switchNetwork, getNetwork } from '@wagmi/core'
@@ -10,16 +11,13 @@ import Header from './components/Header'
 import './App.css'
 
 function App() {
-  // const { switchNetwork  } = useSwitchNetwork()
+  const { switchNetwork  } = useSwitchNetwork()
+  const { chain, chains } = useNetwork()
   const Token = useSelector(Store =>Store.token)
   const StoreAddress = useSelector(Store =>Store.address)
   const dispatch = useDispatch()
   const {isConnected, address } = useAccount()
   useEffect(()=>{
-    if(isConnected && Object.keys(contract).length <=0){
-      /* 初始化合约 */
-      contractInit()
-    }
     /**
      * 以下几种情况需要重新登录
      * 本地未缓存地址
@@ -42,13 +40,19 @@ function App() {
       })
     }
   },[isConnected,address,Token,StoreAddress])
-  // const { chain, chains } = useNetwork()
-  // const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
-  // useEffect(()=>{
-  //   if(isConnected && chain !== chains[0].id){
-  //     switchNetwork(chains[0].id)
-  //   }
-  // },[isConnected])
+  useEffect(()=>{
+    if(isConnected && Object.keys(contract).length <=0 && chain.id === chains[0].id){
+      /* 初始化合约 */
+      contractInit()
+    }
+    if(chain && chain.id !== chains[0].id){
+      // setTimeout(()=>{
+      //   console.log(switchNetwork)
+      // },1000)
+      // connect({ connector: connectors[1] })
+      //销毁合约
+    }
+  },[isConnected,chain])
   return (
     <>
     <HashRouter>
