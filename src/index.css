@@ -78,6 +78,7 @@ button:focus-visible {
   position: absolute;
   right: 35px;
   top: 35px;
+  cursor: pointer;
 }
 .ant-modal-content{
   padding: 60px 40px 45px !important;

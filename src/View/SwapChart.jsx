@@ -36,7 +36,8 @@ export default function SwapChart() {
 			const handleResize = () => {
 				chart.applyOptions({ width: chartContainerRef.current.clientWidth, });
                 chart.priceScale('right').applyOptions({
-                    borderColor:'#fff'
+                    borderColor:'#fff',
+                    fontSize: 12,
                 });
 			};
 
@@ -47,7 +48,7 @@ export default function SwapChart() {
 				},
 				width: chartContainerRef.current.clientWidth,
 				height: 300,
-                LineType:2,
+                LineType:1,
                 grid: {
                     vertLines: {
                         visible: false,
@@ -75,12 +76,13 @@ export default function SwapChart() {
 			chart.timeScale().fitContent();
 
 			const newSeries = chart.addAreaSeries({ lineColor, topColor: areaTopColor, bottomColor: areaBottomColor ,borderColor: '#fff',});
+
             // chart.priceScale('right').applyOptions({
             //     borderColor:'#fff'
             // });
-            chart.timeScale('').applyOptions({
-                borderColor:'#fff'
-            });
+            // chart.timeScale('').applyOptions({
+            //     borderColor:'#fff'
+            // });
 			newSeries.setData(data);
 
 			window.addEventListener('resize', handleResize);

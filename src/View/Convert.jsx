@@ -1,11 +1,22 @@
 import {useNavigate} from 'react-router-dom'
+import Axios from '../axios'
 import '../assets/style/Convert.scss'
 import ConvertJt from '../assets/image/ConvertJt.png'
 import ELFTIcon from '../assets/image/ELFTIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
+import { useEffect, useState } from 'react'
 
 export default function Convert() {
     const navigate = useNavigate();
+    const [BaseInfo,setBaseInfo] =  useState(null)
+    const exchange = ()=>{
+
+    }
+    useEffect(()=>{
+        Axios.get('/swap/exchangeBase').then(res=>{
+            console.log(res,"交易基础信息")
+        })
+    },[])
     return (
         <div className="Convert">
             <div className="Title">Convert</div>
@@ -25,7 +36,7 @@ export default function Convert() {
                 <div className="put">
                     <input type="text" />
                     <div className='TokenInfo flexCenter'>
-                        <img src={ELFTIcon} alt="" />
+                        <img src={LFTIcon} alt="" />
                         LFT
                     </div>
                 </div>
