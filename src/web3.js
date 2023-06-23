@@ -80,6 +80,16 @@ export function swapSell(address,amountIn,amountOutMin,deadline){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* 获取LFT余额 */
+export function getLFTBalance(address){
+    if(verifyExistence('LFT')){
+        return contract.LFT.methods.balanceOf(address).call({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
 /* 获取LFT授权额度 */
 export function getLftAllowance(address,toAddress){
     if(verifyExistence('LFT')){
@@ -102,6 +112,16 @@ export function LftApprove(address,toAddress,amount){
 export function getUsdtAllowance(address,toAddress){
     if(verifyExistence('USDT')){
         return contract.USDT.methods.allowance(address, toAddress).call()
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* 获取USDT余额 */
+export function getUSDTBalance(address){
+    if(verifyExistence('USDT')){
+        return contract.USDT.methods.balanceOf(address).call({
+            from:address
+        })
     }else{
         return Promise.reject('contract Uninitialized')
     }

@@ -2,7 +2,7 @@
     background: url(../image/PolkaDotsBg.png);
     min-height: 100vh;
     overflow: hidden;
-    padding-top: 190px;
+    padding-top: 110px;
     box-sizing: border-box;
     @media (max-width:780px) {
         padding-top: 100px;
@@ -133,7 +133,7 @@
             }
         }
         .submit{
-            background: #D8D8D8;
+            background: #FFAA00;
             height: 56px;
             border-radius: 30px;
             color: #FFFFFF;
@@ -146,6 +146,10 @@
                 margin-top: 30px;
                 margin-bottom: 20px;
             }
+        }
+        .Disable{
+            background: #D8D8D8;
+            color: #AAAAAA; 
         }
     }
     .goRecord{

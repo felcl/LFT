@@ -1,9 +1,9 @@
 import {useEffect} from 'react'
-import { arbitrum} from 'wagmi/chains'
-import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork} from 'wagmi'
+// import { arbitrum} from 'wagmi/chains'
+import { useAccount, useNetwork, useSwitchNetwork} from 'wagmi'
 import { useDispatch ,useSelector} from "react-redux";
 // import { switchNetwork, getNetwork } from '@wagmi/core'
-import { HashRouter} from "react-router-dom";
+import { HashRouter,useSearchParams} from "react-router-dom";
 import {contract,contractInit} from './web3'
 import Axios from './axios'
 import Router from './Router/Router'
@@ -12,6 +12,7 @@ import './App.css'
 
 function App() {
   const { switchNetwork  } = useSwitchNetwork()
+  const [search] = useSearchParams();
   const { chain, chains } = useNetwork()
   const Token = useSelector(Store =>Store.token)
   const StoreAddress = useSelector(Store =>Store.address)
@@ -29,7 +30,7 @@ function App() {
       Axios.post('/uUser/auth',{
         chainType:1,
         userAddress:address,
-        refereeAddress:''
+        refereeAddress:search.get('address')
       }).then(res=>{
         dispatch({
           type:'SETTOKEN',
@@ -45,9 +46,9 @@ function App() {
       /* 初始化合约 */
       contractInit()
     }
-    if(chain && chain.id !== chains[0].id){
+    if(chain && chain.id !== chains[0].id && isConnected){
+      console.log(switchNetwork)
       // setTimeout(()=>{
-      //   console.log(switchNetwork)
       // },1000)
       // connect({ connector: connectors[1] })
       //销毁合约
@@ -55,10 +56,9 @@ function App() {
   },[isConnected,chain])
   return (
     <>
-    <HashRouter>
+    
       <Header></Header>
       <Router></Router>
-    </HashRouter>
     {/* <span onClick={()=>connect({ connector: connectors[1] })}> 链接</span> */}
     </>
   )

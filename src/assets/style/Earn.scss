@@ -2,8 +2,7 @@
     background: url(../image/PolkaDotsBg.png);
     min-height: 100vh;
     overflow: hidden;
-    padding-top: 190px;
-    padding-top: 190px;
+    padding-top: 110px;
     box-sizing: border-box;
     @media (max-width:780px) {
         padding-top: 100px;
@@ -97,7 +96,7 @@
             }
             .roseRed{
                 background: #FF25B2;
-                margin-left: 40px;
+                // margin-left: 40px;
             }
         }
     }

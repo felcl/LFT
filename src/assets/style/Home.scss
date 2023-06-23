@@ -2,6 +2,7 @@
     background: url(../image/bannerBg.png) no-repeat center top / 100% auto;
     min-height: 100vh;
     padding-top: 78px;
+    margin-top: -78px;
     @media (max-width:768px) {
         background: url(../image/bannerBg.png) no-repeat center top / 200% auto;
     }

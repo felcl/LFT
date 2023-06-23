@@ -1,14 +1,31 @@
 import '../assets/style/Record.scss'
 import { Empty } from 'antd';
+import { useSelector } from "react-redux";
 import {useNavigate} from 'react-router-dom'
 import JTReturn from '../assets/image/JTReturn.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
+import { useEffect, useState } from 'react';
+import Axios from '../axios';
+import { dateFormat} from '../utils/tool'
 export default function SwapRecord() {
     const navigate = useNavigate();
-    let RecordList = [].fill(1)
-    RecordList = new Array(3).fill({});
-    console.log(RecordList)
+    const Token = useSelector(Store =>Store.token)
+    let [RecordList,setRecordList] = useState([])
+    const IconMap = {
+        LFT:LFTIcon,
+        USDT:USDTIcon
+    }
+    useEffect(()=>{
+        if(Token){
+            Axios.get('/swap/userSwapRecord').then(res=>{
+                if(res.data.data){
+                    setRecordList(res.data.data)
+                }
+                console.log(res,"用户交易数据")
+            })
+        }
+    },[Token])
   return (
     <div className="Record">
         <div className="Title">
@@ -22,21 +39,21 @@ export default function SwapRecord() {
                 RecordList.map((item,index)=><div className="SwapRecord" key={index}>
                 <div className="form">
                     <div className="tokenInfo">
-                        <img src={LFTIcon} alt="" />
-                        LFT
+                        <img src={IconMap[item.token0Name]} alt="" />
+                        {item.token0Name}
                     </div>
-                    <span>20.000000</span>
+                    <span>{item.token0Amount}</span>
                 </div>
                 <div className="SwapStatus">
                     <div className="status success">Succeed</div>
-                    <div className="SwapTime">2023-06-08 22:29</div>
+                    <div className="SwapTime">{dateFormat('YYYY-mm-dd HH:MM:SS',new Date(item.createTime))}</div>
                 </div>
                 <div className="to">
                     <div className="tokenInfo">
-                        <img src={USDTIcon} alt="" />
-                        LFT
+                        <img src={IconMap[item.token1Name]} alt="" />
+                        {item.token1Name}
                     </div>
-                    <span>20.000000</span>
+                    <span>{item.token1Amount}</span>
                 </div>
             </div>)
                 :

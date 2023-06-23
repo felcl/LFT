@@ -1,6 +1,8 @@
 import {useNetwork} from 'wagmi'
-import {useNavigate, useSearchParams} from 'react-router-dom'
+import {useNavigate, useSearchParams,} from 'react-router-dom'
 import classnames from 'classnames';
+import { notification } from 'antd';
+import { arbitrumGoerli} from 'wagmi/chains'
 import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
@@ -8,16 +10,21 @@ import USDTIcon from '../assets/image/USDTIcon.png'
 import chartIcon from '../assets/image/chartIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
 import { useEffect, useState, useMemo, useRef} from 'react';
-import {useAccount,} from 'wagmi'
-import { getReserves, getLftAllowance, getUsdtAllowance, LftApprove, USDTApprove, subscribeLFT, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
+import {useAccount, useSwitchNetwork, useConnect} from 'wagmi'
+import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, subscribeLFT, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
 import { ContractAddress, TokenConfig} from '../config'
 import BigNumber from "big.js";
+import Axios from '../axios';
 BigNumber.NE = -40;
 BigNumber.PE = 40;
 
 export default function Swap() {
   const navigate = useNavigate();
   const { chain, chains } = useNetwork()
+  const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
+  const { connect, connectors, isLoading } = useConnect({
+      chainId: arbitrumGoerli.id,
+  })
   const [search] = useSearchParams();
   const {isConnected, address } = useAccount()
   const [SellOrBuy , setSellOrBuy] = useState(search.get('type') || 'Sell')
@@ -31,6 +38,8 @@ export default function Swap() {
   const SerchKey = useRef(0)
   const [LftAllowance , setLftAllowance] = useState(new BigNumber(0))
   const [UsdtAllowance , setUsdtAllowance] = useState(new BigNumber(0))
+  const [LftBalance , setLftBalance] = useState(new BigNumber(0))
+  const [UsdtBalance , setUsdtBalance] = useState(new BigNumber(0))
   /**
    * true 已授权
    * false 未授权
@@ -44,29 +53,52 @@ export default function Swap() {
     }
     return false
   },[SellOrBuy,LftAllowance,UsdtAllowance,LftNum,UsdtNum])
-    useEffect(()=>{
-      // console.log(chain,chains)
-      if(isConnected && chain.id === chains[0].id){
-        // subscribeLFT('Approval',(event)=>{
-        //   console.log(event,"授权事件监听")
-        // })
-        getReserves().then(res=>{
-          console.log(res)
-          setReserveUsdt(res._reserve1)
-          setReserveLft(res._reserve0)
-          // new BigNumber(res._reserve0).div(res._reserve1)
-          setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
-          console.log(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)).toString())
-        })
-        getLftAllowanceFun()
-        getUsdtAllowanceFun()
-      }
-    },[isConnected,chain])
+
+  useEffect(()=>{
+    // console.log(chain,chains)
+    if(isConnected && chain.id === chains[0].id){
+      // subscribeLFT('Approval',(event)=>{
+      //   console.log(event,"授权事件监听")
+      // })
+      getReserves().then(res=>{
+        console.log(res)
+        setReserveUsdt(res._reserve1)
+        setReserveLft(res._reserve0)
+        // new BigNumber(res._reserve0).div(res._reserve1)
+        setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
+        console.log(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)).toString())
+      })
+      getLftAllowanceFun()
+      getUsdtAllowanceFun()
+      getLFTBalanceFun()
+      getUSDTBalanceFun()
+    }
+  },[isConnected,chain])
     // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
     // const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
     // window.onresize = ()=>{
     //   setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
     // }
+    const ConnectWallet = ()=>{
+        if(isConnected && chain.id !== chains[0].id){
+            return switchNetwork(arbitrumGoerli.id)
+        }
+        if(!isConnected){
+            connect({ connector: connectors[1] })
+        }
+    }
+    const getLFTBalanceFun = ()=>{
+      getLFTBalance(address).then(res=>{
+        console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"LFT余额")
+        setLftBalance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
+      })
+    }
+    const getUSDTBalanceFun = ()=>{
+      getUSDTBalance(address).then(res=>{
+        console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"USDT余额")
+        setUsdtBalance(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals))
+      })
+    }
     const getLftAllowanceFun = ()=>{
       getLftAllowance(address,ContractAddress.Swap).then(res=>{
         setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
@@ -81,7 +113,11 @@ export default function Swap() {
     }
     const ApproveFun = ()=>{
       if(inApprove){
-        return console.log('请勿重复提交')
+        return notification.open({
+            message: 'Warning',
+            description:
+            '请勿重复提交'
+        });
       }
       setInApprove(true);
       let amount = SellOrBuy === 'Sell' ? new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString() : new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString();
@@ -171,8 +207,40 @@ export default function Swap() {
       return putVal;
     }
     const Submit = ()=>{
+      if(!UsdtNum){
+        return notification.open({
+            message: 'Warning',
+            description:
+            '请输入正确的USDT数量'
+        });
+      }
+      if(!LftNum){
+        return notification.open({
+            message: 'Warning',
+            description:
+            '请输入正确的LFT数量'
+        });
+      }
+      if(SellOrBuy === 'Buy' && UsdtBalance.lt(UsdtNum)){
+        return notification.open({
+            message: 'Warning',
+            description:
+            'USDT余额不足'
+        });
+      }
+      if(SellOrBuy === 'Sell' && LftBalance.lt(LftNum)){
+        return notification.open({
+            message: 'Warning',
+            description:
+            'LFT余额不足'
+        });
+      }
       if(inSubmit){
-        return console.log("请勿重复提交")
+        return notification.open({
+            message: 'Info',
+            description:
+            '请勿重复提交'
+        });
       }
       setInSubmit(true)
       let USDTAmount = new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString()
@@ -196,12 +264,12 @@ export default function Swap() {
     }
     const submitBtnRun = ()=>{
       /* 未链接钱包 */
-      if(!address){
-        return <div className="submit flexCenter" >Connect wallet</div>
+      if(!address || chain.id !== chains[0].id){
+        return <div className="submit flexCenter" onClick={ConnectWallet}>Connect wallet</div>
       }
       /* 未输入数量 */
       if((SellOrBuy === 'Sell' && !LftNum) || (SellOrBuy === 'Buy' && !UsdtNum)){
-        return <div className="submit flexCenter Disabled" >Enter</div>
+        return <div className="submit flexCenter Disabled" onClick={Submit}>Enter</div>
       }
       /* 未授权 */
       if(!isApprove){

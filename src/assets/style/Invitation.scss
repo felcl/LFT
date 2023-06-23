@@ -2,7 +2,7 @@
     background: url(../image/PolkaDotsBg.png);
     min-height: 100vh;
     overflow: hidden;
-    padding-top: 190px;
+    padding-top: 110px;
     box-sizing: border-box;
     @media (max-width:780px) {
         padding-top: 100px;
@@ -70,6 +70,7 @@
             }
             .copyIcon{
                 margin-left: 8px;
+                cursor: pointer;
             }
             .VipIcon{
                 margin-left: 6px;
@@ -165,6 +166,7 @@
                     }
                     img{
                         margin-left:5px;
+                        cursor: pointer;
                     }
                 }
             }
@@ -290,6 +292,7 @@
         font-size: 20px;
         color: #FFFFFF;
         margin: 70px auto 0;
+        cursor: pointer;
     }
 }
 .TeamPopover{
