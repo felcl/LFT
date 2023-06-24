@@ -8,12 +8,17 @@ import { useEffect, useState } from 'react';
 import Axios from '../axios';
 import { notification } from 'antd';
 import BigNumber from 'big.js'
-import {useAccount, useNetwork} from 'wagmi'
+import {useAccount, useNetwork, useSwitchNetwork, useConnect} from 'wagmi'
+import { arbitrumGoerli} from 'wagmi/chains'
 import { useSelector } from "react-redux";
-import {getLFTBalance} from '../web3'
-import { TokenConfig } from '../config';
+import {getLFTBalance, stake, getLftAllowance, LftApprove} from '../web3'
+import { TokenConfig, ContractAddress } from '../config';
 export default function Stake() {
     const Token = useSelector(Store =>Store.token)
+    const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
+    const [LftAllowance , setLftAllowance] = useState(new BigNumber(0))
+    const [inApprove,setInApprove] = useState(false)
+    const [inStake,setInStake] = useState(false)
     const navigate = useNavigate();
     const [amount,setAmount] = useState('')
     const [openPopover,setOpenPopover] = useState(false)
@@ -21,6 +26,9 @@ export default function Stake() {
     const [LFTBalance,setLFTBalance] = useState(new BigNumber(0))
     const { chain, chains } = useNetwork()
     const {isConnected, address } = useAccount()
+    const { connect, connectors, isLoading } = useConnect({
+        chainId: arbitrumGoerli.id,
+    })
     useEffect(()=>{
         document.addEventListener('click',function(){
             setOpenPopover(false)
@@ -28,12 +36,43 @@ export default function Stake() {
     },[])
     useEffect(()=>{
         if(isConnected && chain.id === chains[0].id){
+            getLftAllowanceFun()
             getLFTBalance(address).then(res=>{
                 setLFTBalance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
                 console.log(res,"用户LFT余额")
             })
         }
     },[isConnected,chain.id])
+    const ConnectWallet = ()=>{
+        if(isConnected && chain.id !== chains[0].id){
+            return switchNetwork(arbitrumGoerli.id)
+        }
+        if(!isConnected){
+            connect({ connector: connectors[1] })
+        }
+    }
+    const getLftAllowanceFun = ()=>{
+        getLftAllowance(address,ContractAddress.Pool).then(res=>{
+          setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
+          console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'LFT授权额度')
+        })
+    }
+    const Approve = ()=>{
+        if(inApprove){
+            return notification.open({
+                message: 'Warning',
+                description:
+                '请勿重复提交'
+            });
+        }
+        setInApprove(true)
+        console.log(amount)
+        LftApprove(address,ContractAddress.Pool,new BigNumber(amount).times(10 ** TokenConfig.LFT.decimals).toString()).then(()=>{
+            getLftAllowanceFun()
+        }).finally(()=>{
+            setInApprove(false);
+        })
+    }
     const changeNumPut = (value, accuracy)=>{
         if (/^\./g.test(value)) {
           value = "0" + value;
@@ -79,11 +118,24 @@ export default function Stake() {
                 description: 'LFT余额不足'
             });
         }
+        setInStake(true)
         if(Type === 'LFT'){
             Axios.post('/dao/stake',{
                 amount
             }).then(res=>{
-                console.log(res,'LFT质押数据')
+                if(res.data.code === 200){
+                    stake(address,res.data.data).then(res=>{
+                        console.log(res,"质押")
+                        return notification.open({
+                            message: 'Success',
+                            description: '质押成功'
+                        });
+                    }).finally(()=>{
+                        setInStake(false)
+                    })
+                }
+            },()=>{
+                setInStake(false)
             })
         }
         if(Type === 'ELFT'){
@@ -91,6 +143,12 @@ export default function Stake() {
                 amount
             }).then(res=>{
                 console.log(res,'ELFT质押数据')
+                return notification.open({
+                    message: 'Success',
+                    description: '质押成功'
+                });
+            }).finally(()=>{
+                setInStake(false)
             })
         }
     }
@@ -104,13 +162,40 @@ export default function Stake() {
         </div>
     );
     const SubmitBtnRunder = ()=>{
+        if(!address || chain.id !== chains[0].id){
+            return <div className="submit flexCenter" onClick={ConnectWallet}>Connect wallet</div>
+        }
         if(!Token){
-            return 'submit flexCenter Disable'
+            return <div className='submit flexCenter Disable' onClick={Submit}>Confirm</div>
         }
         if(!amount || new BigNumber(amount).lte(0)){
-            return 'submit flexCenter Disable'
+            return <div className='submit flexCenter Disable' onClick={Submit}>Confirm</div>
         }
-        return 'submit flexCenter'
+        if(amount && LftAllowance.lt(amount)){
+            return <div className='submit flexCenter' onClick={Approve}>
+                {
+                    inApprove && <svg viewBox="25 25 50 50">
+                                    <circle cx="50" cy="50" r="20"></circle>
+                                </svg>
+                }
+                Approve
+            </div>
+        }
+        return <div className='submit flexCenter' onClick={Submit}>
+                {
+                    inStake && <svg viewBox="25 25 50 50">
+                                    <circle cx="50" cy="50" r="20"></circle>
+                                </svg>
+                }
+                Confirm
+            </div>
+        // if(!Token){
+        //     return 'submit flexCenter Disable'
+        // }
+        // if(!amount || new BigNumber(amount).lte(0)){
+        //     return 'submit flexCenter Disable'
+        // }
+        // return 'submit flexCenter'
     }
   return (
     <div className='Stake'>
@@ -144,7 +229,9 @@ export default function Stake() {
                     <div className="value">1 eLFT = 1 LFT</div>
                 </div>
             </div>
-            <div className={SubmitBtnRunder()} onClick={Submit}>Confirm</div>
+            {
+                SubmitBtnRunder()
+            }
         </div>
         <div className="goRecord" onClick={()=>{navigate('/PledgedRecord?type='+Type)}}>
             {'Stake  record >'}

@@ -14,7 +14,7 @@ import {useAccount, useSwitchNetwork, useConnect} from 'wagmi'
 import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, subscribeLFT, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
 import { ContractAddress, TokenConfig} from '../config'
 import BigNumber from "big.js";
-import Axios from '../axios';
+// import Axios from '../axios';
 BigNumber.NE = -40;
 BigNumber.PE = 40;
 

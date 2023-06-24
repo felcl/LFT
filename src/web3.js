@@ -147,3 +147,13 @@ export function subscribeLFT(EventName,callback){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* LFT质押 */
+export function stake(address,data){
+    if(verifyExistence('Pool')){
+        return contract.Pool.methods.stake(data).send({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}

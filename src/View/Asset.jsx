@@ -4,21 +4,51 @@ import LFTIcon from '../assets/image/LFTIcon.png'
 import JTDown from '../assets/image/JTDown.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
 import {useState} from 'react'
+import Axios from '../axios'
 export default function Asset() {
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [amount, setAmount] = useState('')
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    const content = (
-        <div className='PopoverContent'>
-            <div className='SelItem'>
-                <img src={LFTIcon} alt="" />USDT
-            </div>
-            <div className='SelItem'>
-                <img src={LFTIcon} alt="" />SLFT
-            </div>
-        </div>
-    );
+    const Submit = ()=>{
+        Axios.post('/dao/draw',{
+            amount
+        }).then(res=>{
+            console.log(res,"提现加密数据")
+        })
+    }
+    const putAmoubt = (e)=>{
+        let putVal = changeNumPut(e.target.value)
+        setAmount(putVal)
+    }
+    const changeNumPut = (value, accuracy)=>{
+        if (/^\./g.test(value)) {
+          value = "0" + value;
+        }
+        let putVal = value.replace(/[^\d.]/g, "");
+        if(putVal.split('.').length>2){
+          putVal = [putVal.split('.')[0],putVal.split('.').slice(1,3).join('')].join('.')
+        }
+        if (accuracy !== undefined) {
+          let putArr = putVal.split(".");
+          if (putArr[1] && putArr[1].length > accuracy) {
+            putArr[1] = putArr[1].slice(0, accuracy);
+          }
+          putVal = putArr.join(".");
+        }
+        return putVal;
+    }
+    // const content = (
+    //     <div className='PopoverContent'>
+    //         <div className='SelItem'>
+    //             <img src={LFTIcon} alt="" />USDT
+    //         </div>
+    //         <div className='SelItem'>
+    //             <img src={LFTIcon} alt="" />SLFT
+    //         </div>
+    //     </div>
+    // );
   return (
     <div className='Asset'>
         <div className="Title">Asset</div>
@@ -48,7 +78,7 @@ export default function Asset() {
                     <div className="value">1,210,020.002</div>
                 </div>
             </div>
-            <div className="WithdrawBtn flexCenter">Withdraw</div>
+            <div className="WithdrawBtn flexCenter" onClick={()=>{setIsModalOpen(true)}}>Withdraw</div>
         </div>
         <div className="WithdrawRecord">
             <div className="WithdrawRecordTitle flexCenter">Withdraw record</div>
@@ -63,16 +93,16 @@ export default function Asset() {
             <img className="Close" src={CloseIcon} alt="" />
             <div className="Title">Withdraw</div>
             <div className='putBox'>
-                <input type="text" placeholder='Enter the withdrawal amount' />
-                <Popover content={content} placement="bottom" overlayClassName="TeamPopover" trigger="click">
+                <input type="text" placeholder='Enter the withdrawal amount' value={amount} onChange={putAmoubt} />
+                {/* <Popover content={content} placement="bottom" overlayClassName="TeamPopover" trigger="click">
                     <div className="selToken">
                         <img src={LFTIcon} alt="" />
                         LFT
                         <img src={JTDown} alt="" />
                     </div>
-                </Popover>
+                </Popover> */}
             </div>
-            <div className="Confirm flexCenter">Confirm</div>
+            <div className="Confirm flexCenter" onClick={Submit}>Confirm</div>
         </Modal>
     </div>
   )
