@@ -32,7 +32,7 @@ export default function Home() {
                 <img className="bannerLogo" src={bannerLogo} alt="" />
                 <img className="BannerTokenName" src={BannerTokenName} alt="" />
                 <div className="introduce">An innovative options trading platform on Arbitrum</div>
-                <div className="StakeNow flexCenter">Stake now</div>
+                <div className="StakeNow flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
             </div>
             <div className="TotalValue">
                 <div className="TotalValueItem">
@@ -57,36 +57,31 @@ export default function Home() {
             <div className="ModelGrid">
                 <div>
                     <img src={ModelImg1} alt="" />
-                    <p className="flexCenter">· Swap ·</p>
+                    <p className="flexCenter">
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Swap')}}>Swap</div>
+                        <div className="subText">LFT/USDT</div>
+                    </p>
                 </div>
                 <div>
                     <img src={ModelImg2} alt="" />
-                    <p className="flexCenter">· Convert ·</p>
+                    <p className="flexCenter">
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Convert')}}>Convert</div>
+                        <div className="subText">eLFT ➡ LFT</div>
+                    </p>
                 </div>
                 <div>
                     <img src={ModelImg3} alt="" />
-                    <div className="Info">
-                        <div className="Label">Subscribe</div>
-                        <div className="InfoRow">
-                            <div className="InfoLeft">
-                                <span>300%</span>
-                                <span>interests</span>
-                            </div>
-                            <div className="StakeNow flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
-                        </div>
-                    </div>
+                    <p className="flexCenter">
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
+                        <div className="subText">Up to <span className='green'>300%</span> returns</div>
+                    </p>
                 </div>
                 <div>
                     <img src={ModelImg4} alt="" />
-                    <div className="Info">
-                        <div className="Label">SVIP</div>
-                        <div className="InfoRow">
-                            <div className="InfoLeft">
-                                <div className="Infoa"></div>
-                            </div>
-                            <div className="StakeNow flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
-                        </div>
-                    </div>
+                    <p className="flexCenter">
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Invitation')}}>Exclusive Members</div>
+                        <div className="subText">Coming soon...</div>
+                    </p>
                 </div>
             </div>
             <div className="Step">
@@ -112,7 +107,7 @@ export default function Home() {
                                 <img src={step2} alt="" />
                             </div>
                         </div>
-                        <div className='stepName'>Swap</div>
+                        <div className='stepName'>Stake</div>
                         <div className='stepText'>
                         Receive liquid stTokens and start to receive rewards in real-time
                         </div>
@@ -124,7 +119,7 @@ export default function Home() {
                                 <img src={step3} alt="" />
                             </div>
                         </div>
-                        <div className='stepName'>Swap</div>
+                        <div className='stepName'>Earn extra rewards</div>
                         <div className='stepText'>
                         Use your stTokens across DeFi to compound more to your daily staked rewards
                         </div>

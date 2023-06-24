@@ -6,18 +6,26 @@ import LFTIcon from '../assets/image/LFTIcon.png'
 import JTDown from '../assets/image/JTDown.png'
 import { useEffect, useState } from 'react';
 import Axios from '../axios';
-import classNames from 'classnames';
+import { notification } from 'antd';
 import BigNumber from 'big.js'
 import {useAccount, useNetwork} from 'wagmi'
+import { useSelector } from "react-redux";
 import {getLFTBalance} from '../web3'
 import { TokenConfig } from '../config';
 export default function Stake() {
+    const Token = useSelector(Store =>Store.token)
     const navigate = useNavigate();
     const [amount,setAmount] = useState('')
+    const [openPopover,setOpenPopover] = useState(false)
     const [Type,setType] = useState('LFT')
     const [LFTBalance,setLFTBalance] = useState(new BigNumber(0))
     const { chain, chains } = useNetwork()
     const {isConnected, address } = useAccount()
+    useEffect(()=>{
+        document.addEventListener('click',function(){
+            setOpenPopover(false)
+        });
+    },[])
     useEffect(()=>{
         if(isConnected && chain.id === chains[0].id){
             getLFTBalance(address).then(res=>{
@@ -25,7 +33,6 @@ export default function Stake() {
                 console.log(res,"用户LFT余额")
             })
         }
-
     },[isConnected,chain.id])
     const changeNumPut = (value, accuracy)=>{
         if (/^\./g.test(value)) {
@@ -48,14 +55,29 @@ export default function Stake() {
         setAmount(changeNumPut(e.target.value)) 
     }
     const Submit = ()=>{
+        if(!Token){
+            return notification.open({
+                message: 'Warning',
+                description: '请先登录'
+            });
+        }
         if(!amount){
-            return console.log('请输入数量')
+            return notification.open({
+                message: 'Warning',
+                description: '请输入数量'
+            });
         }
         if(new BigNumber(amount).lte(0)){
-            return console.log('请输入正确的质押数量')
+            return notification.open({
+                message: 'Warning',
+                description: '请输入正确的质押数量'
+            });
         }
-        if(LFTBalance.lt(amount)){
-            return console.log("余额不足")
+        if(LFTBalance.lt(amount) && Type === 'LFT'){
+            return notification.open({
+                message: 'Warning',
+                description: 'LFT余额不足'
+            });
         }
         if(Type === 'LFT'){
             Axios.post('/dao/stake',{
@@ -74,13 +96,22 @@ export default function Stake() {
     }
     const content = (
         <div className='PopoverContent'>
-            <div className='SelItem' onClick={()=>{setType(Type === 'LFT' ? 'ELFT':'LFT')}}>
+            <div className='SelItem' onClick={(e)=>{setType(Type === 'LFT' ? 'ELFT':'LFT');setOpenPopover(false);e.stopPropagation()}}>
                 <img src={LFTIcon} alt="" />{
                     Type === 'LFT' ? 'ELFT':'LFT'
                 }
             </div>
         </div>
     );
+    const SubmitBtnRunder = ()=>{
+        if(!Token){
+            return 'submit flexCenter Disable'
+        }
+        if(!amount || new BigNumber(amount).lte(0)){
+            return 'submit flexCenter Disable'
+        }
+        return 'submit flexCenter'
+    }
   return (
     <div className='Stake'>
         <div className="Title">
@@ -91,8 +122,8 @@ export default function Stake() {
         <div className="StakeBox">
             <div className="PutAmount">
                 <input type="text" placeholder='Please enter your amount' value={amount} onChange={changeAmount} />
-                <Popover content={content} placement="bottom" overlayClassName="StakePopover" trigger="click">
-                    <div className="selToken">
+                <Popover content={content} placement="bottom" overlayClassName="StakePopover" trigger="click" open={openPopover} autoFocus={false}>
+                    <div className="selToken" onClick={(e)=>{setOpenPopover(!openPopover);e.stopPropagation()}}>
                         <img src={LFTIcon} alt="" />
                         {Type}
                         <img src={JTDown} alt="" />
@@ -113,7 +144,7 @@ export default function Stake() {
                     <div className="value">1 eLFT = 1 LFT</div>
                 </div>
             </div>
-            <div className={classNames(['submit','flexCenter',{'Disable':!amount || new BigNumber(amount).lte(0)}])} onClick={Submit}>Confirm</div>
+            <div className={SubmitBtnRunder()} onClick={Submit}>Confirm</div>
         </div>
         <div className="goRecord" onClick={()=>{navigate('/PledgedRecord?type='+Type)}}>
             {'Stake  record >'}

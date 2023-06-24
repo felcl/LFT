@@ -160,6 +160,8 @@ export default function Swap() {
             }
           })
         }
+      }else{
+        setUsdtNum('')
       }
     }
     const putUsdtNUm = (e)=>{
@@ -187,6 +189,8 @@ export default function Swap() {
           })
         }
         // setLftNum(new BigNumber(putVal).times(rate))
+      }else{
+        setLftNum('')
       }
     }
     const changeNumPut = (value, accuracy)=>{
@@ -249,6 +253,17 @@ export default function Swap() {
         console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
         swapBuy(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"购买结果")
+          return notification.open({
+              message: 'Info',
+              description:
+              '兑换成功'
+          });
+        },()=>{
+          return notification.open({
+            message: 'Info',
+            description:
+            '兑换失败'
+        });
         }).finally(()=>{
           setInSubmit(false)
         })
@@ -257,6 +272,17 @@ export default function Swap() {
         console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
         swapSell(address,LFTAmount,USDTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"售卖结果")
+          return notification.open({
+              message: 'Info',
+              description:
+              '兑换成功'
+          });
+        },()=>{
+          return notification.open({
+            message: 'Info',
+            description:
+            '兑换失败'
+        });
         }).finally(()=>{
           setInSubmit(false)
         })

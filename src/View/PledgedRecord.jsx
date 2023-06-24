@@ -45,6 +45,14 @@ export default function SwapRecord() {
     const Redeem = ()=>{
         setRedeemModal(true)
     }
+    const cancel = ()=>{
+        setRedeemModal(false)
+    }
+    const redeemFun = ()=>{
+        Axios.post('/dao/redemption').then(res=>{
+            console.log(res,"赎回")
+        })
+    }
   return (
     <div className="Record">
         <div className="Title">
@@ -105,8 +113,8 @@ export default function SwapRecord() {
                 <div className="value">$158626</div>
             </div>
             <div className="btnRow">
-                <div className="redeemConfirm flexCenter">Confirm</div>
-                <div className="redeemConfirm flexCenter">Confirm</div>
+                <div className="redeemConfirm flexCenter" onClick={redeemFun}>Confirm</div>
+                <div className="redeemConfirm cancel flexCenter" onClick={cancel}>cancel</div>
             </div>
             
         </Modal>

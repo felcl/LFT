@@ -7,6 +7,7 @@ import ELFTIcon from '../assets/image/ELFTIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import { useEffect, useState } from 'react'
 import { notification } from 'antd';
+import { useSelector } from "react-redux";
 import BigNumber from 'big.js'
 
 export default function Convert() {
@@ -16,12 +17,19 @@ export default function Convert() {
     const [fee,setFee] = useState(0)
     const [fromValue,setFromValue] = useState('')
     const [toValue,setToValue] = useState('')
+    const Token = useSelector(Store =>Store.token)
     // const [BaseInfo]
     // useState(null)
     const exchange = ()=>{
+        if(!Token){
+            return notification.open({
+                message: 'Warning',
+                description: '请先登录'
+            });
+        }
         if(!price){
             return notification.open({
-                message: 'Info',
+                message: 'Warning',
                 description:
                 '请稍后再试'
             });
@@ -54,11 +62,15 @@ export default function Convert() {
                     description: res.data.msg
                 });
             }
-            console.log(res,"兑换结果")
+        },()=>{
+            return notification.open({
+                message: 'Error',
+                description: '兑换失败'
+            });
         })
     }
     const submitRunder = ()=>{
-        if(!price){
+        if(!price || !Token){
             return 'submit flexCenter Disable'
         }
         if(!fromValue){
