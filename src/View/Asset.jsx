@@ -1,20 +1,43 @@
 import '../assets/style/Asset.scss'
-import { Empty, Modal, Popover} from 'antd';
-import LFTIcon from '../assets/image/LFTIcon.png'
-import JTDown from '../assets/image/JTDown.png'
+import { Empty, Modal, Popover, notification} from 'antd';
+// import LFTIcon from '../assets/image/LFTIcon.png'
+// import JTDown from '../assets/image/JTDown.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
+import {useAccount, useNetwork, useSwitchNetwork, useConnect} from 'wagmi'
+import { arbitrumGoerli} from 'wagmi/chains'
 import {useState} from 'react'
 import Axios from '../axios'
+import {drawToken} from '../web3'
+import BigNumber from 'big.js';
 export default function Asset() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
     const [amount, setAmount] = useState('')
+    const {isConnected, address } = useAccount()
+    const { chain, chains } = useNetwork()
+    const { connect, connectors, isLoading } = useConnect({
+        chainId: arbitrumGoerli.id,
+    })
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    const showWithdrawModal = ()=>{
+        if(amount && new BigNumber(amount).lte(0)){
+            return notification.open({
+                message: 'Warning',
+                description:
+                '请输入争取的提现数量'
+            });
+        }
+        setIsModalOpen(true);
+    }
     const Submit = ()=>{
         Axios.post('/dao/draw',{
             amount
         }).then(res=>{
+            if(res.data.code === 200){
+                drawToken(address,res.data.data)
+            }
             console.log(res,"提现加密数据")
         })
     }
@@ -38,6 +61,23 @@ export default function Asset() {
           putVal = putArr.join(".");
         }
         return putVal;
+    }
+    const ConnectWallet = ()=>{
+        if(isConnected && chain.id !== chains[0].id){
+            return switchNetwork(arbitrumGoerli.id)
+        }
+        if(!isConnected){
+            connect({ connector: connectors[1] })
+        }
+    }
+    const WithdrawRunder = ()=>{
+        if(!address || chain.id !== chains[0].id){
+            return <div className="WithdrawBtn flexCenter" onClick={ConnectWallet}>Connect wallet</div>
+        }
+        // if(!amount || new BigNumber(amount).lte(0)){
+        //     return <div className="WithdrawBtn flexCenter Disable" onClick={Submit}>Withdraw</div>
+        // }
+        return <div className="WithdrawBtn flexCenter" onClick={showWithdrawModal}>Withdraw</div>
     }
     // const content = (
     //     <div className='PopoverContent'>
@@ -78,7 +118,8 @@ export default function Asset() {
                     <div className="value">1,210,020.002</div>
                 </div>
             </div>
-            <div className="WithdrawBtn flexCenter" onClick={()=>{setIsModalOpen(true)}}>Withdraw</div>
+            {/* <div className="WithdrawBtn flexCenter" onClick={showWithdrawModal}>Withdraw</div> */}
+            {WithdrawRunder()}
         </div>
         <div className="WithdrawRecord">
             <div className="WithdrawRecordTitle flexCenter">Withdraw record</div>

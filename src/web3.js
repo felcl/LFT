@@ -157,3 +157,13 @@ export function stake(address,data){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* LFT提现 */
+export function drawToken(address,data){
+    if(verifyExistence('Pool')){
+        return contract.Pool.methods.drawToken(data).send({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
