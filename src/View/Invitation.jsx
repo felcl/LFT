@@ -1,29 +1,43 @@
 import { useEffect, useState } from 'react'
-import { Empty, Modal, Popover} from 'antd';
-import {useAccount,} from 'wagmi'
+import { Empty, Modal, notification} from 'antd';
+import {useAccount, useNetwork} from 'wagmi'
+import { getReserves } from '../web3'
 import {AddrHandle, dateFormat} from '../utils/tool'
 import { useSelector } from "react-redux";
 import Axios from '../axios'
 import copy from "copy-to-clipboard";
+import BigNumber from 'big.js'
+import {NumSplic} from '../utils/tool'
 import '../assets/style/Invitation.scss'
 import copyIcon from '../assets/image/copyIcon.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
-import LFTIcon from '../assets/image/LFTIcon.png'
 import VipIcon from '../assets/image/VipIcon.png'
-import JTDown from '../assets/image/JTDown.png'
+
 
 export default function Team() {
     const {isConnected, address } = useAccount()
+    const { chain, chains } = useNetwork()
     const Token = useSelector(Store =>Store.token)
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isinvitationModal, setIsinvitationModal] = useState(false);
     const [isBind,setIsBind] = useState(-1)
     const [refereeUserAddress,setRefereeUserAddress] = useState('')
     const [invitationAddr,setInvitationAddr] = useState('')
     const [teamAmount,setTeamAmount] = useState(0)
+    const [Rate,setRate] = useState(0)
+    const [allTeamAmount,setAllTeamAmount] = useState(0)
     const [inviteLink,setInviteLink] = useState(0)
     const [refereeList,setRefereeList] = useState([])
-
+    useEffect(()=>{
+        // console.log(chain,chains)
+        if(isConnected && chain.id === chains[0].id){
+          // subscribeLFT('Approval',(event)=>{
+          //   console.log(event,"授权事件监听")
+          // })
+          getReserves().then(res=>{
+            setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
+          })
+        }
+      },[isConnected,chain,address])
     useEffect(()=>{
         if(Token){
             Axios.get('/uUser/checkBind').then(res=>{
@@ -33,6 +47,7 @@ export default function Team() {
             Axios.get('/uUser/teamAndReferee').then(res=>{
                 setRefereeUserAddress(res.data.data.refereeUserAddress)
                 setTeamAmount(res.data.data.teamAmount)
+                setAllTeamAmount(res.data.data.allTeamAmount)
                 console.log(res,'获取上级地址和团队收益')
             })
             Axios.get('/dao/userReferee').then(res=>{
@@ -51,13 +66,20 @@ export default function Team() {
     // };
     const copyFun = (text) => {
         copy(text);
+        return notification.open({
+            message: 'Success',
+            description:
+            '复制成功'
+        });
     };
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+
     const invitationAddrFun = () => {
         if(!invitationAddr){
-            return console.log("请输入正确的邀请地址")
+            return notification.open({
+                message: 'Error',
+                description:
+                '请输入争取的邀请地址'
+            });
         }
         Axios.post('/uUser/bind',{
             refereeUserAddress:invitationAddr
@@ -65,9 +87,28 @@ export default function Team() {
             console.log(res,"绑定上级结果")
             if(res.data.code === 200){
                 setIsinvitationModal(false)
-                console.log("绑定成功")
+                notification.open({
+                    message: 'Success',
+                    description:
+                    '绑定成功'
+                });
+                Axios.get('/uUser/checkBind').then(res=>{
+                    setIsBind(res.data.data)
+                    console.log(res,'用户是否绑定上级')
+                })
+                Axios.get('/uUser/teamAndReferee').then(res=>{
+                    setRefereeUserAddress(res.data.data.refereeUserAddress)
+                    setTeamAmount(res.data.data.teamAmount)
+                    setAllTeamAmount(res.data.data.allTeamAmount)
+                    console.log(res,'获取上级地址和团队收益')
+                })
             }else{
                 console.log(res.data.msg)
+                notification.open({
+                    message: 'Success',
+                    description:
+                    '绑定失败'
+                });
             }
         })
     }
@@ -77,16 +118,6 @@ export default function Team() {
     }
     // let RecordList = [].fill(1)
     // RecordList = new Array(3).fill({});
-    const content = (
-        <div className='PopoverContent'>
-            <div className='SelItem'>
-                <img src={LFTIcon} alt="" />USDT
-            </div>
-            <div className='SelItem'>
-                <img src={LFTIcon} alt="" />SLFT
-            </div>
-        </div>
-    );
   return (
     <div className="Invitation">
         <div className="Title">Invitation</div>
@@ -107,7 +138,7 @@ export default function Team() {
                 </div>
                 <div className="AmountItem">
                     <div className="AmountLabel">Total performance</div>
-                    <div className="AmountValue">${teamAmount}</div>
+                    <div className="AmountValue">${allTeamAmount}</div>
                 </div>
             </div>
             <div className="invitedInfo">
@@ -134,7 +165,7 @@ export default function Team() {
         <div className='RewardList'>
             <div className="RewardTotal">
                 <div className="label">Invitation reward</div>
-                <div className="value">${teamAmount}</div>
+                <div className="value">{teamAmount} LFT {Rate && `≈ ${NumSplic(teamAmount / Rate,6)} USDT`}</div>
             </div>
             {
             refereeList.length > 0 ?
@@ -156,22 +187,7 @@ export default function Team() {
             </div>
             <div className="Confirm flexCenter" onClick={invitationAddrFun}>Confirm</div>
         </Modal>
-        {/* 领取收益弹窗 */}
-        <Modal open={isModalOpen} onCancel={handleCancel} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
-            <img className="Close" src={CloseIcon} alt="" />
-            <div className="Title">Withdraw</div>
-            <div className='putBox'>
-                <input type="text" placeholder='Enter the withdrawal amount' />
-                <Popover content={content} placement="bottom" overlayClassName="TeamPopover" trigger="click">
-                    <div className="selToken">
-                        <img src={LFTIcon} alt="" />
-                        LFT
-                        <img src={JTDown} alt="" />
-                    </div>
-                </Popover>
-            </div>
-            <div className="Confirm flexCenter">Confirm</div>
-        </Modal>
+
     </div>
   )
 }

@@ -2,6 +2,7 @@
     background: url(../image/bannerBg.png) no-repeat center top / 100% auto;
     min-height: 100vh;
     padding-top: 78px;
+    margin-top: -78px;
     @media (max-width:768px) {
         background: url(../image/bannerBg.png) no-repeat center top / 200% auto;
     }
@@ -54,6 +55,7 @@
             font-size: 28px;
             color: #fff;
             margin-top: 10px;
+            cursor: pointer;
         }
     }
     .TotalValue{
@@ -112,10 +114,31 @@
             >img{
                 height: 195px;
             }
-            p{
+            >div{
                 flex: 1;
                 color: #192E44;
                 font-size: 26px;
+                flex-direction: column;
+                margin: 0;
+                .Btn{
+                    padding: 0 33px;
+                    height: 40px;
+                    min-width: 150px;
+                    border-radius: 50px;
+                    box-sizing: border-box;
+                    background: #FFAA00;
+                    color: #FFFFFF;
+                    font-size: 18px;
+                    cursor: pointer;
+                }
+                .subText{
+                    color: #7B7B7B;
+                    font-size: 18px;
+                    margin-top: 10px;
+                    .green{
+                        color: #1FB51A;
+                    }
+                }
             }
             .Info{
                 padding:10px 20px 20px;

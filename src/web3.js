@@ -80,6 +80,16 @@ export function swapSell(address,amountIn,amountOutMin,deadline){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* 获取LFT余额 */
+export function getLFTBalance(address){
+    if(verifyExistence('LFT')){
+        return contract.LFT.methods.balanceOf(address).call({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
 /* 获取LFT授权额度 */
 export function getLftAllowance(address,toAddress){
     if(verifyExistence('LFT')){
@@ -106,6 +116,16 @@ export function getUsdtAllowance(address,toAddress){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* 获取USDT余额 */
+export function getUSDTBalance(address){
+    if(verifyExistence('USDT')){
+        return contract.USDT.methods.balanceOf(address).call({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
 /* USDT授权 */
 export function USDTApprove(address,toAddress,amount){
     if(verifyExistence('USDT')){
@@ -123,6 +143,26 @@ export function subscribeLFT(EventName,callback){
             filter: {},
             fromBlock: "latest",
           }).on("data",callback)
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* LFT质押 */
+export function stake(address,data){
+    if(verifyExistence('Pool')){
+        return contract.Pool.methods.stake(data).send({
+            from:address
+        })
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* LFT提现 */
+export function drawToken(address,data){
+    if(verifyExistence('Pool')){
+        return contract.Pool.methods.drawToken(data).send({
+            from:address
+        })
     }else{
         return Promise.reject('contract Uninitialized')
     }

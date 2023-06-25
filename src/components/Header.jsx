@@ -11,7 +11,7 @@ import HomeIconOrange from '../assets/image/HomeIconOrange.png'
 import SwapIcon from '../assets/image/SwapIcon.png'
 import SwapIconBlack from '../assets/image/SwapIconBlack.png'
 import SwapIconOrange from '../assets/image/SwapIconOrange.png'
-// import WalletIcon from '../assets/image/WalletIcon.png'
+import Wallet from '../assets/image/Wallet.png'
 // import WalletIconBlack from '../assets/image/WalletIconBlack.png'
 // import WalletIconOrange from '../assets/image/WalletIconOrange.png'
 import ConvertIcon from '../assets/image/ConvertIcon.png'
@@ -86,7 +86,7 @@ export default function Header() {
         // console.log(chains, switchNetwork)
     }
     const AboutContent = (
-        <div className='AboutPopoverContent'>
+        <div className='AboutPopoverContent' style={{width:'170px'}}>
             <div className='SelItem'>
                 <img src={TeamIcon} alt="" />
                 Team
@@ -94,6 +94,22 @@ export default function Header() {
             <div className='SelItem'>
                 <img src={DocumentationIcon} alt="" />
                 Documentation
+            </div>
+        </div>
+    );
+    const AssetContent = (
+        <div className='AboutPopoverContent' style={{width:'140px'}}>
+            <div className='SelItem' onClick={()=>{goPath('/Asset')}}>
+                <img src={Wallet} alt="" />
+                wallet
+            </div>
+            <div className='SelItem' onClick={()=>{goPath('/Earn')}}>
+                <img src={EarnIcon} alt="" />
+                Earn
+            </div>
+            <div className='SelItem' onClick={()=>{goPath('/Invitation')}}>
+                <img src={InvitationIcon} alt="" />
+                Invitation
             </div>
         </div>
     );
@@ -108,9 +124,12 @@ export default function Header() {
                 {/* <Popover content={WalletContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
                     <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />Wallet</div>
                 </Popover> */}
-                <div className={MenuClass('/Earn')} onClick={()=>{goPath('/Earn')}}><img src={MenuIcon('/Earn',EarnIcon,EarnIconBlack,EarnIconOrange)} alt="" />Earn</div>
-                <div className={MenuClass('/Invitation')} onClick={()=>{goPath('/Invitation')}}><img src={MenuIcon('/Invitation',InvitationIcon,InvitationIconBlack,InvitationIconOrange)} alt="" />Invitation</div>
+                {/* <div className={MenuClass('/Earn')} onClick={()=>{goPath('/Earn')}}><img src={MenuIcon('/Earn',EarnIcon,EarnIconBlack,EarnIconOrange)} alt="" />Earn</div> */}
+                {/* <div className={MenuClass('/Invitation')} onClick={()=>{goPath('/Invitation')}}><img src={MenuIcon('/Invitation',InvitationIcon,InvitationIconBlack,InvitationIconOrange)} alt="" />Invitation</div> */}
                 {/* <div className={MenuClass()}><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div> */}
+                <Popover content={AssetContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('Asset')}>
+                    <div className={MenuClass()} id='Asset'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />Asset</div>
+                </Popover>
                 <Popover content={AboutContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
                     <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div>
                 </Popover>
