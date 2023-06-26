@@ -38,8 +38,18 @@
         }
         .HoverMenuItem:hover{
             color: #FFAA00;
+            // >img{
+            //     content: url(../../image/AboutIconOrange.png);
+            // }
+        }
+        #About:hover{
             >img{
                 content: url(../../image/AboutIconOrange.png);
+            }
+        }
+        #Asset:hover{
+            >img{
+                content: url(../../image/AssetIconOrange.png);
             }
         }
         .activeMenuItem{
@@ -161,4 +171,50 @@
             }
         }
     }
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light{
+    background: transparent;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light.ant-menu-root.ant-menu-inline{
+    width: 100% !important;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light.ant-menu-inline .ant-menu-sub.ant-menu-inline{
+    background: transparent;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-submenu-title:hover{
+    background: transparent;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-item-selected{
+    background: transparent;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-item-selected{
+    color: #fff;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light{
+    color: #fff;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected){
+    color: #fff;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
+    color: #fff;
+}
+.ant-menu-item{
+    padding: 0 !important;
+    padding-inline: 0;
+    img{
+        width: 16px;
+        margin:0;
+    }
+}
+.ant-menu-submenu-title{
+    padding: 0 !important;
+    padding-inline: 0;
+    img{
+        width: 16px;
+        margin:0;
+    }
+}
+.ant-menu-sub{
+    padding: 0 20px !important;
 }

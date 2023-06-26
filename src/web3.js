@@ -1,5 +1,8 @@
 import Web3 from "web3"
-import {ContractAddress,ABI} from './config'
+import { InjectedConnector, NoEthereumProviderError, UserRejectedRequestError } from '@web3-react/injected-connector'
+import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
+import {ContractAddress, ABI, networkConf, ChainId} from './config'
+import { useCallback, useMemo } from 'react'
 let web3 = null
 export const contract = {}
 export function contractInit (){
@@ -15,6 +18,101 @@ export function contractInit (){
             )
         }
     }
+}
+// react-web3允许连接的链
+export const injected = new InjectedConnector({
+    supportedChainIds: [ChainId.ARB],
+})
+export const changeNetwork = (chainId) => {
+    return new Promise(reslove => {
+        const { ethereum } = window
+        if (ethereum && ethereum.isMetaMask && networkConf[chainId]) {
+            try {
+                ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{ chainId: networkConf[chainId].chainId }],
+                }).then(()=>{
+                    reslove()
+                })
+            } catch (error) {
+                ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [
+                        {
+                            ...networkConf[chainId]
+                        }
+                    ],
+                }).then(() => {
+                    setTimeout(reslove, 500)
+                })
+            }
+        } else {
+            reslove()
+        }
+    })
+}
+export const useConnectWallet = () => {
+    const { activate, deactivate, active } = useWeb3React()
+    const connectWallet = useCallback((connector, chainId) => {
+        return changeNetwork(chainId).then(() => {
+            return activate(connector, undefined, true)
+                .then(() => {
+                    if (window.ethereum && window.ethereum.on) {
+                        // 监听钱包事件
+                        // const { ethereum } = window
+                        window.ethereum.on('accountsChanged', (accounts) => {
+                            if (accounts.length === 0) {
+                                // 无账号，则代表锁定了,主动断开
+                                deactivate()
+                            }
+                            // 账号改了，刷新网页
+                            // window.location.reload()
+                        })
+
+                        window.ethereum.on('disconnect', () => {
+                            // 断开连接
+                            deactivate()
+                        })
+
+                        window.ethereum.on('close', () => {
+                            // 断开连接
+                            deactivate()
+                        })
+
+                        // window.ethereum.on('message', message => {
+                        //     console.log('message', message)
+                        // })
+
+                    }
+                })
+                .catch((error) => {
+                    switch (true) {
+                        case error instanceof UnsupportedChainIdError:
+                            // console.log('链错了')
+                            break
+                        case error instanceof NoEthereumProviderError:
+                            // console.log('不是钱包环境')
+                            break
+                        case error instanceof UserRejectedRequestError:
+                            // console.log('用户拒绝连接钱包')
+                            break
+                        default:
+                            console.log(error)
+                    }
+                })
+        })
+        // eslint-disable-next-line
+    }, [])
+    useMemo(() => {
+        // 首次尝试连接
+        !active && connectWallet(injected, ChainId.ARB)
+        window.ethereum && window.ethereum.on('networkChanged', () => {
+            // 切换网络后，尝试连接
+            // !active && connectWallet(injected, ChainId.BSC)
+        })
+        // eslint-disable-next-line
+    }, [])
+    return connectWallet
 }
 function verifyExistence (contractName){
     if(contract[contractName]){

@@ -1,10 +1,13 @@
 import '../assets/style/Asset.scss'
-import { Empty, Modal, Popover, notification} from 'antd';
+import { Empty, Modal, notification} from 'antd';
+import { useWeb3React } from "@web3-react/core";
+import { useConnectWallet, injected } from '../web3'
+import {ChainId} from '../config'
 // import LFTIcon from '../assets/image/LFTIcon.png'
 // import JTDown from '../assets/image/JTDown.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
-import {useAccount, useNetwork, useSwitchNetwork, useConnect} from 'wagmi'
-import { arbitrumGoerli} from 'wagmi/chains'
+// import {useAccount, useNetwork, useSwitchNetwork, useConnect} from 'wagmi'
+// import { arbitrumGoerli} from 'wagmi/chains'
 import {useEffect, useState} from 'react'
 import Axios from '../axios'
 import {drawToken} from '../web3'
@@ -12,20 +15,22 @@ import BigNumber from 'big.js';
 import { useSelector } from "react-redux";
 import { AddrHandle, dateFormat } from '../utils/tool';
 export default function Asset() {
+    const web3React = useWeb3React();
+    let Connect = useConnectWallet();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
+    // const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
     const [amount, setAmount] = useState('')
     const [LFTAmount,setLftAmount] = useState(0)
     const [ELFTAmount,setELFTAmount] = useState(0)
-    const {isConnected, address } = useAccount()
-    const { chain, chains } = useNetwork()
+    // const {isConnected, address } = useAccount()
+    // const { chain, chains } = useNetwork()
     const [inWithdraw,setInWithdraw] = useState(false)
     const [drawDetail,setdrawDetail] = useState([])
     const [HomeData,setHomeData] = useState(null)
     const Token = useSelector(Store =>Store.token)
-    const { connect, connectors, isLoading } = useConnect({
-        chainId: arbitrumGoerli.id,
-    })
+    // const { connect, connectors, isLoading } = useConnect({
+    //     chainId: arbitrumGoerli.id,
+    // })
     useEffect(()=>{
         if(Token){
             Axios.get('/uUser/userAccount').then(res=>{
@@ -100,7 +105,7 @@ export default function Asset() {
             amount
         }).then(res=>{
             if(res.data.code === 200){
-                drawToken(address,res.data.data
+                drawToken(web3React.account,res.data.data
                 ).then(()=>{
                     notification.success({
                         message: 'Success',
@@ -149,15 +154,10 @@ export default function Asset() {
         return putVal;
     }
     const ConnectWallet = ()=>{
-        if(isConnected && chain.id !== chains[0].id){
-            return switchNetwork(arbitrumGoerli.id)
-        }
-        if(!isConnected){
-            connect({ connector: connectors[1] })
-        }
+        Connect(injected,ChainId.ARB)
     }
     const WithdrawRunder = ()=>{
-        if(!address || chain.id !== chains[0].id){
+        if(!web3React.active){
             return <div className="WithdrawBtn flexCenter" onClick={ConnectWallet}>Connect wallet</div>
         }
         return <div className="WithdrawBtn flexCenter" onClick={showWithdrawModal}>Withdraw</div>
@@ -184,7 +184,7 @@ export default function Asset() {
                     }
                 </div>
                 <div className="separate"></div>
-                <div className="TotalItem">
+                <div className="TotalItem flexEnd">
                     <div className="label">DAO Treasury</div>
                     {
                         HomeData &&<div className="value">$ {HomeData.totalReward}</div>
@@ -207,13 +207,15 @@ export default function Asset() {
         <div className="WithdrawRecord">
             <div className="WithdrawRecordTitle flexCenter">Withdraw record</div>
             {
+                drawDetail.length > 0 ?
                 drawDetail.map((item,index)=><div className="recordItem" key={index}>
                     <div className="address">{AddrHandle(item.userAddress,6,6)}</div>
                     <div className="amount">{item.drawAmount} LFT</div>
                     <div className="time">{dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime))}</div>
                 </div>)
+                :
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             }
-            
         </div>
                 {/* 领取收益弹窗 */}
         <Modal open={isModalOpen} onCancel={handleCancel} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>

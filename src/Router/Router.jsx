@@ -25,8 +25,8 @@ export default function Router() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Swap' element={<Swap />} />
-          <Route path='/Slippage' element={<Slippage />} />
           <Route path='/Convert' element={<Convert />} />
+          <Route path='/Slippage' element={<Slippage />} />
           <Route path='/Wallet' element={<Wallet />} />
           <Route path='/Subscribe' element={<Subscribe />} />
           <Route path='/SwapRecord' element={<SwapRecord />} />

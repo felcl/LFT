@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Empty, Modal, notification} from 'antd';
-import {useAccount, useNetwork} from 'wagmi'
+import { useWeb3React } from "@web3-react/core";
+import { useConnectWallet } from '../web3'
 import { getReserves } from '../web3'
 import {AddrHandle, dateFormat} from '../utils/tool'
 import { useSelector } from "react-redux";
@@ -15,8 +16,7 @@ import VipIcon from '../assets/image/VipIcon.png'
 
 
 export default function Team() {
-    const {isConnected, address } = useAccount()
-    const { chain, chains } = useNetwork()
+    const web3React = useWeb3React();
     const Token = useSelector(Store =>Store.token)
     const [isinvitationModal, setIsinvitationModal] = useState(false);
     const [isBind,setIsBind] = useState(-1)
@@ -29,7 +29,7 @@ export default function Team() {
     const [refereeList,setRefereeList] = useState([])
     useEffect(()=>{
         // console.log(chain,chains)
-        if(isConnected && chain.id === chains[0].id){
+        if(web3React.active){
           // subscribeLFT('Approval',(event)=>{
           //   console.log(event,"授权事件监听")
           // })
@@ -37,7 +37,7 @@ export default function Team() {
             setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
           })
         }
-      },[isConnected,chain,address])
+      },[web3React.active])
     useEffect(()=>{
         if(Token){
             Axios.get('/uUser/checkBind').then(res=>{
@@ -57,10 +57,10 @@ export default function Team() {
         }
     },[Token])
     useEffect(()=>{
-        if(isConnected){
-            setInviteLink(location.origin+location.pathname+'#/?invite='+address)
+        if(web3React.active){
+            setInviteLink(location.origin+location.pathname+'#/?invite='+web3React.account)
         }
-    },[isConnected,address])
+    },[web3React.active,web3React.account])
     // const showModal = () => {
     //     setIsModalOpen(true);
     // };
@@ -126,9 +126,9 @@ export default function Team() {
                 <div className="userHeaderBox">
                     <div className="userHeader"></div>
                 </div>
-                <span className="long">{isConnected ? address : '请连接钱包'}</span>
-                <span className="short">{isConnected ? AddrHandle(address,6,6) : '请连接钱包'}</span>
-                <img className='copyIcon' src={copyIcon} onClick={()=>{copyFun(address)}} alt="" />
+                <span className="long">{web3React.active ? web3React.account : '请连接钱包'}</span>
+                <span className="short">{web3React.active ? AddrHandle(web3React.account,6,6) : '请连接钱包'}</span>
+                <img className='copyIcon' src={copyIcon} onClick={()=>{copyFun(web3React.account)}} alt="" />
                 <img className='VipIcon' src={VipIcon} alt="" />
             </div>
             <div className="AmountRow">

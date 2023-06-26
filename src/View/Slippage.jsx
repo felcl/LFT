@@ -6,7 +6,7 @@ import JTReturn from '../assets/image/JTReturn.png'
 import { useState, useRef} from 'react';
 export default function Slippage() {
     const navigate = useNavigate();
-    const [ActiveTabIndex , setActiveTabIndex] = useState(-1)
+    const [ , setActiveTabIndex] = useState(-1)
     const ActiveTabRef = useRef()
     const changeTab = (event,index)=>{
         // console.log(event.target)

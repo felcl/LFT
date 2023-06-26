@@ -1,8 +1,9 @@
-import {useNetwork} from 'wagmi'
+import { useWeb3React } from "@web3-react/core";
+import { useConnectWallet, injected } from '../web3'
+import {ChainId} from '../config'
 import {useNavigate, useSearchParams,} from 'react-router-dom'
 import classnames from 'classnames';
 import { notification } from 'antd';
-import { arbitrumGoerli} from 'wagmi/chains'
 import '../assets/style/Swap.scss'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
@@ -10,8 +11,7 @@ import USDTIcon from '../assets/image/USDTIcon.png'
 import chartIcon from '../assets/image/chartIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
 import { useEffect, useState, useMemo, useRef} from 'react';
-import {useAccount, useSwitchNetwork, useConnect} from 'wagmi'
-import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, subscribeLFT, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
+import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
 import { ContractAddress, TokenConfig} from '../config'
 import BigNumber from "big.js";
 // import Axios from '../axios';
@@ -20,13 +20,15 @@ BigNumber.PE = 40;
 
 export default function Swap() {
   const navigate = useNavigate();
-  const { chain, chains } = useNetwork()
-  const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
-  const { connect, connectors, isLoading } = useConnect({
-      chainId: arbitrumGoerli.id,
-  })
+  const web3React = useWeb3React();
+  let Connect = useConnectWallet();
+  // const { chain, chains } = useNetwork()
+  // const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
+  // const { connect, connectors, isLoading } = useConnect({
+  //     chainId: arbitrumGoerli.id,
+  // })
   const [search] = useSearchParams();
-  const {isConnected, address } = useAccount()
+  // const {isConnected, address } = useAccount()
   const [SellOrBuy , setSellOrBuy] = useState(search.get('type') || 'Sell')
   const [ , setRate] = useState(0)
   const [reserveUsdt , setReserveUsdt] = useState(0)
@@ -56,7 +58,7 @@ export default function Swap() {
 
   useEffect(()=>{
     // console.log(chain,chains)
-    if(isConnected && chain.id === chains[0].id){
+    if(web3React.active){
       // subscribeLFT('Approval',(event)=>{
       //   console.log(event,"授权事件监听")
       // })
@@ -73,40 +75,35 @@ export default function Swap() {
       getLFTBalanceFun()
       getUSDTBalanceFun()
     }
-  },[isConnected,chain,address])
+  },[web3React.active])
     // let canvasWidth = document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80)
     // const [canvasWidth,setCanvasWidth] = useState(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
     // window.onresize = ()=>{
     //   setCanvasWidth(document.body.clientWidth  >= 430 ? 350 : (document.body.clientWidth - 80))
     // }
     const ConnectWallet = ()=>{
-        if(isConnected && chain.id !== chains[0].id){
-            return switchNetwork(arbitrumGoerli.id)
-        }
-        if(!isConnected){
-            connect({ connector: connectors[1] })
-        }
+      Connect(injected,ChainId.ARB)
     }
     const getLFTBalanceFun = ()=>{
-      getLFTBalance(address).then(res=>{
+      getLFTBalance(web3React.account).then(res=>{
         console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"LFT余额")
         setLftBalance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
       })
     }
     const getUSDTBalanceFun = ()=>{
-      getUSDTBalance(address).then(res=>{
+      getUSDTBalance(web3React.account).then(res=>{
         console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"USDT余额")
         setUsdtBalance(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals))
       })
     }
     const getLftAllowanceFun = ()=>{
-      getLftAllowance(address,ContractAddress.Swap).then(res=>{
+      getLftAllowance(web3React.account,ContractAddress.Swap).then(res=>{
         setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
         console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'LFT授权额度')
       })
     }
     const getUsdtAllowanceFun = ()=>{
-      getUsdtAllowance(address,ContractAddress.Swap).then(res=>{
+      getUsdtAllowance(web3React.account,ContractAddress.Swap).then(res=>{
         setUsdtAllowance(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals))
         console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),'USDT授权额度')
       })
@@ -122,7 +119,7 @@ export default function Swap() {
       setInApprove(true);
       let amount = SellOrBuy === 'Sell' ? new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString() : new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString();
       // eslint-disable-next-line no-unexpected-multiline
-      (SellOrBuy === 'Sell' ? LftApprove : USDTApprove)(address,ContractAddress.Swap,amount).then(()=>{
+      (SellOrBuy === 'Sell' ? LftApprove : USDTApprove)(web3React.account,ContractAddress.Swap,amount).then(()=>{
         /* 查询授权结果 */
         (SellOrBuy === 'Sell' ? getLftAllowanceFun : getUsdtAllowanceFun)()
         notification.success({
@@ -278,8 +275,8 @@ export default function Swap() {
       let USDTAmount = new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString()
       let LFTAmount = new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString()
       if(SellOrBuy === 'Buy'){
-        console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
-        swapBuy(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60).then(res=>{
+        console.log(web3React.account,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
+        swapBuy(web3React.account,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"购买结果")
           return notification.success({
               message: 'Success',
@@ -297,8 +294,8 @@ export default function Swap() {
         })
       }
       if(SellOrBuy === 'Sell'){
-        console.log(address,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
-        swapSell(address,LFTAmount,USDTAmount,Date.parse(new Date())/1000+60).then(res=>{
+        console.log(web3React.account,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
+        swapSell(web3React.account,LFTAmount,USDTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"售卖结果")
           return notification.success({
               message: 'Success',
@@ -318,7 +315,7 @@ export default function Swap() {
     }
     const submitBtnRun = ()=>{
       /* 未链接钱包 */
-      if(!address || chain.id !== chains[0].id){
+      if(!web3React.active){
         return <div className="submit flexCenter" onClick={ConnectWallet}>Connect wallet</div>
       }
       /* 未输入数量 */

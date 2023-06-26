@@ -56,6 +56,11 @@
             color: #fff;
             margin-top: 10px;
             cursor: pointer;
+            @media (max-width:500px) {
+                width: 200px;
+                height: 45px;
+                font-size: 22px;
+            }
         }
     }
     .TotalValue{
@@ -78,6 +83,7 @@
             .Value{
                 font-size: 24px;
                 color: #fff;
+                text-align: center;
             }
         }
         .TotalValueItem:nth-child(3){
@@ -112,7 +118,7 @@
                 border-radius: 20px;
             }
             >img{
-                height: 195px;
+                width: 100%;
             }
             >div{
                 flex: 1;
@@ -130,6 +136,10 @@
                     color: #FFFFFF;
                     font-size: 18px;
                     cursor: pointer;
+                    @media (max-width:500px) {
+                        height: 35px;
+                        min-width: 135px;
+                    }
                 }
                 .subText{
                     color: #7B7B7B;
@@ -389,35 +399,39 @@
         }
     }
     .Join{
-        padding: 90px 0 90px;
+        padding: 90px 0;
         display: flex;
         flex-direction: column;
         align-items: center;
+        @media (max-width: 768px) {
+            padding: 0;
+        }
         .JoinGrid{
             display: grid;
             grid-template-columns: 517px 517px;
-            grid-template-rows: 205px 142px;
+            grid-template-rows: 205px 142px 142px;
             grid-row-gap: 38px;
             grid-column-gap: 41px;
             margin-top: 30px;
             @media (max-width:1125px) {
                 margin: 30px auto 0;
                 grid-template-columns: 413px 413px;
-                grid-template-rows: 160px 113px;
+                grid-template-rows: 160px 113px 113px;
             }
             @media (max-width:950px) {
                 grid-template-columns: 330px 330px;
-                grid-template-rows: 128px 90px;
+                grid-template-rows: 128px 90px 90px;
             }
             @media (max-width:750px) {
                 width: 95%;
                 grid-template-columns: repeat(2,1fr);
-                grid-template-rows: 102px 72px;
+                grid-template-rows: 102px 72px 72px;
             }
             @media (max-width:600px) {
                 width: 95%;
+                grid-row-gap: 20px;
                 grid-template-columns: repeat(1,1fr);
-                grid-template-rows: 80px 72px 72px;
+                grid-template-rows: 80px 72px 72px 72px 72px;
             }
             .JoinMain{
                 grid-column-start: 1;

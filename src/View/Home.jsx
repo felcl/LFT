@@ -15,6 +15,7 @@ import step3 from '../assets/image/step3.png'
 import rabbit from '../assets/image/rabbit.png'
 import Telegram from '../assets/image/Telegram.png'
 import Twitter from '../assets/image/Twitter.png'
+import In from '../assets/image/In.png'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
@@ -179,6 +180,20 @@ export default function Home() {
                     </div>
                     <div className="joinItem">
                         <img src={Twitter} alt="" />
+                        <div className="joinItemInfo">
+                            <div className="InfoNmae">Twitter</div>
+                            <div className="InfoSub">Follow @LiftedStake</div>
+                        </div>
+                    </div>
+                    <div className="joinItem">
+                        <img src={In} alt="" />
+                        <div className="joinItemInfo">
+                            <div className="InfoNmae">Telegram</div>
+                            <div className="InfoSub">Join chat</div>
+                        </div>
+                    </div>
+                    <div className="joinItem">
+                        <img src={In} alt="" />
                         <div className="joinItemInfo">
                             <div className="InfoNmae">Twitter</div>
                             <div className="InfoSub">Follow @LiftedStake</div>

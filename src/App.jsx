@@ -1,23 +1,22 @@
 import {useEffect} from 'react'
-// import { arbitrum} from 'wagmi/chains'
-import { useAccount, useNetwork, useSwitchNetwork} from 'wagmi'
 import { useDispatch ,useSelector} from "react-redux";
-// import { switchNetwork, getNetwork } from '@wagmi/core'
-import { HashRouter,useSearchParams} from "react-router-dom";
-import {contract,contractInit} from './web3'
+import { useWeb3React } from "@web3-react/core";
+import { useSearchParams} from "react-router-dom";
+import {contract,contractInit,useConnectWallet} from './web3'
 import Axios from './axios'
 import Router from './Router/Router'
 import Header from './components/Header'
 import './App.css'
 
 function App() {
-  const { switchNetwork  } = useSwitchNetwork()
+  useConnectWallet()
+  const web3React = useWeb3React();
   const [search] = useSearchParams();
-  const { chain, chains } = useNetwork()
+  // const { chain, chains } = useNetwork()
   const Token = useSelector(Store =>Store.token)
   const StoreAddress = useSelector(Store =>Store.address)
   const dispatch = useDispatch()
-  const {isConnected, address } = useAccount()
+  // const {isConnected, address } = useAccount()
   useEffect(()=>{
     /**
      * 以下几种情况需要重新登录
@@ -25,35 +24,28 @@ function App() {
      * 缓存地址与当前连接地址不相同
      * 本地不存在token
      */
-    if(isConnected && (StoreAddress === '' || (StoreAddress !== address.toLowerCase()) || !Token)){
+    if(web3React.active && (StoreAddress === '' || (StoreAddress !== web3React.account.toLowerCase()) || !Token)){
       /* 登录 */
       Axios.post('/uUser/auth',{
         chainType:1,
-        userAddress:address,
+        userAddress:web3React.account,
         refereeAddress:search.get('address')
       }).then(res=>{
         dispatch({
           type:'SETTOKEN',
           token:res.data.data,
-          address:address.toLowerCase()
+          address:web3React.account.toLowerCase()
         })
         console.log(res,"用户登录")
       })
     }
-  },[isConnected,address,Token,StoreAddress])
+  },[web3React.active,web3React.account,Token,StoreAddress])
   useEffect(()=>{
-    if(isConnected && Object.keys(contract).length <=0 && chain.id === chains[0].id){
+    if(web3React.active && Object.keys(contract).length <=0){
       /* 初始化合约 */
       contractInit()
     }
-    if(chain && chain.id !== chains[0].id && isConnected){
-      console.log(switchNetwork)
-      // setTimeout(()=>{
-      // },1000)
-      // connect({ connector: connectors[1] })
-      //销毁合约
-    }
-  },[isConnected,chain])
+  },[web3React.active])
   return (
     <>
     
