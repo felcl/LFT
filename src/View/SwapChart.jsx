@@ -1,5 +1,7 @@
 import '../assets/style/SwapChart.scss'
 import {useNavigate} from 'react-router-dom'
+import * as dayjs from 'dayjs'
+import relativeTime  from 'dayjs/plugin/relativeTime'
 import Axios from '../axios'
 import { Empty } from 'antd';
 import { AddrHandle} from '../utils/tool'
@@ -7,6 +9,7 @@ import { createChart, ColorType } from 'lightweight-charts';
 import { useRef, useEffect, useState } from 'react'
 import JTReturn from '../assets/image/JTReturn.png'
 export default function SwapChart() {
+    dayjs.extend(relativeTime)
     const navigate = useNavigate();
     let RecordList = [].fill(1)
     RecordList = new Array(3).fill({});
@@ -114,7 +117,6 @@ export default function SwapChart() {
             }
             console.log(res,"平台交易所数据")
         })
-        
     },[])
   return (
     <div className="SwapChart">
@@ -155,11 +157,10 @@ export default function SwapChart() {
                 <div>Amount</div>
                 <div>User</div>
             </div>
-            
             {
                 swapRecord.length >0 ?
                 swapRecord.map((item,index)=><div className='tr' key={index}>
-                    <div>9 sec(s) ago</div>
+                    <div>{dayjs(item.createTime).fromNow() }</div>
                     <div>{swapTypeEnum[item.swapType]}</div>
                     <div>{
                         item.swapType === 2 ? '- ' + item.token0Amount + ' ' + item.token0Name:'-' + item.token1Amount + ' ' + item.token1Name
@@ -169,7 +170,6 @@ export default function SwapChart() {
                 :
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             }
-            
         </div>
     </div>
   )

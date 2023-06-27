@@ -1,5 +1,5 @@
 import '../assets/style/Asset.scss'
-import { Empty, Modal, notification} from 'antd';
+import { Empty, Modal, notification, Table} from 'antd';
 import { useWeb3React } from "@web3-react/core";
 import { useConnectWallet, injected } from '../web3'
 import {ChainId} from '../config'
@@ -17,6 +17,7 @@ import { AddrHandle, dateFormat } from '../utils/tool';
 export default function Asset() {
     const web3React = useWeb3React();
     let Connect = useConnectWallet();
+    const [scrollObj,setScrollObj] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false);
     // const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
     const [amount, setAmount] = useState('')
@@ -31,6 +32,13 @@ export default function Asset() {
     // const { connect, connectors, isLoading } = useConnect({
     //     chainId: arbitrumGoerli.id,
     // })
+    useEffect(()=>{
+        if(document.body.clientWidth <= 450){
+            setScrollObj({
+                x:500
+            })
+        }
+    },[])
     useEffect(()=>{
         if(Token){
             Axios.get('/uUser/userAccount').then(res=>{
@@ -172,13 +180,39 @@ export default function Asset() {
     //         </div>
     //     </div>
     // );
+    const columns = [
+        {
+          dataIndex: 'userAddress',
+          key: 'userAddress',
+          align:'center',
+          width:'180px',
+          render: (userAddress)=>{
+            return AddrHandle(userAddress,6,6)
+          }
+        },
+        {
+          dataIndex: 'drawAmount',
+          key: 'drawAmount',
+          render:(drawAmount)=><span className='drawAmount'>{ drawAmount }LFT</span>,
+          align:'center'
+        },
+        {
+          dataIndex: 'createTime',
+          key: 'createTime',
+          align:'center',
+          width:'200px',
+          render: (createTime) => {
+            return dateFormat('YYYY/mm/dd HH:MM:SS',new Date(createTime))
+          }
+        },
+    ];
   return (
     <div className='Asset'>
         <div className="Title">Asset</div>
         <div className="AssetBox">
             <div className="TotalInfo">
                 <div className="TotalItem">
-                    <div className="label">Total of the whole network</div>
+                    <div className="label">Total network</div>
                     {
                         HomeData && <div className="value">$ {HomeData.totalPledgeAmount}</div>
                     }
@@ -208,18 +242,19 @@ export default function Asset() {
             <div className="WithdrawRecordTitle flexCenter">Withdraw record</div>
             {
                 drawDetail.length > 0 ?
-                drawDetail.map((item,index)=><div className="recordItem" key={index}>
-                    <div className="address">{AddrHandle(item.userAddress,6,6)}</div>
-                    <div className="amount">{item.drawAmount} LFT</div>
-                    <div className="time">{dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime))}</div>
-                </div>)
+                // drawDetail.map((item,index)=><div className="recordItem" key={index}>
+                //     <div className="address">{AddrHandle(item.userAddress,6,6)}</div>
+                //     <div className="amount">{item.drawAmount} LFT</div>
+                //     <div className="time">{dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime))}</div>
+                // </div>)
+                <Table dataSource={drawDetail.slice(0,5)} columns={columns} rowKey="id" pagination={false} scroll={scrollObj} />
                 :
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             }
         </div>
                 {/* 领取收益弹窗 */}
         <Modal open={isModalOpen} onCancel={handleCancel} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
-            <img className="Close" src={CloseIcon} alt="" />
+            <img className="Close" src={CloseIcon} onClick={handleCancel} alt="" />
             <div className="Title">Withdraw</div>
             <div className='putBox'>
                 <input type="text" placeholder='Enter the withdrawal amount' value={amount} onChange={putAmoubt} />

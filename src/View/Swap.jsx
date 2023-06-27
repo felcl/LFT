@@ -278,6 +278,12 @@ export default function Swap() {
         console.log(web3React.account,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
         swapBuy(web3React.account,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"购买结果")
+          getLftAllowanceFun()
+          getUsdtAllowanceFun()
+          getLFTBalanceFun()
+          getUSDTBalanceFun()
+          setUsdtNum('')
+          setLftNum('')
           return notification.success({
               message: 'Success',
               description:
@@ -297,6 +303,12 @@ export default function Swap() {
         console.log(web3React.account,USDTAmount,LFTAmount,Date.parse(new Date())/1000+60)
         swapSell(web3React.account,LFTAmount,USDTAmount,Date.parse(new Date())/1000+60).then(res=>{
           console.log(res,"售卖结果")
+          getLftAllowanceFun()
+          getUsdtAllowanceFun()
+          getLFTBalanceFun()
+          getUSDTBalanceFun()
+          setUsdtNum('')
+          setLftNum('')
           return notification.success({
               message: 'Success',
               description:

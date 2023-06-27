@@ -238,10 +238,13 @@ export default function Stake() {
                     <div className="label">You will receive</div>
                     <div className="value">eLFT</div>
                 </div>
-                <div className="InfoRow">
-                    <div className="label">Daily reward</div>
-                    <div className="value">1.1%</div>
-                </div>
+                {
+                    Type === 'LFT' &&
+                    <div className="InfoRow">
+                        <div className="label">Daily reward</div>
+                        <div className="value">1.1%</div>
+                    </div>
+                }
                 <div className="InfoRow">
                     <div className="label">Exchange rate</div>
                     <div className="value">1 eLFT = 1 LFT</div>
