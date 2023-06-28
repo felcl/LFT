@@ -36,9 +36,11 @@ import InvitationIcon from '../assets/image/InvitationIcon.png'
 import InvitationIconBlack from '../assets/image/InvitationIconBlack.png'
 import InvitationIconOrange from '../assets/image/InvitationIconOrange.png'
 import {useNavigate ,useLocation} from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 
 export default function Header() {
+    const { t, i18n  } = useTranslation()
     const web3React = useWeb3React();
     let Connect = useConnectWallet();
     // const { chain, chains } = useNetwork()
@@ -128,6 +130,16 @@ export default function Header() {
             </div>
         </div>
     );
+    const LangContent = <div className='LangContentContent'>
+            <div className='SelItem' onClick={()=>{i18n.changeLanguage('zh')}}>
+                {/* <img src={Wallet} alt="" /> */}
+                简体中文
+            </div>
+            <div className='SelItem' onClick={()=>{i18n.changeLanguage('en')}}>
+                {/* <img src={EarnIcon} alt="" /> */}
+                English
+            </div>
+    </div>
     const getItem = (label, key, icon, children, type) => {
         return {
           key,
@@ -155,7 +167,7 @@ export default function Header() {
         <>
         <div className="Header">
             <div className="Menu">
-                <div className={MenuClass('/')} onClick={()=>{goPath('/')}}><img src={MenuIcon('/',HomeIcon,HomeIconBlack,HomeIconOrange)} alt="" />Home</div>
+                <div className={MenuClass('/')} onClick={()=>{goPath('/')}}><img src={MenuIcon('/',HomeIcon,HomeIconBlack,HomeIconOrange)} alt="" />{t('Home')}</div>
                 <div className={MenuClass('/Swap')} onClick={()=>{goPath('/Swap')}}><img src={MenuIcon('/Swap',SwapIcon,SwapIconBlack,SwapIconOrange)} alt="" />Swap</div>
                 <div className={MenuClass('/Convert')} onClick={()=>{goPath('/Convert')}}><img src={MenuIcon('/Convert',ConvertIcon,ConvertIconBlack,ConvertIconOrange)} alt="" />Convert</div> 
                 {/* <Popover content={WalletContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
@@ -180,9 +192,11 @@ export default function Header() {
                 }
                 { web3React.active ? AddrHandle(web3React.account) : 'Connect wallet'}
                 </div>
-                <div className="Lang">
-                    <img src={LangIcon} alt="" />
-                </div>
+                <Popover content={LangContent} placement="bottom"  overlayClassName="LangPopover" getPopupContainer={() => document.getElementById('Lang')}>
+                    <div className="Lang" id="Lang">
+                        <img src={LangIcon} alt="" />
+                    </div>
+                </Popover>
             </div>
             <img className="MenuIcon" onClick={showDrawer} src={location.pathname ==='/' ? MenuIconImg :blackMenuIcon} alt="" />
         </div>

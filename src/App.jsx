@@ -9,7 +9,7 @@ import Header from './components/Header'
 import './App.css'
 
 function App() {
-  useConnectWallet()
+  useConnectWallet(true)
   const web3React = useWeb3React();
   const [search] = useSearchParams();
   // const { chain, chains } = useNetwork()

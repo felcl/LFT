@@ -51,7 +51,7 @@ export const changeNetwork = (chainId) => {
         }
     })
 }
-export const useConnectWallet = () => {
+export const useConnectWallet = (autoConnect) => {
     const { activate, deactivate, active } = useWeb3React()
     const connectWallet = useCallback((connector, chainId) => {
         return changeNetwork(chainId).then(() => {
@@ -70,11 +70,6 @@ export const useConnectWallet = () => {
                         })
 
                         window.ethereum.on('disconnect', () => {
-                            // 断开连接
-                            deactivate()
-                        })
-
-                        window.ethereum.on('close', () => {
                             // 断开连接
                             deactivate()
                         })
@@ -105,11 +100,11 @@ export const useConnectWallet = () => {
     }, [])
     useMemo(() => {
         // 首次尝试连接
-        !active && connectWallet(injected, ChainId.ARB)
-        window.ethereum && window.ethereum.on('networkChanged', () => {
+        !active  && autoConnect && connectWallet(injected, ChainId.ARB)
+        // window.ethereum && window.ethereum.on('networkChanged', () => {
             // 切换网络后，尝试连接
             // !active && connectWallet(injected, ChainId.BSC)
-        })
+        // })
         // eslint-disable-next-line
     }, [])
     return connectWallet

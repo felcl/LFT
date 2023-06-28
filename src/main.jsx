@@ -11,6 +11,7 @@ import { store, persistor } from './store'
 // import { config } from './wagmi'
 import './index.css'
 import Vconsole from 'vconsole'
+import './lang/index.js'
 // const vConsole = new Vconsole()
 function getLibrary(provider){
   const library = new Web3(provider);

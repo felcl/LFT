@@ -29,6 +29,7 @@
             margin-right: 60px;
             display: flex;
             align-items: center;
+            font-family: PingFang-Regular;
             color: #fff;
             cursor: pointer;
             img{
@@ -163,6 +164,7 @@
             align-items: center;
             color: #FFFFFF;
             font-size: 18px;
+            font-family: PingFang-Regular;
             cursor: pointer;
             img{
                 margin-right: 5px;
@@ -170,6 +172,17 @@
                 height: auto;
             }
         }
+    }
+}
+.LangContentContent{
+    .SelItem{
+        height: 40px;
+        display: flex;
+        align-items: center;
+        color: #000;
+        font-size: 16px;
+        cursor: pointer;
+        font-family: PingFang-Regular;
     }
 }
 :where(.css-dev-only-do-not-override-12jzuas).ant-menu-light{

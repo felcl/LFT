@@ -145,7 +145,6 @@ export default function Swap() {
       }
     }
     const putLftNUm = (e)=>{
-      console.log(changeNumPut(e.target.value))
       let putVal = changeNumPut(e.target.value)
       setLftNum(putVal)
       if(putVal){
