@@ -29,7 +29,7 @@ function App() {
       Axios.post('/uUser/auth',{
         chainType:1,
         userAddress:web3React.account,
-        refereeAddress:search.get('address')
+        refereeAddress:search.get('invite')
       }).then(res=>{
         dispatch({
           type:'SETTOKEN',

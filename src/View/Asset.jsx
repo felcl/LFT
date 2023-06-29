@@ -13,7 +13,7 @@ import Axios from '../axios'
 import {drawToken} from '../web3'
 import BigNumber from 'big.js';
 import { useSelector } from "react-redux";
-import { AddrHandle, dateFormat } from '../utils/tool';
+import { AddrHandle, dateFormat,NumSplic } from '../utils/tool';
 export default function Asset() {
     const web3React = useWeb3React();
     let Connect = useConnectWallet();
@@ -214,25 +214,25 @@ export default function Asset() {
                 <div className="TotalItem">
                     <div className="label">Total network</div>
                     {
-                        HomeData && <div className="value">$ {HomeData.totalPledgeAmount}</div>
+                        HomeData && <div className="value">$ {NumSplic(HomeData.totalPledgeAmount,2)}</div>
                     }
                 </div>
                 <div className="separate"></div>
                 <div className="TotalItem flexEnd">
                     <div className="label">DAO Treasury</div>
                     {
-                        HomeData &&<div className="value">$ {HomeData.totalReward}</div>
+                        HomeData &&<div className="value">$ {NumSplic(HomeData.totalReward,2)}</div>
                     }
                 </div>
             </div>
             <div className="balanceRow">
                 <div className="balanceItem">
                     <div className="label">LFT balance</div>
-                    <div className="value">{LFTAmount}</div>
+                    <div className="value">{NumSplic(LFTAmount,2)}</div>
                 </div>
                 <div className="balanceItem">
                     <div className="label">eLFT balance</div>
-                    <div className="value">{ELFTAmount}</div>
+                    <div className="value">{NumSplic(ELFTAmount,2)}</div>
                 </div>
             </div>
             {/* <div className="WithdrawBtn flexCenter" onClick={showWithdrawModal}>Withdraw</div> */}
@@ -247,7 +247,7 @@ export default function Asset() {
                 //     <div className="amount">{item.drawAmount} LFT</div>
                 //     <div className="time">{dateFormat('YYYY/mm/dd HH:MM:SS',new Date(item.createTime))}</div>
                 // </div>)
-                <Table dataSource={drawDetail.slice(0,5)} columns={columns} rowKey="id" pagination={false} scroll={scrollObj} />
+                <Table dataSource={drawDetail.slice(0,5)} showHeader={false} columns={columns} rowKey="id" pagination={false} scroll={scrollObj} />
                 :
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             }

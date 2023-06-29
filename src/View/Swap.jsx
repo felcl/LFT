@@ -233,6 +233,13 @@ export default function Swap() {
               '请输入正确的USDT数量'
           });
         }
+        if(new BigNumber(UsdtNum).lte(0)){
+          return notification.warning({
+              message: 'Warning',
+              description:
+              '请输入正确的USDT数量'
+          });
+        }
         if(!LftNum){
           return notification.warning({
               message: 'Warning',
@@ -242,6 +249,13 @@ export default function Swap() {
         }
       }else{
         if(!LftNum){
+          return notification.warning({
+              message: 'Warning',
+              description:
+              '请输入正确的LFT数量'
+          });
+        }
+        if(new BigNumber(LftNum).lte(0)){
           return notification.warning({
               message: 'Warning',
               description:

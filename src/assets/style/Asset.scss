@@ -87,7 +87,7 @@
                 font-size: 15px;
                 margin: 0 40px;
                 @media (max-width:500px) {
-                    // margin: 0 20px;
+                    margin: 0 20px;
                 }
             }
             .value{
@@ -97,6 +97,9 @@
                 background-clip: text;
                 text-fill-color: transparent;
                 font-size: 24px;
+                @media (max-width:500px) {
+                    text-align: center;
+                }
             }
         }
         .WithdrawBtn{
@@ -197,9 +200,9 @@
         }
     }
 }
-.ant-table-thead{
-    display: none;
-}
+// .ant-table-thead{
+//     display: none;
+// }
 :where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-tbody >tr >td{
     border-bottom: none;
 }

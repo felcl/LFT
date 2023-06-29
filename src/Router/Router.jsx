@@ -14,6 +14,7 @@ import Earn from '../View/Earn'
 import Stake from '../View/Stake'
 import SwapChart from '../View/SwapChart'
 import Asset from '../View/Asset'
+import Team from '../View/Team'
 
 export default function Router() {
     const location = useLocation();
@@ -37,6 +38,7 @@ export default function Router() {
           <Route path='/Stake' element={<Stake />} />
           <Route path='/SwapChart' element={<SwapChart />} />
           <Route path='/Asset' element={<Asset />} />
+          <Route path='/Team' element={<Team />} />
         </Routes>
     );
   }

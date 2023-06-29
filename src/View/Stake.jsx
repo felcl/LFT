@@ -3,10 +3,10 @@ import { Popover} from 'antd';
 import { useWeb3React } from "@web3-react/core";
 import { useConnectWallet, injected } from '../web3'
 import {ChainId} from '../config'
-import {useNavigate} from 'react-router-dom'
 import JTReturn from '../assets/image/JTReturn.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import JTDown from '../assets/image/JTDown.png'
+import {useSearchParams,useNavigate} from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import Axios from '../axios';
 import { notification } from 'antd';
@@ -17,6 +17,7 @@ import {getLFTBalance, stake, getLftAllowance, LftApprove} from '../web3'
 import { TokenConfig, ContractAddress } from '../config';
 export default function Stake() {
     const Token = useSelector(Store =>Store.token)
+    const [search] = useSearchParams();
     const web3React = useWeb3React();
     let Connect = useConnectWallet();
     // const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
@@ -26,7 +27,7 @@ export default function Stake() {
     const navigate = useNavigate();
     const [amount,setAmount] = useState('')
     const [openPopover,setOpenPopover] = useState(false)
-    const [Type,setType] = useState('LFT')
+    const [Type,setType] = useState(search.get('type') || 'LFT')
     const [LFTBalance,setLFTBalance] = useState(new BigNumber(0))
     // const { chain, chains } = useNetwork()
     // const {isConnected, address } = useAccount()
@@ -189,7 +190,7 @@ export default function Stake() {
         if(!amount || new BigNumber(amount).lte(0)){
             return <div className='submit flexCenter Disable' onClick={Submit}>Confirm</div>
         }
-        if(amount && LftAllowance.lt(amount)){
+        if(amount && LftAllowance.lt(amount) && Type === 'LFT'){
             return <div className='submit flexCenter' onClick={Approve}>
                 {
                     inApprove && <svg viewBox="25 25 50 50">

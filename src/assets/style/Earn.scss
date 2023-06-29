@@ -90,6 +90,7 @@
         .BtnRow{
             display: flex;
             margin-top: 25px;
+            align-items: center;
             .Btn{
                 width: 165px;
                 height: 40px;
@@ -100,7 +101,12 @@
             }
             .roseRed{
                 background: #FF25B2;
-                // margin-left: 40px;
+                margin-left: 23px;
+            }
+            .goRecord{
+                font-size: 16px;
+                color: #767676;
+                margin-left: auto;
             }
         }
     }

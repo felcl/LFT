@@ -104,7 +104,7 @@ export default function Header() {
     }
     const AboutContent = (
         <div className='AboutPopoverContent' style={{width:'170px'}}>
-            <div className='SelItem'>
+            <div className='SelItem' onClick={()=>{goPath('/Team')}}>
                 <img src={TeamIcon} alt="" />
                 Team
             </div>

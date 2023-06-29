@@ -13,6 +13,9 @@ import '../assets/style/Invitation.scss'
 import copyIcon from '../assets/image/copyIcon.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
 import VipIcon from '../assets/image/VipIcon.png'
+import Vip1 from '../assets/image/Vip1.png'
+import Vip2 from '../assets/image/Vip2.png'
+import Vip3 from '../assets/image/Vip3.png'
 
 
 export default function Team() {
@@ -27,6 +30,8 @@ export default function Team() {
     const [allTeamAmount,setAllTeamAmount] = useState(0)
     const [inviteLink,setInviteLink] = useState(0)
     const [refereeList,setRefereeList] = useState([])
+    const [userInfo,setUserInfo] = useState(null)
+    const VipIcon = [undefined,Vip1,Vip2,Vip3]
     useEffect(()=>{
         // console.log(chain,chains)
         if(web3React.active){
@@ -43,6 +48,10 @@ export default function Team() {
             Axios.get('/uUser/checkBind').then(res=>{
                 setIsBind(res.data.data)
                 console.log(res,'用户是否绑定上级')
+            })
+            Axios.get('/uUser/userDetail').then(res=>{
+                setUserInfo(res.data.data)
+                console.log(res,'用户信息')
             })
             Axios.get('/uUser/teamAndReferee').then(res=>{
                 setRefereeUserAddress(res.data.data.refereeUserAddress)
@@ -129,7 +138,10 @@ export default function Team() {
                 <span className="long">{web3React.active ? web3React.account : '请连接钱包'}</span>
                 <span className="short">{web3React.active ? AddrHandle(web3React.account,6,6) : '请连接钱包'}</span>
                 <img className='copyIcon' src={copyIcon} onClick={()=>{copyFun(web3React.account)}} alt="" />
-                <img className='VipIcon' src={VipIcon} alt="" />
+                {
+                    userInfo && <img className='VipIcon' src={VipIcon[userInfo.svipLevel]} alt="" />
+                }
+                
             </div>
             <div className="AmountRow">
                 <div className="AmountItem">
@@ -165,7 +177,7 @@ export default function Team() {
         <div className='RewardList'>
             <div className="RewardTotal">
                 <div className="label">Invitation reward</div>
-                <div className="value">{teamAmount} LFT {Rate && `≈ ${NumSplic(teamAmount / Rate,6)} USDT`}</div>
+                <div className="value">{teamAmount} eLFT {Rate && `≈ ${NumSplic(teamAmount / Rate,6)} USDT`}</div>
             </div>
             {
             refereeList.length > 0 ?

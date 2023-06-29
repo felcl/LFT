@@ -53,22 +53,36 @@
         @media (max-width:850px) {
             width: auto;
             margin: 47px 25px 30px;
+            padding: 20px 25px 16px;
         }
         @media (max-width:600px) {
             margin: 27px 25px 30px;
         }
+        @media (max-width:500px) {
+            padding: 20px 15px 10px;
+        }
         .ChartInfo{
             border-radius: 30px;
-            height: 65px;
+            // height: 65px;
             background: #EEEEEE;
             display: flex;
             justify-content: space-evenly;
             // justify-content: space-around;
             align-items: center;
+            padding: 10px 0;
+            @media (max-width:800px) {
+                flex-direction: column;
+            }
             .infoItem{
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                @media (max-width:800px) {
+                    width: 90%;
+                    flex-direction: row;
+                    justify-content:space-between;
+                    margin-bottom: 10px;
+                }
                 .label{
                     color: #767676;
                     font-size: 14px;
@@ -136,4 +150,10 @@
             }
         }
     }
+}
+.buyColor{
+    color: #1FB51A;
+}
+.sellColor{
+    color: #F64742;
 }
