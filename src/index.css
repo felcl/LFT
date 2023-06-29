@@ -15,7 +15,7 @@
   font-family: PingFang;  
   src: url(./assets/font/PingFangRegular.ttf);
 } */
-@font-face{
+/* @font-face{
   font-family: PingFang; 
   src: url(./assets/font/PingFangMedium.ttf);
 }
@@ -34,7 +34,7 @@
 @font-face{
   font-family: PingFang-Medium;
   src: url(./assets/font/PingFang/PingFang-Medium.ttf);
-}
+} */
 a {
   font-weight: 500;
   color: #646cff;

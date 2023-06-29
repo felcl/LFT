@@ -185,31 +185,31 @@
         font-family: PingFang-Regular;
     }
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light{
+.ant-menu-light{
     background: transparent;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light.ant-menu-root.ant-menu-inline{
+.ant-menu-light.ant-menu-root.ant-menu-inline{
     width: 100% !important;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light.ant-menu-inline .ant-menu-sub.ant-menu-inline{
+.ant-menu-light.ant-menu-inline .ant-menu-sub.ant-menu-inline{
     background: transparent;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light:not(.ant-menu-horizontal) .ant-menu-submenu-title:hover{
+.ant-menu-light:not(.ant-menu-horizontal) .ant-menu-submenu-title:hover{
     background: transparent;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-item-selected{
+.ant-menu-light .ant-menu-item-selected{
     background: transparent;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-item-selected{
+.ant-menu-light .ant-menu-item-selected{
     color: #fff;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light{
+.ant-menu-light{
     color: #fff;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected){
+.ant-menu-light .ant-menu-submenu-title:hover:not(.ant-menu-item-selected):not(.ant-menu-submenu-selected){
     color: #fff;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
+.ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title{
     color: #fff;
 }
 .ant-menu-item{
