@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Empty, Modal, notification} from 'antd';
-import {useAccount, useNetwork} from 'wagmi'
+import { useWeb3React } from "@web3-react/core";
+import { useConnectWallet } from '../web3'
 import { getReserves } from '../web3'
 import {AddrHandle, dateFormat} from '../utils/tool'
 import { useSelector } from "react-redux";
@@ -12,11 +13,13 @@ import '../assets/style/Invitation.scss'
 import copyIcon from '../assets/image/copyIcon.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
 import VipIcon from '../assets/image/VipIcon.png'
+import Vip1 from '../assets/image/Vip1.png'
+import Vip2 from '../assets/image/Vip2.png'
+import Vip3 from '../assets/image/Vip3.png'
 
 
 export default function Team() {
-    const {isConnected, address } = useAccount()
-    const { chain, chains } = useNetwork()
+    const web3React = useWeb3React();
     const Token = useSelector(Store =>Store.token)
     const [isinvitationModal, setIsinvitationModal] = useState(false);
     const [isBind,setIsBind] = useState(-1)
@@ -27,9 +30,11 @@ export default function Team() {
     const [allTeamAmount,setAllTeamAmount] = useState(0)
     const [inviteLink,setInviteLink] = useState(0)
     const [refereeList,setRefereeList] = useState([])
+    const [userInfo,setUserInfo] = useState(null)
+    const VipIcon = [undefined,Vip1,Vip2,Vip3]
     useEffect(()=>{
         // console.log(chain,chains)
-        if(isConnected && chain.id === chains[0].id){
+        if(web3React.active){
           // subscribeLFT('Approval',(event)=>{
           //   console.log(event,"授权事件监听")
           // })
@@ -37,12 +42,16 @@ export default function Team() {
             setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
           })
         }
-      },[isConnected,chain,address])
+      },[web3React.active])
     useEffect(()=>{
         if(Token){
             Axios.get('/uUser/checkBind').then(res=>{
                 setIsBind(res.data.data)
                 console.log(res,'用户是否绑定上级')
+            })
+            Axios.get('/uUser/userDetail').then(res=>{
+                setUserInfo(res.data.data)
+                console.log(res,'用户信息')
             })
             Axios.get('/uUser/teamAndReferee').then(res=>{
                 setRefereeUserAddress(res.data.data.refereeUserAddress)
@@ -57,10 +66,10 @@ export default function Team() {
         }
     },[Token])
     useEffect(()=>{
-        if(isConnected){
-            setInviteLink(location.origin+location.pathname+'#/?invite='+address)
+        if(web3React.active){
+            setInviteLink(location.origin+location.pathname+'#/?invite='+web3React.account)
         }
-    },[isConnected,address])
+    },[web3React.active,web3React.account])
     // const showModal = () => {
     //     setIsModalOpen(true);
     // };
@@ -126,10 +135,13 @@ export default function Team() {
                 <div className="userHeaderBox">
                     <div className="userHeader"></div>
                 </div>
-                <span className="long">{isConnected ? address : '请连接钱包'}</span>
-                <span className="short">{isConnected ? AddrHandle(address,6,6) : '请连接钱包'}</span>
-                <img className='copyIcon' src={copyIcon} onClick={()=>{copyFun(address)}} alt="" />
-                <img className='VipIcon' src={VipIcon} alt="" />
+                <span className="long">{web3React.active ? web3React.account : '请连接钱包'}</span>
+                <span className="short">{web3React.active ? AddrHandle(web3React.account,6,6) : '请连接钱包'}</span>
+                <img className='copyIcon' src={copyIcon} onClick={()=>{copyFun(web3React.account)}} alt="" />
+                {
+                    userInfo && <img className='VipIcon' src={VipIcon[userInfo.svipLevel]} alt="" />
+                }
+                
             </div>
             <div className="AmountRow">
                 <div className="AmountItem">
@@ -165,7 +177,7 @@ export default function Team() {
         <div className='RewardList'>
             <div className="RewardTotal">
                 <div className="label">Invitation reward</div>
-                <div className="value">{teamAmount} LFT {Rate && `≈ ${NumSplic(teamAmount / Rate,6)} USDT`}</div>
+                <div className="value">{teamAmount} eLFT {Rate && `≈ ${NumSplic(teamAmount / Rate,6)} USDT`}</div>
             </div>
             {
             refereeList.length > 0 ?

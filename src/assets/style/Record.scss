@@ -1,9 +1,12 @@
 .Record{
     background: url(../image/PolkaDotsBg.png);
-    min-height: 100vh;
     overflow: hidden;
-    padding-top: 110px;
+    padding-top: 80px;
     box-sizing: border-box;
+    min-height:calc(100vh - 78px);
+    @media (max-width:800px) {
+        min-height:calc(100vh - 40px);
+    }
     @media (max-width:780px) {
         padding-top: 100px;
     }
@@ -236,5 +239,22 @@
     }
     .cancel{
         background: #F64742;
+    }
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-thead >tr>th{
+    color: #767676;
+    font-size: 16px;
+    background: #fff;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-thead >tr>th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before{
+    display: none;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table{
+    font-size: 16px;
+    color: #000000;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-thead>tr>th, :where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-tbody>tr>th, :where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-tbody>tr>td, :where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper tfoot>tr>th, :where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper tfoot>tr>td{
+    @media (max-width:500px) {
+        padding: 8px;
     }
 }

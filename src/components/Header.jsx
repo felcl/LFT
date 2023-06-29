@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Drawer, Popover } from 'antd';
-import { useAccount, useConnect, useNetwork, useSwitchNetwork  } from 'wagmi'
-import { arbitrumGoerli} from 'wagmi/chains'
+import { Drawer, Popover, Menu } from 'antd';
 import {AddrHandle} from '../utils/tool'
+import { useConnectWallet, injected } from '../web3'
+import {ChainId} from '../config'
+import { useWeb3React } from "@web3-react/core";
 import '../assets/style/componentsStyle/Header.scss'
 import bannerLogo from '../assets/image/bannerLogo.png'
 import HomeIcon from '../assets/image/HomeIcon.png'
@@ -17,6 +18,9 @@ import Wallet from '../assets/image/Wallet.png'
 import ConvertIcon from '../assets/image/ConvertIcon.png'
 import ConvertIconBlack from '../assets/image/ConvertIconBlack.png'
 import ConvertIconOrange from '../assets/image/ConvertIconOrange.png'
+import AssetIcon from '../assets/image/AssetIcon.png'
+import AssetIconBlack from '../assets/image/AssetIconBlack.png'
+import AssetIconOrange from '../assets/image/AssetIconOrange.png'
 import AboutIcon from '../assets/image/AboutIcon.png'
 import AboutIconBlack from '../assets/image/AboutIconBlack.png'
 import AboutIconOrange from '../assets/image/AboutIconOrange.png'
@@ -32,15 +36,19 @@ import InvitationIcon from '../assets/image/InvitationIcon.png'
 import InvitationIconBlack from '../assets/image/InvitationIconBlack.png'
 import InvitationIconOrange from '../assets/image/InvitationIconOrange.png'
 import {useNavigate ,useLocation} from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 
 export default function Header() {
-    const { chain, chains } = useNetwork()
-    const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
-    const { address, isConnected } = useAccount()
-    const { connect, connectors, isLoading } = useConnect({
-        chainId: arbitrumGoerli.id,
-    })
+    const { t, i18n  } = useTranslation()
+    const web3React = useWeb3React();
+    let Connect = useConnectWallet();
+    // const { chain, chains } = useNetwork()
+    // const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
+    // const { address, isConnected } = useAccount()
+    // const { connect, connectors, isLoading } = useConnect({
+    //     chainId: arbitrumGoerli.id,
+    // })
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
@@ -48,12 +56,20 @@ export default function Header() {
         setOpen(false)
         navigate(path)
     }
+    const clickMenu = (e)=>{
+        if(e.key === 'Home'){
+            goPath('/')
+        }else{
+            goPath('/'+e.key)
+        }
+        console.log(e)
+    }
     const showDrawer = () => {
         setOpen(true);
-      };
-      const onClose = () => {
-        setOpen(false);
-      };
+    };
+    const onClose = () => {
+    setOpen(false);
+    };
     const MenuClass = (path) => {
         if(location.pathname === path){
             return 'MenuItem activeMenuItem'
@@ -76,18 +92,19 @@ export default function Header() {
         return Icon
     }
     const ConnectWallet = ()=>{
-        if(isConnected && chain.id !== chains[0].id){
-            return switchNetwork(arbitrumGoerli.id)
-        }
-        if(!isConnected){
-            connect({ connector: connectors[1] })
-        }
+        Connect(injected,ChainId.ARB)
+        // if(isConnected && chain.id !== chains[0].id){
+        //     return switchNetwork(arbitrumGoerli.id)
+        // }
+        // if(!isConnected){
+        //     connect({ connector: connectors[1] })
+        // }
         // console.log(switchNetwork(arbitrum.id))
         // console.log(chains, switchNetwork)
     }
     const AboutContent = (
         <div className='AboutPopoverContent' style={{width:'170px'}}>
-            <div className='SelItem'>
+            <div className='SelItem' onClick={()=>{goPath('/Team')}}>
                 <img src={TeamIcon} alt="" />
                 Team
             </div>
@@ -113,12 +130,44 @@ export default function Header() {
             </div>
         </div>
     );
-
+    const LangContent = <div className='LangContentContent'>
+            <div className='SelItem' onClick={()=>{i18n.changeLanguage('zh')}}>
+                {/* <img src={Wallet} alt="" /> */}
+                简体中文
+            </div>
+            <div className='SelItem' onClick={()=>{i18n.changeLanguage('en')}}>
+                {/* <img src={EarnIcon} alt="" /> */}
+                English
+            </div>
+    </div>
+    const getItem = (label, key, icon, children, type) => {
+        return {
+          key,
+          icon,
+          children,
+          label,
+          type,
+        };
+    }
+    const items = [
+        getItem('Home', 'Home', <img src={HomeIcon} alt="" />),
+        getItem('Swap', 'Swap', <img src={SwapIcon} alt="" />),
+        getItem('Convert', 'Convert', <img src={ConvertIcon} alt="" />),
+        getItem('Asset', 'AssetMain', <img src={AssetIcon} alt="" />, [
+          getItem('wallet', 'Asset'),
+          getItem('Earn', 'Earn'),
+          getItem('Invitation', 'Invitation')
+        ]),
+        getItem('About', 'About', <img src={AboutIcon} alt="" />, [
+            getItem('Team', 'Team'), 
+            getItem('Documentation', 'Documentation')]
+        ),
+    ];
     return (
         <>
         <div className="Header">
             <div className="Menu">
-                <div className={MenuClass('/')} onClick={()=>{goPath('/')}}><img src={MenuIcon('/',HomeIcon,HomeIconBlack,HomeIconOrange)} alt="" />Home</div>
+                <div className={MenuClass('/')} onClick={()=>{goPath('/')}}><img src={MenuIcon('/',HomeIcon,HomeIconBlack,HomeIconOrange)} alt="" />{t('Home')}</div>
                 <div className={MenuClass('/Swap')} onClick={()=>{goPath('/Swap')}}><img src={MenuIcon('/Swap',SwapIcon,SwapIconBlack,SwapIconOrange)} alt="" />Swap</div>
                 <div className={MenuClass('/Convert')} onClick={()=>{goPath('/Convert')}}><img src={MenuIcon('/Convert',ConvertIcon,ConvertIconBlack,ConvertIconOrange)} alt="" />Convert</div> 
                 {/* <Popover content={WalletContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
@@ -128,7 +177,7 @@ export default function Header() {
                 {/* <div className={MenuClass('/Invitation')} onClick={()=>{goPath('/Invitation')}}><img src={MenuIcon('/Invitation',InvitationIcon,InvitationIconBlack,InvitationIconOrange)} alt="" />Invitation</div> */}
                 {/* <div className={MenuClass()}><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div> */}
                 <Popover content={AssetContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('Asset')}>
-                    <div className={MenuClass()} id='Asset'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />Asset</div>
+                    <div className={MenuClass()} id='Asset'><img src={MenuIcon(undefined,AssetIcon,AssetIconBlack,AssetIconOrange)} alt="" />Asset</div>
                 </Popover>
                 <Popover content={AboutContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
                     <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div>
@@ -137,24 +186,36 @@ export default function Header() {
             <div className="HeaderRight">
                 <div className='connect flexCenter' onClick={ConnectWallet}>
                 {
-                    (isLoading || isLoadingSwitchNetwork) && <svg viewBox="25 25 50 50">
-                        <circle cx="50" cy="50" r="20"></circle>
-                    </svg>
+                    // (isLoading || isLoadingSwitchNetwork) && <svg viewBox="25 25 50 50">
+                    //     <circle cx="50" cy="50" r="20"></circle>
+                    // </svg>
                 }
-                { isConnected && chain.id === chains[0].id ? AddrHandle(address) : 'Connect wallet'}
+                { web3React.active ? AddrHandle(web3React.account) : 'Connect wallet'}
                 </div>
-                <div className="Lang">
-                    <img src={LangIcon} alt="" />
-                </div>
+                <Popover content={LangContent} placement="bottom"  overlayClassName="LangPopover" getPopupContainer={() => document.getElementById('Lang')}>
+                    <div className="Lang" id="Lang">
+                        <img src={LangIcon} alt="" />
+                    </div>
+                </Popover>
             </div>
             <img className="MenuIcon" onClick={showDrawer} src={location.pathname ==='/' ? MenuIconImg :blackMenuIcon} alt="" />
         </div>
         <Drawer placement="right" width={178} onClose={onClose} closable={false} open={open} rootClassName="DrawerBodyRoot" className="DrawerBody">
             <img src={bannerLogo} alt="" />
-            <div className='DrawerMenuItem' onClick={()=>{goPath('/')}}>Home</div>
+            <Menu
+                style={{
+                    width: 256,
+                }}
+                onClick={clickMenu}
+                defaultSelectedKeys={['1']}
+                defaultOpenKeys={['sub1']}
+                mode="inline"
+                items={items}
+            />
+            {/* <div className='DrawerMenuItem' onClick={()=>{goPath('/')}}>Home</div>
             <div className='DrawerMenuItem' onClick={()=>{goPath('/Swap')}}>Swap</div>
             <div className='DrawerMenuItem' onClick={()=>{goPath('/Convert')}}>Convert</div>
-            <div className='DrawerMenuItem' onClick={()=>{goPath('/Wallet')}}>Wallet</div>
+            <div className='DrawerMenuItem' onClick={()=>{goPath('/Wallet')}}>Wallet</div> */}
         </Drawer>
         </>
     )

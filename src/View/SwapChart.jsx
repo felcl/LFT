@@ -1,17 +1,21 @@
 import '../assets/style/SwapChart.scss'
 import {useNavigate} from 'react-router-dom'
+import * as dayjs from 'dayjs'
+import relativeTime  from 'dayjs/plugin/relativeTime'
 import Axios from '../axios'
-import { Empty } from 'antd';
+import { Empty, Table } from 'antd';
 import { AddrHandle} from '../utils/tool'
 import { createChart, ColorType } from 'lightweight-charts';
 import { useRef, useEffect, useState } from 'react'
 import JTReturn from '../assets/image/JTReturn.png'
 export default function SwapChart() {
+    dayjs.extend(relativeTime)
     const navigate = useNavigate();
     let RecordList = [].fill(1)
     RecordList = new Array(3).fill({});
     const [swapRecord,setSwapRecord] = useState([])
     const [swapData,setSwapData] = useState(null)
+    const  [scrollObj,setScrollObj] = useState({})
     const backgroundColor = 'white'
     const lineColor = '#EB6120'
     const textColor = '#767676'
@@ -86,6 +90,13 @@ export default function SwapChart() {
     // eslint-disable-next-line no-sparse-arrays
     const swapTypeEnum = [,'Buy','Sell']
     useEffect(()=>{
+        if(document.body.clientWidth <= 700){
+            setScrollObj({
+                x:600
+            })
+        }
+    },[])
+    useEffect(()=>{
         Axios.get('/swap/swapData').then(res=>{
             if(res.data.data){
                 setSwapData(res.data.data)
@@ -115,6 +126,35 @@ export default function SwapChart() {
             console.log(res,"平台交易所数据")
         })
     },[])
+    const columns = [
+        {
+          title: 'Time',
+          dataIndex: 'createTime',
+          key: 'Time',
+          render:(createTime)=>dayjs(createTime).fromNow()
+        },
+        {
+          title: 'Type',
+          dataIndex: 'swapType',
+          key: 'Type',
+          align:'center',
+          render:(swapType,row)=><span  className={row.swapType === 1 ? 'buyColor':'sellColor'}>{swapTypeEnum[swapType]}</span>
+        },
+        {
+          title: 'Amount',
+          dataIndex: 'swapType',
+          key: 'Amount',
+          align:'center',
+          render:(swapType,row)=><span className={row.swapType === 1 ? 'buyColor':'sellColor'}>{row.swapType === 2 ? '- ' + row.token0Amount + ' ' + row.token0Name:'-' + row.token1Amount + ' ' + row.token1Name}</span>
+        },
+        {
+          title: 'User',
+          dataIndex: 'userAddress',
+          key: 'User',
+          align:'right',
+          render:(userAddress)=>AddrHandle(userAddress, 7, 6)
+        },
+      ];
   return (
     <div className="SwapChart">
         <div className="Title">
@@ -148,27 +188,26 @@ export default function SwapChart() {
             <span></span>
         </div>
         <div className="HistoryBox">
-            <div className="th">
+            {/* <div className="th">
                 <div>Time</div>
                 <div>Type</div>
                 <div>Amount</div>
                 <div>User</div>
-            </div>
-            
+            </div> */}
             {
                 swapRecord.length >0 ?
-                swapRecord.map((item,index)=><div className='tr' key={index}>
-                    <div>9 sec(s) ago</div>
-                    <div>{swapTypeEnum[item.swapType]}</div>
-                    <div>{
-                        item.swapType === 2 ? '- ' + item.token0Amount + ' ' + item.token0Name:'-' + item.token1Amount + ' ' + item.token1Name
-                        }</div>
-                    <div>{AddrHandle(item.userAddress, 7, 6)}</div>
-                </div>)
+                // swapRecord.map((item,index)=><div className='tr' key={index}>
+                //     <div>{dayjs(item.createTime).fromNow() }</div>
+                //     <div>{swapTypeEnum[item.swapType]}</div>
+                //     <div>{
+                //         item.swapType === 2 ? '- ' + item.token0Amount + ' ' + item.token0Name:'-' + item.token1Amount + ' ' + item.token1Name
+                //         }</div>
+                //     <div>{AddrHandle(item.userAddress, 7, 6)}</div>
+                // </div>)
+                <Table columns={columns} rowKey={columns => columns.id} dataSource={swapRecord} pagination={false}  scroll={scrollObj} />
                 :
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             }
-            
         </div>
     </div>
   )

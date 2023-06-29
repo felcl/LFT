@@ -1,9 +1,12 @@
 .Wallet{
     background: url(../image/PolkaDotsBg.png);
-    min-height: 100vh;
     overflow: hidden;
-    padding-top: 110px;
+    padding-top: 80px;
     box-sizing: border-box;
+    min-height:calc(100vh - 78px);
+    @media (max-width:800px) {
+        min-height:calc(100vh - 40px);
+    }
     @media (max-width:780px) {
         padding-top: 100px;
     }

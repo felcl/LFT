@@ -1,58 +1,58 @@
 import '../assets/style/Stake.scss'
 import { Popover} from 'antd';
-import {useNavigate} from 'react-router-dom'
+import { useWeb3React } from "@web3-react/core";
+import { useConnectWallet, injected } from '../web3'
+import {ChainId} from '../config'
 import JTReturn from '../assets/image/JTReturn.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import JTDown from '../assets/image/JTDown.png'
+import {useSearchParams,useNavigate} from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import Axios from '../axios';
 import { notification } from 'antd';
 import BigNumber from 'big.js'
-import {useAccount, useNetwork, useSwitchNetwork, useConnect} from 'wagmi'
-import { arbitrumGoerli} from 'wagmi/chains'
+// import {useAccount, useNetwork, useSwitchNetwork, useConnect} from 'wagmi'
 import { useSelector } from "react-redux";
 import {getLFTBalance, stake, getLftAllowance, LftApprove} from '../web3'
 import { TokenConfig, ContractAddress } from '../config';
 export default function Stake() {
     const Token = useSelector(Store =>Store.token)
-    const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
+    const [search] = useSearchParams();
+    const web3React = useWeb3React();
+    let Connect = useConnectWallet();
+    // const { switchNetwork, isLoading:isLoadingSwitchNetwork } = useSwitchNetwork()
     const [LftAllowance , setLftAllowance] = useState(new BigNumber(0))
     const [inApprove,setInApprove] = useState(false)
     const [inStake,setInStake] = useState(false)
     const navigate = useNavigate();
     const [amount,setAmount] = useState('')
     const [openPopover,setOpenPopover] = useState(false)
-    const [Type,setType] = useState('LFT')
+    const [Type,setType] = useState(search.get('type') || 'LFT')
     const [LFTBalance,setLFTBalance] = useState(new BigNumber(0))
-    const { chain, chains } = useNetwork()
-    const {isConnected, address } = useAccount()
-    const { connect, connectors, isLoading } = useConnect({
-        chainId: arbitrumGoerli.id,
-    })
+    // const { chain, chains } = useNetwork()
+    // const {isConnected, address } = useAccount()
+    // const { connect, connectors, isLoading } = useConnect({
+    //     chainId: arbitrumGoerli.id,
+    // })
     useEffect(()=>{
         document.addEventListener('click',function(){
             setOpenPopover(false)
         });
     },[])
     useEffect(()=>{
-        if(isConnected && chain.id === chains[0].id){
+        if(web3React.active){
             getLftAllowanceFun()
-            getLFTBalance(address).then(res=>{
+            getLFTBalance(web3React.account).then(res=>{
                 setLFTBalance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
                 console.log(res,"用户LFT余额")
             })
         }
-    },[isConnected,chain.id])
+    },[web3React.active,web3React.account])
     const ConnectWallet = ()=>{
-        if(isConnected && chain.id !== chains[0].id){
-            return switchNetwork(arbitrumGoerli.id)
-        }
-        if(!isConnected){
-            connect({ connector: connectors[1] })
-        }
+        Connect(injected,ChainId.ARB)
     }
     const getLftAllowanceFun = ()=>{
-        getLftAllowance(address,ContractAddress.Pool).then(res=>{
+        getLftAllowance(web3React.account,ContractAddress.Pool).then(res=>{
           setLftAllowance(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals))
           console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),'LFT授权额度')
         })
@@ -67,7 +67,7 @@ export default function Stake() {
         }
         setInApprove(true)
         console.log(amount)
-        LftApprove(address,ContractAddress.Pool,new BigNumber(amount).times(10 ** TokenConfig.LFT.decimals).toString()).then(()=>{
+        LftApprove(web3React.account,ContractAddress.Pool,new BigNumber(amount).times(10 ** TokenConfig.LFT.decimals).toString()).then(()=>{
             getLftAllowanceFun()
         }).finally(()=>{
             setInApprove(false);
@@ -91,7 +91,7 @@ export default function Stake() {
         return putVal;
     }
     const changeAmount = (e)=>{
-        setAmount(changeNumPut(e.target.value)) 
+        setAmount(changeNumPut(e.target.value))
     }
     const Submit = ()=>{
         if(!Token){
@@ -124,7 +124,7 @@ export default function Stake() {
                 amount
             }).then(res=>{
                 if(res.data.code === 200){
-                    stake(address,res.data.data).then(res=>{
+                    stake(web3React.account,res.data.data).then(res=>{
                         console.log(res,"质押")
                         return notification.success({
                             message: 'Success',
@@ -181,7 +181,7 @@ export default function Stake() {
         </div>
     );
     const SubmitBtnRunder = ()=>{
-        if(!address || chain.id !== chains[0].id){
+        if(!web3React.active){
             return <div className="submit flexCenter" onClick={ConnectWallet}>Connect wallet</div>
         }
         if(!Token){
@@ -190,7 +190,7 @@ export default function Stake() {
         if(!amount || new BigNumber(amount).lte(0)){
             return <div className='submit flexCenter Disable' onClick={Submit}>Confirm</div>
         }
-        if(amount && LftAllowance.lt(amount)){
+        if(amount && LftAllowance.lt(amount) && Type === 'LFT'){
             return <div className='submit flexCenter' onClick={Approve}>
                 {
                     inApprove && <svg viewBox="25 25 50 50">
@@ -239,10 +239,13 @@ export default function Stake() {
                     <div className="label">You will receive</div>
                     <div className="value">eLFT</div>
                 </div>
-                <div className="InfoRow">
-                    <div className="label">Daily reward</div>
-                    <div className="value">1.1%</div>
-                </div>
+                {
+                    Type === 'LFT' &&
+                    <div className="InfoRow">
+                        <div className="label">Daily reward</div>
+                        <div className="value">1.1%</div>
+                    </div>
+                }
                 <div className="InfoRow">
                     <div className="label">Exchange rate</div>
                     <div className="value">1 eLFT = 1 LFT</div>

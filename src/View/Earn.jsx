@@ -79,6 +79,9 @@ export default function Earn() {
                 <div className="separate"></div>
                 <div className='BtnRow'>
                     <div className="Btn flexCenter" onClick={()=>{navigate('/Swap?type=Buy')}}>Buy LFT</div>
+                    <div className="goRecord" onClick={()=>{navigate('/PledgedRecord?type=LFT')}}>
+                        {'Convert record >'}
+                    </div>
                 </div>
             </div>
         }
@@ -127,8 +130,9 @@ export default function Earn() {
                 </div>
                 <div className="separate"></div>
                 <div className='BtnRow'>
-                {/* <div className="Btn flexCenter">Buy eLFT</div> */}
+                <div className="Btn flexCenter" onClick={()=>{navigate('/Stake?type=ELFT')}}>Stake eLFT</div>
                 <div className="Btn roseRed flexCenter" onClick={()=>{navigate('/PledgedRecord?type=ELFT')}}>Redeem eLFT</div>
+                <div className="goRecord" onClick={()=>{navigate('/PledgedRecord?type=ELFT')}}>{'Record >'}</div>
                 </div>
             </div>
         }

@@ -22,3 +22,20 @@ export const ABI={
     USDT:ERC20Token,
     Pool:Pool,
 }
+export const ChainId = {
+  ARB: 421613,
+}
+
+export const networkConf = {
+  [ChainId.ARB]: {
+    chainId: '0x66eed',
+    chainName: 'Arbitrum Goerli',
+    nativeCurrency: {
+        name: 'ETH',
+        symbol: 'ETH',
+        decimals: 18,
+    },
+    rpcUrls: ['https://rpc.goerli.arbitrum.gateway.fm','https://arbitrum-goerli.publicnode.com','https://arbitrum-goerli.public.blastapi.io','https://endpoints.omniatech.io/v1/arbitrum/goerli/public'],
+    blockExplorerUrls: ['https://arbiscan.io'],
+  }
+}
