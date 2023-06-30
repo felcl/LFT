@@ -10,5 +10,9 @@ export default defineConfig({
   },
   define: {
     'process.env': {}
+  },
+  optimizeDeps:{
+    include:['antd/es/*'],
+    exclude:['lodash']
   }
 })

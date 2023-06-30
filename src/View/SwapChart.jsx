@@ -1,9 +1,10 @@
 import '../assets/style/SwapChart.scss'
 import {useNavigate} from 'react-router-dom'
-import * as dayjs from 'dayjs'
+import  dayjs from 'dayjs'
 import relativeTime  from 'dayjs/plugin/relativeTime'
 import Axios from '../axios'
-import { Empty, Table } from 'antd';
+import Table from 'antd/es/table';
+import { Empty } from 'antd';
 import { AddrHandle} from '../utils/tool'
 import { createChart, ColorType } from 'lightweight-charts';
 import { useRef, useEffect, useState } from 'react'
@@ -131,7 +132,7 @@ export default function SwapChart() {
           title: 'Time',
           dataIndex: 'createTime',
           key: 'Time',
-          render:(createTime)=>dayjs(createTime).fromNow()
+        //   render:(createTime)=>dayjs(createTime).fromNow()
         },
         {
           title: 'Type',
@@ -196,15 +197,15 @@ export default function SwapChart() {
             </div> */}
             {
                 swapRecord.length >0 ?
-                // swapRecord.map((item,index)=><div className='tr' key={index}>
-                //     <div>{dayjs(item.createTime).fromNow() }</div>
-                //     <div>{swapTypeEnum[item.swapType]}</div>
-                //     <div>{
-                //         item.swapType === 2 ? '- ' + item.token0Amount + ' ' + item.token0Name:'-' + item.token1Amount + ' ' + item.token1Name
-                //         }</div>
-                //     <div>{AddrHandle(item.userAddress, 7, 6)}</div>
-                // </div>)
-                <Table columns={columns} rowKey={columns => columns.id} dataSource={swapRecord} pagination={false}  scroll={scrollObj} />
+                swapRecord.map((item,index)=><div className='tr' key={index}>
+                    <div>{dayjs(item.createTime).fromNow() }</div>
+                    <div>{swapTypeEnum[item.swapType]}</div>
+                    <div>{
+                        item.swapType === 2 ? '- ' + item.token0Amount + ' ' + item.token0Name:'-' + item.token1Amount + ' ' + item.token1Name
+                        }</div>
+                    <div>{AddrHandle(item.userAddress, 7, 6)}</div>
+                </div>)
+                // <Table columns={columns} rowKey={columns => columns.id} dataSource={swapRecord} pagination={false}  scroll={scrollObj} />
                 :
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             }
