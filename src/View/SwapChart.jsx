@@ -104,7 +104,7 @@ export default function SwapChart() {
             }
             console.log(res,"平台统计数据")
         })
-        Axios.get('/swap/swapKline').then(res=>{
+        Axios.get('/swap/swapKline').then(()=>{
             RunderChart([
                 { time: '2018-12-22', value: 32.51 },
                 { time: '2018-12-23', value: 31.11 },
