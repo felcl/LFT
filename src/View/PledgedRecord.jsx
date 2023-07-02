@@ -127,7 +127,7 @@ export default function SwapRecord() {
                     //     <div className="amount" style={{width:'30%',textAlign:'center'}}>{item.pledgeAmount}</div>
                     //     <div className="time" style={{width:'40%',textAlign:'center'}}>{dateFormat('YYYY-mm-dd HH:MM:SS',new Date(item.createTime))}</div>
                     // </div>)
-                    <Table dataSource={RecordList.slice(0,5)} columns={columns} rowKey="id" pagination={false} scroll={scrollObj} />
+                    <Table dataSource={RecordList.slice(-5)} columns={columns} rowKey="id" pagination={false} scroll={scrollObj} />
                     :
                     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 }

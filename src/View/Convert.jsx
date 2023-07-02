@@ -40,6 +40,12 @@ export default function Convert() {
                 description: '请输入正确的额度'
             });
         }
+        if(new BigNumber(fromValue).lte(0)){
+            notification.warning({
+                message: 'Warning',
+                description: '请输入正确的额度'
+            });
+        }
         if(new BigNumber(fromValue).gt(amount)){
             return notification.warning({
                 message: 'Warning',

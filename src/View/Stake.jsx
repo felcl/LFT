@@ -29,6 +29,7 @@ export default function Stake() {
     const [openPopover,setOpenPopover] = useState(false)
     const [Type,setType] = useState(search.get('type') || 'LFT')
     const [LFTBalance,setLFTBalance] = useState(new BigNumber(0))
+    const [ELFTBalance,setELFTBalance] = useState(new BigNumber(0))
     // const { chain, chains } = useNetwork()
     // const {isConnected, address } = useAccount()
     // const { connect, connectors, isLoading } = useConnect({
@@ -39,6 +40,20 @@ export default function Stake() {
             setOpenPopover(false)
         });
     },[])
+    useEffect(()=>{
+        if(Token){
+            Axios.get('/swap/exchangeBase').then(res=>{
+                console.log(res,"余额")
+                if(res.data.data){
+                    res.data.data.forEach(item=>{
+                        if(item.coin === 'ELFT'){
+                            setELFTBalance(new BigNumber(item.coinAmount))
+                        }
+                    })
+                }
+            })
+        }
+    },[Token])
     useEffect(()=>{
         if(web3React.active){
             getLftAllowanceFun()
@@ -116,6 +131,12 @@ export default function Stake() {
             return notification.warning({
                 message: 'Warning',
                 description: 'LFT余额不足'
+            });
+        }
+        if(ELFTBalance.lt(amount) && Type === 'ELFT'){
+            return notification.warning({
+                message: 'Warning',
+                description: 'ELFT余额不足'
             });
         }
         setInStake(true)
