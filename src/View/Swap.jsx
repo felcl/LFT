@@ -140,8 +140,32 @@ export default function Swap() {
     const changeSellOrBuy = ()=>{
       if(SellOrBuy == 'Sell'){
         setSellOrBuy('Buy')
+        if(UsdtNum){
+          let key = SerchKey.current + 1
+          SerchKey.current = key
+          let amount = new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString()
+          getAmountOut(amount,reserveUsdt,reserveLft).then(res=>{
+            if(key === SerchKey.current){
+              setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+              console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
+            }
+          },()=>{
+            console.log('错误')
+          })
+        }
       }else{
         setSellOrBuy('Sell')
+        if(LftNum){
+          let key = SerchKey.current + 1
+          SerchKey.current = key
+          let amount = new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString()
+          getAmountOut(amount,reserveLft,reserveUsdt).then(res=>{
+            if(key === SerchKey.current){
+              setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
+              console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输出量")
+            }
+          })
+        }
       }
     }
     const putLftNUm = (e)=>{
