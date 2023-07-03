@@ -131,7 +131,7 @@ export default function SwapChart() {
           title: 'Time',
           dataIndex: 'createTime',
           key: 'Time',
-        //   render:(createTime)=>dayjs(createTime).fromNow()
+          render:(createTime)=>dayjs(createTime).fromNow()
         },
         {
           title: 'Type',
