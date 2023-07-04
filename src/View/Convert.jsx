@@ -9,8 +9,10 @@ import { useEffect, useState } from 'react'
 import { notification } from 'antd';
 import { useSelector } from "react-redux";
 import BigNumber from 'big.js'
+import { useTranslation } from 'react-i18next'
 
 export default function Convert() {
+    const { t } = useTranslation()
     const navigate = useNavigate();
     const [amount,setAmount] = useState(0)
     const [price,setPrice] = useState(0)
@@ -24,32 +26,31 @@ export default function Convert() {
         if(!Token){
             return notification.warning({
                 message: 'Warning',
-                description: '请先登录'
+                description: t('pleaselogin')
             });
         }
         if(!price){
             return notification.warning({
                 message: 'Warning',
-                description:
-                '请稍后再试'
+                description:t('Pleasetryagain')
             });
         }
         if(!fromValue){
             return notification.warning({
                 message: 'Warning',
-                description: '请输入正确的额度'
+                description: t('Pleaseenterthe2')
             });
         }
         if(new BigNumber(fromValue).lte(0)){
             notification.warning({
                 message: 'Warning',
-                description: '请输入正确的额度'
+                description: t('Pleaseenterthe2')
             });
         }
         if(new BigNumber(fromValue).gt(amount)){
             return notification.warning({
                 message: 'Warning',
-                description: '余额不足'
+                description: t('Insufficientbalance')
             });
         }
         Axios.post('/swap/exchange',{
@@ -60,7 +61,7 @@ export default function Convert() {
             if(res.data.code === 200){
                 return notification.success({
                     message: 'Success',
-                    description: '兑换成功'
+                    description: t('successfulexchange')
                 });
             }else{
                 return notification.error({
@@ -71,7 +72,7 @@ export default function Convert() {
         },()=>{
             return notification.error({
                 message: 'Error',
-                description: '兑换失败'
+                description: t('Exchangefailed')
             });
         })
     }
@@ -134,20 +135,20 @@ export default function Convert() {
     },[])
     return (
         <div className="Convert">
-            <div className="Title">Convert</div>
+            <div className="Title">{t('Convert1')}</div>
             <div className="ConvertBox">
-                <div className="label">From</div>
+                <div className="label">{t('From')}</div>
                 <div className='JtPosition'>
                 <img className='ConvertJt' src={ConvertJt} alt="" />
                 <div className="put">
                     <input type="text" value={fromValue} onChange={changeFromValue} />
-                    <span className="Max" onClick={()=>{changeFromValue(amount)}}>MAX</span>
+                    <span className="Max" onClick={()=>{changeFromValue(amount)}}>{t('MAX')}</span>
                     <div className='TokenInfo flexCenter'>
                         <img src={ELFTIcon} alt="" />
                         ELFT
                     </div>
                 </div>
-                <div className="label">To</div>
+                <div className="label">{t('To')}</div>
                 <div className="put">
                     <input type="text" value={toValue} onChange={changeToValue} />
                     <div className='TokenInfo flexCenter'>
@@ -157,10 +158,10 @@ export default function Convert() {
                 </div>
                 </div>
                 {
-                    fee !==0 && <div className="ServiceCharge"> Service charge：{fee * 100}% </div>
+                    fee !==0 && <div className="ServiceCharge"> {t('Servicecharge')}：{fee * 100}% </div>
                 }
                 
-                <div className={submitRunder()} onClick={exchange}>Confirm</div>
+                <div className={submitRunder()} onClick={exchange}>{t('Confirm')}</div>
             </div>
             <div className="goRecord" onClick={()=>{navigate('/ConvertRecord')}}>
                 {'Convert record >'}

@@ -10,6 +10,7 @@ import copy from "copy-to-clipboard";
 import BigNumber from 'big.js'
 import {NumSplic} from '../utils/tool'
 import '../assets/style/Invitation.scss'
+import { useTranslation } from 'react-i18next'
 import copyIcon from '../assets/image/copyIcon.png'
 import CloseIcon from '../assets/image/CloseIcon.png'
 import VipIcon from '../assets/image/VipIcon.png'
@@ -20,6 +21,7 @@ import Vip3 from '../assets/image/Vip3.png'
 
 export default function Team() {
     const web3React = useWeb3React();
+    const { t } = useTranslation()
     const Token = useSelector(Store =>Store.token)
     const [isinvitationModal, setIsinvitationModal] = useState(false);
     const [isBind,setIsBind] = useState(-1)
@@ -77,8 +79,7 @@ export default function Team() {
         copy(text);
         return notification.open({
             message: 'Success',
-            description:
-            '复制成功'
+            description:t('copysuccessfully')
         });
     };
 
@@ -86,8 +87,7 @@ export default function Team() {
         if(!invitationAddr){
             return notification.open({
                 message: 'Error',
-                description:
-                '请输入争取的邀请地址'
+                description:t('Pleaseenterthe3')
             });
         }
         Axios.post('/uUser/bind',{
@@ -98,8 +98,7 @@ export default function Team() {
                 setIsinvitationModal(false)
                 notification.open({
                     message: 'Success',
-                    description:
-                    '绑定成功'
+                    description:t('bindsuccessfully')
                 });
                 Axios.get('/uUser/checkBind').then(res=>{
                     setIsBind(res.data.data)
@@ -115,8 +114,7 @@ export default function Team() {
                 console.log(res.data.msg)
                 notification.open({
                     message: 'Success',
-                    description:
-                    '绑定失败'
+                    description:t('bindingfailed')
                 });
             }
         })
@@ -135,8 +133,8 @@ export default function Team() {
                 <div className="userHeaderBox">
                     <div className="userHeader"></div>
                 </div>
-                <span className="long">{web3React.active ? web3React.account : '请连接钱包'}</span>
-                <span className="short">{web3React.active ? AddrHandle(web3React.account,6,6) : '请连接钱包'}</span>
+                <span className="long">{web3React.active ? web3React.account : t('Pleaseconnectwallet')}</span>
+                <span className="short">{web3React.active ? AddrHandle(web3React.account,6,6) : t('Pleaseconnectwallet')}</span>
                 <img className='copyIcon' src={copyIcon} onClick={()=>{copyFun(web3React.account)}} alt="" />
                 {
                     userInfo && <img className='VipIcon' src={VipIcon[userInfo.svipLevel]} alt="" />
@@ -145,26 +143,26 @@ export default function Team() {
             </div>
             <div className="AmountRow">
                 <div className="AmountItem">
-                    <div className="AmountLabel">Members</div>
+                    <div className="AmountLabel">{t('Members')}</div>
                     <div className="AmountValue">7</div>
                 </div>
                 <div className="AmountItem">
-                    <div className="AmountLabel">Total performance</div>
+                    <div className="AmountLabel">{t('Totalperformance')}</div>
                     <div className="AmountValue">${allTeamAmount}</div>
                 </div>
             </div>
             <div className="invitedInfo">
                 <div className="invitedMe">
-                    <div className="invitedMeLabel">who invited me</div>
+                    <div className="invitedMeLabel">{t('whoinvitedme')}</div>
                     {
                         isBind !== -1 && <>
-                        {isBind === 0 && <div className="invitedBtn flexCenter" onClick={()=>{setIsinvitationModal(true)}}>Invitation address</div>}
+                        {isBind === 0 && <div className="invitedBtn flexCenter" onClick={()=>{setIsinvitationModal(true)}}>{t('Invitationaddress')}</div>}
                         {isBind === 1 && refereeUserAddress && <div className="invitedMeValue">{AddrHandle(refereeUserAddress,5,5)}</div>}
                         </>
                     }
                 </div>
                 <div className="invitedLink">
-                    <div className="invitedLinkLabel">My invitation link</div>
+                    <div className="invitedLinkLabel">{t('Myinvitationlink')}</div>
                     <div className="invitedLinkValue">
                         {AddrHandle(inviteLink,16,10)}
                         {/* <span className="long">{inviteLink}</span>
@@ -176,7 +174,7 @@ export default function Team() {
         </div>
         <div className='RewardList'>
             <div className="RewardTotal">
-                <div className="label">Invitation reward</div>
+                <div className="label">{t('Invitationreward')}</div>
                 <div className="value">{teamAmount} eLFT {Rate && `≈ ${NumSplic(teamAmount / Rate,6)} USDT`}</div>
             </div>
             {
@@ -193,11 +191,11 @@ export default function Team() {
         {/* 邀请弹窗 */}
         <Modal open={isinvitationModal} onCancel={()=>{setIsinvitationModal(false)}} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
             <img className="Close" src={CloseIcon} onClick={()=>{setIsinvitationModal(false)}} alt="" />
-            <div className="Title">invitation address</div>
+            <div className="Title">{t('Invitationaddress')}</div>
             <div className='putBox'>
                 <input type="text" placeholder='Enter invitation address' onChange={changeInvitationAddr} />
             </div>
-            <div className="Confirm flexCenter" onClick={invitationAddrFun}>Confirm</div>
+            <div className="Confirm flexCenter" onClick={invitationAddrFun}>{t('Confirm')}</div>
         </Modal>
 
     </div>

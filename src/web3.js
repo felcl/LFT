@@ -137,6 +137,14 @@ export function getReserves(){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* 获取手续费率 */
+export function swapFee(){
+    if(verifyExistence('Swap')){
+        return contract.Swap.methods.swapFee().call()
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
 /* 获取输出数量 */
 export function getAmountOut(amountIn,reserveIn,reserveOut){
     if(verifyExistence('Swap')){

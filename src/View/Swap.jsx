@@ -11,14 +11,16 @@ import USDTIcon from '../assets/image/USDTIcon.png'
 import chartIcon from '../assets/image/chartIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
 import { useEffect, useState, useMemo, useRef} from 'react';
-import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, getAmountOut, getAmountIn, swapBuy, swapSell} from '../web3'
+import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, getAmountOut, getAmountIn, swapBuy, swapSell,swapFee} from '../web3'
 import { ContractAddress, TokenConfig} from '../config'
 import BigNumber from "big.js";
+import { useTranslation } from 'react-i18next'
 // import Axios from '../axios';
 BigNumber.NE = -40;
 BigNumber.PE = 40;
 
 export default function Swap() {
+  const { t } = useTranslation()
   const navigate = useNavigate();
   const web3React = useWeb3React();
   let Connect = useConnectWallet();
@@ -30,7 +32,8 @@ export default function Swap() {
   const [search] = useSearchParams();
   // const {isConnected, address } = useAccount()
   const [SellOrBuy , setSellOrBuy] = useState(search.get('type') || 'Sell')
-  const [ , setRate] = useState(0)
+  const [ Rate, setRate] = useState(0)
+  const [ Fee, setFee] = useState(0)
   const [reserveUsdt , setReserveUsdt] = useState(0)
   const [reserveLft , setReserveLft] = useState(0)
   const [LftNum , setLftNum] = useState('')
@@ -62,12 +65,16 @@ export default function Swap() {
       // subscribeLFT('Approval',(event)=>{
       //   console.log(event,"授权事件监听")
       // })
+      swapFee().then(res=>{
+        console.log(res,'手续费率')
+        setFee(new BigNumber(res).div(10).toString())
+      })
       getReserves().then(res=>{
         console.log(res)
         setReserveUsdt(res._reserve1)
         setReserveLft(res._reserve0)
         // new BigNumber(res._reserve0).div(res._reserve1)
-        setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)))
+        setRate(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)).toString())
         console.log(new BigNumber(res._reserve0).div(res._reserve1).div(new BigNumber(10**18).div(10**6)).toString())
       })
       getLftAllowanceFun()
@@ -112,8 +119,7 @@ export default function Swap() {
       if(inApprove){
         return notification.warning({
             message: 'Warning',
-            description:
-            '请勿重复提交'
+            description:t('Donotresubmit')
         });
       }
       setInApprove(true);
@@ -124,14 +130,12 @@ export default function Swap() {
         (SellOrBuy === 'Sell' ? getLftAllowanceFun : getUsdtAllowanceFun)()
         notification.success({
             message: 'Success',
-            description:
-            '授权成功'
+            description:t('Authorizationsuccessful')
         });
       },()=>{
         notification.error({
           message: 'Error',
-          description:
-          '授权失败'
+          description:t('Authorizationfailed')
       });
       }).finally(()=>{
         setInApprove(false)
@@ -245,67 +249,58 @@ export default function Swap() {
       if(inSubmit){
         return notification.warning({
             message: 'Warning',
-            description:
-            '请勿重复提交'
+            description:t('Donotresubmit')
         });
       }
       if(SellOrBuy === 'Buy'){
         if(!UsdtNum){
           return notification.warning({
               message: 'Warning',
-              description:
-              '请输入正确的USDT数量'
+              description:t('Pleaseenterthe6')
           });
         }
         if(new BigNumber(UsdtNum).lte(0)){
           return notification.warning({
               message: 'Warning',
-              description:
-              '请输入正确的USDT数量'
+              description:t('Pleaseenterthe6')
           });
         }
         if(!LftNum){
           return notification.warning({
               message: 'Warning',
-              description:
-              '请输入正确的LFT数量'
+              description:t('Pleaseenterthe7')
           });
         }
       }else{
         if(!LftNum){
           return notification.warning({
               message: 'Warning',
-              description:
-              '请输入正确的LFT数量'
+              description:t('Pleaseenterthe7')
           });
         }
         if(new BigNumber(LftNum).lte(0)){
           return notification.warning({
               message: 'Warning',
-              description:
-              '请输入正确的LFT数量'
+              description:t('Pleaseenterthe7')
           });
         }
         if(!UsdtNum){
           return notification.warning({
               message: 'Warning',
-              description:
-              '请输入正确的USDT数量'
+              description:t('Pleaseenterthe6')
           });
         }
       }
       if(SellOrBuy === 'Buy' && UsdtBalance.lt(UsdtNum)){
         return notification.warning({
             message: 'Warning',
-            description:
-            'USDT余额不足'
+            description:t('InsufficientUSDTbalance')
         });
       }
       if(SellOrBuy === 'Sell' && LftBalance.lt(LftNum)){
         return notification.warning({
             message: 'Warning',
-            description:
-            'LFT余额不足'
+            description:t('Insufficientbalanceof1')
         });
       }
       setInSubmit(true)
@@ -323,14 +318,12 @@ export default function Swap() {
           setLftNum('')
           return notification.success({
               message: 'Success',
-              description:
-              '兑换成功'
+              description:t('successfulexchange1')
           });
         },()=>{
           return notification.error({
             message: 'Error',
-            description:
-            '兑换失败'
+            description:t('Exchangefailed1')
         });
         }).finally(()=>{
           setInSubmit(false)
@@ -348,14 +341,12 @@ export default function Swap() {
           setLftNum('')
           return notification.success({
               message: 'Success',
-              description:
-              '兑换成功'
+              description:t('successfulexchange1')
           });
         },()=>{
           return notification.error({
             message: 'Error',
-            description:
-            '兑换失败'
+            description:t('Exchangefailed1')
         });
         }).finally(()=>{
           setInSubmit(false)
@@ -365,11 +356,11 @@ export default function Swap() {
     const submitBtnRun = ()=>{
       /* 未链接钱包 */
       if(!web3React.active){
-        return <div className="submit flexCenter" onClick={ConnectWallet}>Connect wallet</div>
+        return <div className="submit flexCenter" onClick={ConnectWallet}>{t('Connectwallet')}</div>
       }
       /* 未输入数量 */
       if((SellOrBuy === 'Sell' && !LftNum) || (SellOrBuy === 'Buy' && !UsdtNum)){
-        return <div className="submit flexCenter Disabled" onClick={Submit}>Enter</div>
+        return <div className="submit flexCenter Disabled" onClick={Submit}>{t('Enter')}</div>
       }
       /* 未授权 */
       if(!isApprove){
@@ -379,7 +370,7 @@ export default function Swap() {
                             <circle cx="50" cy="50" r="20"></circle>
                           </svg>
           }
-          Approve
+          {t('Approve1')}
         </div>
       }
       /* 验证通过发起交易 */
@@ -389,12 +380,12 @@ export default function Swap() {
                             <circle cx="50" cy="50" r="20"></circle>
                           </svg>
         }
-        Enter
+        {t('Enter')}
         </div>
     }
     return (
         <div className='Swap'>
-            <div className="Title">Swap</div>
+            <div className="Title">{t('Swap')}</div>
             <div className="SwapBox">
                 <div className="Tabs">
                     {/* <div className="tabItem tabItemActive" onClick={()=>{setSellOrBuy('Sell')}}>Swap</div>
@@ -434,20 +425,16 @@ export default function Swap() {
                         </Canvas>
                     </div> */}
                     <div className="InfoRow">
-                        <div className="label">Exchange Route</div>
-                        <div className="value">-</div>
+                        <div className="label">{t('Referenceprice')}</div>
+                        <div className="value">{Rate ? `1USDT ≈ ${Rate}LFT`:'-'}</div>
                     </div>
                     <div className="InfoRow">
-                        <div className="label">Reference price</div>
-                        <div className="value">-</div>
+                        <div className="label">{t('Fee')}</div>
+                        <div className="value">{Fee ? `${Fee}%`:'-'}</div>
                     </div>
                     <div className="InfoRow">
-                        <div className="label">Fee</div>
-                        <div className="value">-</div>
-                    </div>
-                    <div className="InfoRow">
-                        <div className="label">Expected output</div>
-                        <div className="value">-</div>
+                        <div className="label">{t('Expectedoutput')}</div>
+                        <div className="value">{SellOrBuy === 'Sell' ? UsdtNum:LftNum}</div>
                     </div>
                     {/* <div className="InfoRow borderTop">
                         <div className="label">Order routing</div>

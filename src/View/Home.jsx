@@ -17,8 +17,10 @@ import Telegram from '../assets/image/Telegram.png'
 import Twitter from '../assets/image/Twitter.png'
 import In from '../assets/image/In.png'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function Home() {
+    const { t } = useTranslation()
     const [HomeData,setHomeData] = useState(null)
     const navigate = useNavigate();
     useEffect(()=>{
@@ -32,24 +34,24 @@ export default function Home() {
             <div className="Banner">
                 <img className="bannerLogo" src={bannerLogo} alt="" />
                 <img className="BannerTokenName" src={BannerTokenName} alt="" />
-                <div className="introduce">An innovative options trading platform on Arbitrum</div>
-                <div className="StakeNow flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
+                <div className="introduce">{t('Aninnovativeoptions')}</div>
+                <div className="StakeNow flexCenter" onClick={()=>{navigate('/Stake')}}>{t('Stakenow')}</div>
             </div>
             <div className="TotalValue">
                 <div className="TotalValueItem">
-                    <div className="label">Total staked tokens</div>
+                    <div className="label">{t('Totalstakedtokens')}</div>
                     {
-                        HomeData && <div className="Value">$<CountUp start={0} end={HomeData.arbStaked} duration={1} decimals="0"></CountUp></div>
+                        HomeData && <div className="Value">$<CountUp start={0} end={HomeData.totalPledgeAmount} duration={1} decimals="0"></CountUp></div>
                     }
                 </div>
                 <div className="TotalValueItem">
-                    <div className="label">Total rewards paid</div>
+                    <div className="label">{t('Totalrewardspaid')}</div>
                     {
                         HomeData && <div className="Value">$<CountUp start={0} end={HomeData.totalReward} duration={1} decimals="0"></CountUp></div>
                     }
                 </div>
                 <div className="TotalValueItem">
-                    <div className="label">Total Treasury</div>
+                    <div className="label">{t('TotalTreasury')}</div>
                     {
                         HomeData && <div className="Value">$<CountUp start={0} end={HomeData.nationalAmount} duration={1} decimals="0"></CountUp></div>
                     }
@@ -59,62 +61,62 @@ export default function Home() {
                 <div>
                     <img src={ModelImg1} alt="" />
                     <div className="flexCenter">
-                        <div className="Btn flexCenter" onClick={()=>{navigate('/Swap')}}>Swap</div>
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Swap')}}>{t('Swap')}</div>
                         <div className="subText">LFT/USDT</div>
                     </div>
                 </div>
                 <div>
                     <img src={ModelImg2} alt="" />
                     <div className="flexCenter">
-                        <div className="Btn flexCenter" onClick={()=>{navigate('/Convert')}}>Convert</div>
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Convert')}}>{t('Convert')}</div>
                         <div className="subText">eLFT ➡ LFT</div>
                     </div>
                 </div>
                 <div>
                     <img src={ModelImg3} alt="" />
                     <div className="flexCenter">
-                        <div className="Btn flexCenter" onClick={()=>{navigate('/Stake')}}>Stake now</div>
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Stake')}}>{t('Stakenow')}</div>
                         <div className="subText">Up to <span className='green'>300%</span> returns</div>
                     </div>
                 </div>
                 <div>
                     <img src={ModelImg4} alt="" />
                     <div className="flexCenter">
-                        <div className="Btn flexCenter" onClick={()=>{navigate('/Invitation')}}>Exclusive Members</div>
-                        <div className="subText">Coming soon...</div>
+                        <div className="Btn flexCenter" onClick={()=>{navigate('/Invitation')}}>{t('ExclusiveMembers')}</div>
+                        <div className="subText">{t('Comingsoon...')}</div>
                     </div>
                 </div>
             </div>
             <div className="Step">
-                <div className="Title">How LFT works</div>
+                <div className="Title">{t('HowLFTworks')}</div>
                 <div className="stepRow">
                     <div className="progressBar"></div>
                     <div className="stepItem">
-                        <div className="stepTitle">STEP.1</div>
+                        <div className="stepTitle">{t('STEP')}.1</div>
                         <div className="stepImgBorder">
                             <div className='stepImgBox flexCenter'>
                                 <img src={step1} alt="" />
                             </div>
                         </div>
-                        <div className='stepName'>Swap</div>
+                        <div className='stepName'>{t('Swap')}</div>
                         <div className='stepText'>
-                        Stake any amount of your tokens to access daily staking rewards
+                        {t('Stakeanyamount')}
                         </div>
                     </div>
                     <div className="stepItem">
-                        <div className="stepTitle">STEP.2</div>
+                        <div className="stepTitle">{t('STEP')}.2</div>
                         <div className="stepImgBorder">
                             <div className='stepImgBox flexCenter'>
                                 <img src={step2} alt="" />
                             </div>
                         </div>
-                        <div className='stepName'>Stake</div>
+                        <div className='stepName'>{t('Stake')}</div>
                         <div className='stepText'>
-                        Receive liquid stTokens and start to receive rewards in real-time
+                        {t('ReceiveliquidstTokens')}
                         </div>
                     </div>
                     <div className="stepItem">
-                        <div className="stepTitle">STEP.3</div>
+                        <div className="stepTitle">{t('STEP')}.3</div>
                         <div className="stepImgBorder">
                             <div className='stepImgBox flexCenter'>
                                 <img src={step3} alt="" />
@@ -122,7 +124,7 @@ export default function Home() {
                         </div>
                         <div className='stepName'>Earn extra rewards</div>
                         <div className='stepText'>
-                        Use your stTokens across DeFi to compound more to your daily staked rewards
+                            {t('UseyourstTokens')}
                         </div>
                     </div>
                 </div>
@@ -167,28 +169,28 @@ export default function Home() {
                 <div className="subTitle">Join our community</div> */}
                 <div className="JoinGrid">
                     <div className="JoinMain">
-                        <span className="JoinMainTitle">Social Media</span>
-                        <span className="JoinMainsunTitle">Join our community</span>
+                        <span className="JoinMainTitle">{t('SocialMedia')}</span>
+                        <span className="JoinMainsunTitle">{t('Joinourcommunity')}</span>
                         <img src={rabbit} alt="" />
                     </div>
                     <div className="joinItem">
                         <img src={Telegram} alt="" />
                         <div className="joinItemInfo">
-                            <div className="InfoNmae">Telegram</div>
-                            <div className="InfoSub">Join chat</div>
+                            <div className="InfoNmae">{t('Telegram')}</div>
+                            <div className="InfoSub">{t('Joinchat')}</div>
                         </div>
                     </div>
                     <div className="joinItem">
                         <img src={Twitter} alt="" />
                         <div className="joinItemInfo">
-                            <div className="InfoNmae">Twitter</div>
+                            <div className="InfoNmae">{t('Telegram')}</div>
                             <div className="InfoSub">Follow @LiftedStake</div>
                         </div>
                     </div>
                     <div className="joinItem">
                         <img src={In} alt="" />
                         <div className="joinItemInfo">
-                            <div className="InfoNmae">Telegram</div>
+                            <div className="InfoNmae">{t('Telegram')}</div>
                             <div className="InfoSub">Join chat</div>
                         </div>
                     </div>

@@ -15,7 +15,9 @@ import BigNumber from 'big.js'
 import { useSelector } from "react-redux";
 import {getLFTBalance, stake, getLftAllowance, LftApprove} from '../web3'
 import { TokenConfig, ContractAddress } from '../config';
+import { useTranslation } from 'react-i18next'
 export default function Stake() {
+    const { t } = useTranslation()
     const Token = useSelector(Store =>Store.token)
     const [search] = useSearchParams();
     const web3React = useWeb3React();
@@ -76,8 +78,7 @@ export default function Stake() {
         if(inApprove){
             return notification.warning({
                 message: 'Warning',
-                description:
-                '请勿重复提交'
+                description:t('Donotresubmit1')
             });
         }
         setInApprove(true)
@@ -112,25 +113,25 @@ export default function Stake() {
         if(!Token){
             return notification.warning({
                 message: 'Warning',
-                description: '请先登录'
+                description: t('pleaselogin')
             });
         }
         if(!amount){
             return notification.warning({
                 message: 'Warning',
-                description: '请输入数量'
+                description: t('Pleaseenterthe4')
             });
         }
         if(new BigNumber(amount).lte(0)){
             return notification.warning({
                 message: 'Warning',
-                description: '请输入正确的质押数量'
+                description: t('Pleaseenterthe5')
             });
         }
         if(LFTBalance.lt(amount) && Type === 'LFT'){
             return notification.warning({
                 message: 'Warning',
-                description: 'LFT余额不足'
+                description: t('Insufficientbalanceof')
             });
         }
         if(ELFTBalance.lt(amount) && Type === 'ELFT'){
@@ -149,12 +150,12 @@ export default function Stake() {
                         console.log(res,"质押")
                         return notification.success({
                             message: 'Success',
-                            description: '质押成功'
+                            description: t('Pledgesuccessful')
                         });
                     },()=>{
                         notification.error({
                             message: 'Error',
-                            description: '质押失败'
+                            description: t('Pledgefailed')
                         });
                     }).finally(()=>{
                         setInStake(false)
@@ -162,13 +163,13 @@ export default function Stake() {
                 }else{
                     notification.error({
                         message: 'Error',
-                        description: '质押失败'
+                        description: t('Pledgefailed')
                     });
                 }
             },()=>{
                 notification.error({
                     message: 'Error',
-                    description: '质押失败'
+                    description: t('Pledgefailed')
                 });
                 setInStake(false)
             })
@@ -180,12 +181,12 @@ export default function Stake() {
                 console.log(res,'ELFT质押数据')
                 return notification.success({
                     message: 'Success',
-                    description: '质押成功'
+                    description: t('Pledgesuccessful')
                 });
             },()=>{
                 notification.error({
                     message: 'Error',
-                    description: '质押成功'
+                    description: t('Pledgefailed')
                 });
             }).finally(()=>{
                 setInStake(false)
@@ -203,13 +204,13 @@ export default function Stake() {
     );
     const SubmitBtnRunder = ()=>{
         if(!web3React.active){
-            return <div className="submit flexCenter" onClick={ConnectWallet}>Connect wallet</div>
+            return <div className="submit flexCenter" onClick={ConnectWallet}>{t('Connectwallet')}</div>
         }
         if(!Token){
-            return <div className='submit flexCenter Disable' onClick={Submit}>Confirm</div>
+            return <div className='submit flexCenter Disable' onClick={Submit}>{t('Confirm')}</div>
         }
         if(!amount || new BigNumber(amount).lte(0)){
-            return <div className='submit flexCenter Disable' onClick={Submit}>Confirm</div>
+            return <div className='submit flexCenter Disable' onClick={Submit}>{t('Confirm')}</div>
         }
         if(amount && LftAllowance.lt(amount) && Type === 'LFT'){
             return <div className='submit flexCenter' onClick={Approve}>
@@ -218,7 +219,7 @@ export default function Stake() {
                                     <circle cx="50" cy="50" r="20"></circle>
                                 </svg>
                 }
-                Approve
+                {t('Approve')}
             </div>
         }
         return <div className='submit flexCenter' onClick={Submit}>
@@ -227,7 +228,7 @@ export default function Stake() {
                                     <circle cx="50" cy="50" r="20"></circle>
                                 </svg>
                 }
-                Confirm
+                {t('Confirm')}
             </div>
         // if(!Token){
         //     return 'submit flexCenter Disable'
@@ -241,7 +242,7 @@ export default function Stake() {
     <div className='Stake'>
         <div className="Title">
             <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" />
-            Stake
+            {t('Stake')}
             <span></span>
         </div>
         <div className="StakeBox">
@@ -257,18 +258,18 @@ export default function Stake() {
             </div>
             <div className="StakeInfo">
                 <div className="InfoRow">
-                    <div className="label">You will receive</div>
+                    <div className="label">{t('Youwillreceive')}</div>
                     <div className="value">eLFT</div>
                 </div>
                 {
                     Type === 'LFT' &&
                     <div className="InfoRow">
-                        <div className="label">Daily reward</div>
+                        <div className="label">{t('Dailyreward')}</div>
                         <div className="value">1.1%</div>
                     </div>
                 }
                 <div className="InfoRow">
-                    <div className="label">Exchange rate</div>
+                    <div className="label">{t('Exchangerate')}</div>
                     <div className="value">1 eLFT = 1 LFT</div>
                 </div>
             </div>

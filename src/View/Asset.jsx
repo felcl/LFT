@@ -14,8 +14,10 @@ import {drawToken} from '../web3'
 import BigNumber from 'big.js';
 import { useSelector } from "react-redux";
 import { AddrHandle, dateFormat,NumSplic } from '../utils/tool';
+import { useTranslation } from 'react-i18next'
 export default function Asset() {
     const web3React = useWeb3React();
+    const { t } = useTranslation()
     let Connect = useConnectWallet();
     const [scrollObj,setScrollObj] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,8 +75,7 @@ export default function Asset() {
         if(amount && new BigNumber(amount).lte(0)){
             return notification.warning({
                 message: 'Warning',
-                description:
-                '请输入正确的提现数量'
+                description:t('Pleaseenterthe')
             });
         }
         setIsModalOpen(true);
@@ -83,29 +84,25 @@ export default function Asset() {
         if(inWithdraw){
             return notification.warning({
                 message: 'Warning',
-                description:
-                '请勿重复提交'
+                description:t('Donotresubmit2')
             });
         }
         if(!Token){
             return notification.warning({
                 message: 'Warning',
-                description:
-                '请登录后再试'
+                description:t('pleaselogin')
             });
         }
         if(!amount){
             return notification.warning({
                 message: 'Warning',
-                description:
-                '请输入提取数量'
+                description:t('Pleaseenterthe1')
             });
         }
         if(new BigNumber(LFTAmount).lt(amount)){
             return notification.warning({
                 message: 'Warning',
-                description:
-                '可领取量不足'
+                description:t('Insufficientamountavailable')
             });
         }
         setInWithdraw(true)
@@ -117,13 +114,13 @@ export default function Asset() {
                 ).then(()=>{
                     notification.success({
                         message: 'Success',
-                        description:"提现成功"
+                        description:t('Successfulwithdrawal')
                     });
                     setIsModalOpen(false);
                 },()=>{
                     notification.error({
                         message: 'Error',
-                        description:"提现失败"
+                        description:t('Withdrawalfailed')
                     });
                 }).finally(()=>{
                     setInWithdraw(false)
@@ -212,14 +209,14 @@ export default function Asset() {
         <div className="AssetBox">
             <div className="TotalInfo">
                 <div className="TotalItem">
-                    <div className="label">Total network</div>
+                    <div className="label">{t('Totalnetwork')}</div>
                     {
                         HomeData && <div className="value">$ {NumSplic(HomeData.totalPledgeAmount,2)}</div>
                     }
                 </div>
                 <div className="separate"></div>
                 <div className="TotalItem flexEnd">
-                    <div className="label">DAO Treasury</div>
+                    <div className="label">{t('DAOTreasury')}</div>
                     {
                         HomeData &&<div className="value">$ {NumSplic(HomeData.totalReward,2)}</div>
                     }
@@ -227,11 +224,11 @@ export default function Asset() {
             </div>
             <div className="balanceRow">
                 <div className="balanceItem">
-                    <div className="label">LFT balance</div>
+                    <div className="label">{t('LFTbalance')}</div>
                     <div className="value">{NumSplic(LFTAmount,2)}</div>
                 </div>
                 <div className="balanceItem">
-                    <div className="label">eLFT balance</div>
+                    <div className="label">{t('eLFTbalance')}</div>
                     <div className="value">{NumSplic(ELFTAmount,2)}</div>
                 </div>
             </div>
@@ -239,7 +236,7 @@ export default function Asset() {
             {WithdrawRunder()}
         </div>
         <div className="WithdrawRecord">
-            <div className="WithdrawRecordTitle flexCenter">Withdraw record</div>
+            <div className="WithdrawRecordTitle flexCenter">{t('Withdrawrecord')}</div>
             {
                 drawDetail.length > 0 ?
                 // drawDetail.map((item,index)=><div className="recordItem" key={index}>
@@ -255,7 +252,7 @@ export default function Asset() {
                 {/* 领取收益弹窗 */}
         <Modal open={isModalOpen} onCancel={handleCancel} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
             <img className="Close" src={CloseIcon} onClick={handleCancel} alt="" />
-            <div className="Title">Withdraw</div>
+            <div className="Title">{t('Withdraw')}</div>
             <div className='putBox'>
                 <input type="text" placeholder='Enter the withdrawal amount' value={amount} onChange={putAmoubt} />
                 {/* <Popover content={content} placement="bottom" overlayClassName="TeamPopover" trigger="click">
@@ -272,7 +269,7 @@ export default function Asset() {
                                     <circle cx="50" cy="50" r="20"></circle>
                                 </svg>
                 }
-                Confirm
+                {t('Confirm')}
             </div>
         </Modal>
     </div>

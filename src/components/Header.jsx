@@ -106,11 +106,11 @@ export default function Header() {
         <div className='AboutPopoverContent' style={{width:'170px'}}>
             <div className='SelItem' onClick={()=>{goPath('/Team')}}>
                 <img src={TeamIcon} alt="" />
-                Team
+                {t('Team')}
             </div>
             <div className='SelItem'>
                 <img src={DocumentationIcon} alt="" />
-                Documentation
+                {t('Documentation')}
             </div>
         </div>
     );
@@ -118,22 +118,22 @@ export default function Header() {
         <div className='AboutPopoverContent' style={{width:'140px'}}>
             <div className='SelItem' onClick={()=>{goPath('/Asset')}}>
                 <img src={Wallet} alt="" />
-                wallet
+                {t('Wallet')}
             </div>
             <div className='SelItem' onClick={()=>{goPath('/Earn')}}>
                 <img src={EarnIcon} alt="" />
-                Earn
+                {t('Earn')}
             </div>
             <div className='SelItem' onClick={()=>{goPath('/Invitation')}}>
                 <img src={InvitationIcon} alt="" />
-                Invitation
+                {t('Invitation')}
             </div>
         </div>
     );
     const LangContent = <div className='LangContentContent'>
-            <div className='SelItem' onClick={()=>{i18n.changeLanguage('zh')}}>
+            <div className='SelItem' onClick={()=>{i18n.changeLanguage('zhHK')}}>
                 {/* <img src={Wallet} alt="" /> */}
-                简体中文
+                繁体中文
             </div>
             <div className='SelItem' onClick={()=>{i18n.changeLanguage('en')}}>
                 {/* <img src={EarnIcon} alt="" /> */}
@@ -168,8 +168,8 @@ export default function Header() {
         <div className="Header">
             <div className="Menu">
                 <div className={MenuClass('/')} onClick={()=>{goPath('/')}}><img src={MenuIcon('/',HomeIcon,HomeIconBlack,HomeIconOrange)} alt="" />{t('Home')}</div>
-                <div className={MenuClass('/Swap')} onClick={()=>{goPath('/Swap')}}><img src={MenuIcon('/Swap',SwapIcon,SwapIconBlack,SwapIconOrange)} alt="" />Swap</div>
-                <div className={MenuClass('/Convert')} onClick={()=>{goPath('/Convert')}}><img src={MenuIcon('/Convert',ConvertIcon,ConvertIconBlack,ConvertIconOrange)} alt="" />Convert</div> 
+                <div className={MenuClass('/Swap')} onClick={()=>{goPath('/Swap')}}><img src={MenuIcon('/Swap',SwapIcon,SwapIconBlack,SwapIconOrange)} alt="" />{t('Swap')}</div>
+                <div className={MenuClass('/Convert')} onClick={()=>{goPath('/Convert')}}><img src={MenuIcon('/Convert',ConvertIcon,ConvertIconBlack,ConvertIconOrange)} alt="" />{t('Convert')}</div> 
                 {/* <Popover content={WalletContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
                     <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />Wallet</div>
                 </Popover> */}
@@ -177,10 +177,10 @@ export default function Header() {
                 {/* <div className={MenuClass('/Invitation')} onClick={()=>{goPath('/Invitation')}}><img src={MenuIcon('/Invitation',InvitationIcon,InvitationIconBlack,InvitationIconOrange)} alt="" />Invitation</div> */}
                 {/* <div className={MenuClass()}><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div> */}
                 <Popover content={AssetContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('Asset')}>
-                    <div className={MenuClass()} id='Asset'><img src={MenuIcon(undefined,AssetIcon,AssetIconBlack,AssetIconOrange)} alt="" />Asset</div>
+                    <div className={MenuClass()} id='Asset'><img src={MenuIcon(undefined,AssetIcon,AssetIconBlack,AssetIconOrange)} alt="" />{t('Asset')}</div>
                 </Popover>
                 <Popover content={AboutContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
-                    <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />About</div>
+                    <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />{t('About')}</div>
                 </Popover>
             </div>
             <div className="HeaderRight">

@@ -1,7 +1,9 @@
 import '../assets/style/Record.scss'
 import { Empty } from 'antd';
+import { useTranslation } from 'react-i18next'
 import JTReturn from '../assets/image/JTReturn.png'
 export default function SwapRecord() {
+    const { t } = useTranslation()
     let RecordList = [].fill(1)
     RecordList = new Array(3).fill({});
     console.log(RecordList)
@@ -9,7 +11,7 @@ export default function SwapRecord() {
     <div className="Record">
         <div className="Title">
             <img src={JTReturn} alt="" />
-            Withdrawal record
+            {t('Withdrawalrecord')}
              <span></span>
         </div> 
         <div className='RecordList'>

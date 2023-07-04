@@ -8,8 +8,10 @@ import USDTIcon from '../assets/image/USDTIcon.png'
 import { useEffect, useState } from 'react';
 import Axios from '../axios';
 import { dateFormat} from '../utils/tool'
+import { useTranslation } from 'react-i18next'
 export default function SwapRecord() {
     const navigate = useNavigate();
+    const { t } = useTranslation()
     const Token = useSelector(Store =>Store.token)
     let [RecordList,setRecordList] = useState([])
     const IconMap = {
@@ -30,7 +32,7 @@ export default function SwapRecord() {
     <div className="Record">
         <div className="Title">
             <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" />
-            Swap record
+            {t('Swaprecord')}
             <span></span>
         </div>
         <div className='RecordList'>

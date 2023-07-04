@@ -8,9 +8,11 @@ import { AddrHandle} from '../utils/tool'
 import { createChart, ColorType } from 'lightweight-charts';
 import { useRef, useEffect, useState } from 'react'
 import JTReturn from '../assets/image/JTReturn.png'
+import { useTranslation } from 'react-i18next'
 export default function SwapChart() {
     dayjs.extend(relativeTime)
     const navigate = useNavigate();
+    const { t } = useTranslation()
     let RecordList = [].fill(1)
     RecordList = new Array(3).fill({});
     const [swapRecord,setSwapRecord] = useState([])
@@ -164,19 +166,19 @@ export default function SwapChart() {
         <div className="chartBox">
             <div className="ChartInfo">
                 <div className="infoItem">
-                    <div className="label">24h High</div>
+                    <div className="label">{t('24hHigh')}</div>
                     {swapData && <div className="value">${swapData.high}</div>}
                 </div>
                 <div className="infoItem">
-                    <div className="label">24h Low</div>
+                    <div className="label">{t('24hLow')}</div>
                     {swapData && <div className="value">${swapData.low}</div>}
                 </div>
                 <div className="infoItem">
-                    <div className="label">TVL（USD）</div>
+                    <div className="label">{t('TVL（USD）')}</div>
                     {swapData && <div className="value">${swapData.tvl}</div>}
                 </div>
                 <div className="infoItem">
-                    <div className="label">24h Vol</div>
+                    <div className="label">{t('24hVol')}</div>
                     {swapData && <div className="value">${swapData.vol}</div>}
                 </div>
             </div>
@@ -184,7 +186,7 @@ export default function SwapChart() {
         </div>
         <div className="Title">
             <span></span>
-            <span>History</span>
+            <span>{t('History')}</span>
             <span></span>
         </div>
         <div className="HistoryBox">

@@ -7,7 +7,9 @@ import {useSearchParams,useNavigate} from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import Axios from '../axios';
 import { dateFormat } from '../utils/tool';
+import { useTranslation } from 'react-i18next'
 export default function SwapRecord() {
+    const { t } = useTranslation()
     const navigate = useNavigate();
     const Token = useSelector(Store =>Store.token)
     const [search] = useSearchParams();
@@ -55,8 +57,7 @@ export default function SwapRecord() {
         if(RecordList.length < 5){
             return notification.open({
                 message: 'Warning',
-                description:
-                '低于五次质押不可赎回'
+                description:t('Lessthanfive')
             });
         }
         setRedeemModal(true)
@@ -132,7 +133,7 @@ export default function SwapRecord() {
                     <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 }
                 <div className='redeemBtn'>
-                    <div className="btn flexCenter" onClick={Redeem}>Redeem</div>
+                    <div className="btn flexCenter" onClick={Redeem}>{t('Redeem')}</div>
                 </div>
             </div>
         }
@@ -152,18 +153,18 @@ export default function SwapRecord() {
         </div>
         <Modal open={RedeemModal} onCancel={()=>{setRedeemModal(false)}} closable={false} footer={null} wrapClassName="modalBox" width="676px" maskClosable={true}>
             <img className="Close" src={CloseIcon} onClick={()=>{setRedeemModal(false)}} alt="" />
-            <div className="Title">Redeem these five stakes?</div>
+            <div className="Title">{t('Redeemthesefive')}</div>
             <div className='redeemInfoRow'>
-                <div className="label">until the next release</div>
+                <div className="label">{t('untilthenext')}</div>
                 <div className="value">152:25:20</div>
             </div>
             <div className='redeemInfoRow'>
-                <div className="label">Expected loss</div>
+                <div className="label">{t('Expectedloss')}</div>
                 <div className="value">$158626</div>
             </div>
             <div className="btnRow">
-                <div className="redeemConfirm flexCenter" onClick={redeemFun}>Confirm</div>
-                <div className="redeemConfirm cancel flexCenter" onClick={cancel}>cancel</div>
+                <div className="redeemConfirm flexCenter" onClick={redeemFun}>{t('Confirm')}</div>
+                <div className="redeemConfirm cancel flexCenter" onClick={cancel}>{t('cancel')}</div>
             </div>
             
         </Modal>

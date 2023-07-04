@@ -4,7 +4,9 @@ import { Switch } from 'antd';
 import { useNavigate} from 'react-router-dom'
 import JTReturn from '../assets/image/JTReturn.png'
 import { useState, useRef} from 'react';
+import { useTranslation } from 'react-i18next'
 export default function Slippage() {
+    const { t } = useTranslation()
     const navigate = useNavigate();
     const [ , setActiveTabIndex] = useState(-1)
     const ActiveTabRef = useRef()
@@ -20,15 +22,15 @@ export default function Slippage() {
     }
   return (
     <div className="Slippage">
-        <div className="Title">Swap</div>
+        <div className="Title">{t('Swap')}</div>
         <div className="SlippageBox">
             <div className="SlippageHeader">
                 <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" />
-                <span className='HeaderTitle'>Advanced Settings</span>
-                <span className='Reset'>Reset</span>
+                <span className='HeaderTitle'>{t('AdvancedSettings')}</span>
+                <span className='Reset'>{t('Reset')}</span>
             </div>
-            <div className="SlippageLabel">Slippage Tolerance</div>
-            <div className="SlippageSubLabel">Yourtransaction will revert if the price changes unfavorably by <br/>more than this percentage when current route is aggregator.</div>
+            <div className="SlippageLabel">{t('SlippageTolerance')}</div>
+            <div className="SlippageSubLabel">{t('Yourtransactionwillrevert')}</div>
             <div className='percentageRow'>
                 <div className="percentageTab">
                     <div className={classnames(['TabItem','flexCenter'])} onClick={(event)=>{changeTab(event,0)}}>0.3%</div>
@@ -41,7 +43,7 @@ export default function Slippage() {
                     %
                 </div>
             </div>
-            <div className="switchLabel">LFT swap receive address </div>
+            <div className="switchLabel">{t('LFTswapreceive')} </div>
             <Switch defaultChecked className='percentageSwitch' />
         </div>
     </div>

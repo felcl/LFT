@@ -1,8 +1,8 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import en from './en'
-import zh from './zh'
-// import zhHK from './zh-HK'
+import kr from './Kr'
+import zhHK from './zh-HK'
 // import Backend from 'i18next-http-backend'
 // import LanguageDetector from 'i18next-browser-languagedetector'
 
@@ -22,16 +22,19 @@ i18n
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: 'zh',
-    lng: 'zh',
+    fallbackLng: 'en',
+    lng: 'en',
     debug: true,
     resources: {
       en: {
         translation: en
       },
-      zh: {
-        translation: zh
-      }
+      kr: {
+        translation: kr
+      },
+      zhHK: {
+        translation: zhHK
+      },
     },
     interpolation: {
       escapeValue: false // not needed for react as it escapes by default
