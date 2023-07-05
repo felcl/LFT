@@ -14,11 +14,10 @@ import './App.css'
 function App() {
   useConnectWallet(true)
   const { t } = useTranslation()
-  const [,setIsBind] = useState(-1)
   const web3React = useWeb3React();
   const [search] = useSearchParams();
-  const [isinvitationModal, setIsinvitationModal] = useState(true);
-  const [invitationAddr,setInvitationAddr] = useState('')
+  const [isinvitationModal, setIsinvitationModal] = useState(false);
+  const [invitationAddr,setInvitationAddr] = useState(search.get('invite') || '')
   // const { chain, chains } = useNetwork()
   const Token = useSelector(Store =>Store.token)
   const StoreAddress = useSelector(Store =>Store.address)
@@ -31,7 +30,9 @@ function App() {
      * 缓存地址与当前连接地址不相同
      * 本地不存在token
      */
-    if(web3React.active && (StoreAddress === '' || (StoreAddress !== web3React.account.toLowerCase()) || !Token)){
+    console.log(search.get('invite'))
+    // if(web3React.active && (StoreAddress === '' || (StoreAddress !== web3React.account.toLowerCase()) || !Token)){
+    if(web3React.active){
       /* 登录 */
       Axios.post('/uUser/auth',{
         chainType:1,
@@ -49,16 +50,15 @@ function App() {
     if(Token){
       Axios.get('/uUser/checkBind').then(res=>{
         if(res.data.data === 0 && res.data.code === 200){
-          setIsBind(true)
+          setIsinvitationModal(true)
         }
         if(res.data.data === 1 && res.data.code === 200){
-          setIsBind(false)
+          setIsinvitationModal(false)
         }
           console.log(res,'用户是否绑定上级')
       })
     }
-
-  },[web3React.active,web3React.account,Token,StoreAddress])
+  },[web3React.active,web3React.account])
   useEffect(()=>{
     if(web3React.active && Object.keys(contract).length <=0){
       /* 初始化合约 */
@@ -104,7 +104,7 @@ function App() {
     <Modal open={isinvitationModal} onCancel={()=>{setIsinvitationModal(false)}} closable={false} maskClosable={false} footer={null} wrapClassName="modalBox" width="676px">
       <div className="Title">{t('Invitationaddress')}</div>
       <div className='putBox'>
-          <input type="text" placeholder='Enter invitation address' onChange={changeInvitationAddr} />
+          <input type="text" placeholder='Enter invitation address' value={invitationAddr} onChange={changeInvitationAddr} />
       </div>
       <div className="Confirm flexCenter" onClick={invitationAddrFun}>{t('Confirm')}</div>
     </Modal>
