@@ -4,7 +4,7 @@ import  dayjs from 'dayjs'
 import relativeTime  from 'dayjs/plugin/relativeTime'
 import Axios from '../axios'
 import { Empty,Table } from 'antd';
-import { AddrHandle} from '../utils/tool'
+import { AddrHandle, dateFormat} from '../utils/tool'
 import { createChart, ColorType } from 'lightweight-charts';
 import { useRef, useEffect, useState } from 'react'
 import JTReturn from '../assets/image/JTReturn.png'
@@ -43,6 +43,9 @@ export default function SwapChart() {
             width: chartContainerRef.current.clientWidth,
             height: 300,
             LineType:1,
+            // localization: { // 设置x周时间格式
+            //     dateFormat: "yyyy-MM-dd HH:mm:ss",
+            //   },
             grid: {
                 vertLines: {
                     visible: false,
@@ -99,27 +102,33 @@ export default function SwapChart() {
         }
     },[])
     useEffect(()=>{
-        Axios.get('/swap/swapData').then(res=>{
+        // Axios.get('/swap/swapData').then(res=>{
+        //     if(res.data.data){
+        //         setSwapData(res.data.data)
+        //     }
+        //     console.log(res,"平台统计数据")
+        // })
+        Axios.get('/swap/swapKline').then((res)=>{
+            console.log(res,"折线数据")
             if(res.data.data){
-                setSwapData(res.data.data)
+                let dataArr = []
+                res.data.data = res.data.data.sort(function(a,b){
+                    return a.createTime - b.createTime
+                })
+                res.data.data.forEach(item=>{
+                    if(!dataArr.find(element=>{
+                        return element.createTime === item.createTime
+                    })){
+                        dataArr.push(item)
+                    }
+                    
+                })
+                RunderChart(
+                    dataArr.map(item=>{
+                       return { time: item.createTime /1000, value: item.price }
+                    })
+                )
             }
-            console.log(res,"平台统计数据")
-        })
-        Axios.get('/swap/swapKline').then(()=>{
-            RunderChart([
-                { time: '2018-12-22', value: 32.51 },
-                { time: '2018-12-23', value: 31.11 },
-                { time: '2018-12-24', value: 27.02 },
-                { time: '2018-12-25', value: 27.32 },
-                { time: '2018-12-26', value: 35.67 },
-                { time: '2018-12-27', value: 38.89 },
-                { time: '2018-12-28', value: 38.46 },
-                { time: '2018-12-29', value: 40.92 },
-                { time: '2018-12-30', value: 37.68 },
-                { time: '2018-12-31', value: 39.67 },
-                { time: '2019-01-01', value: 39.67 },
-                { time: '2019-01-02', value: 42.31 },
-            ])
         })
         Axios.get('/swap/swapRecord').then(res=>{
             if(res.data.data){

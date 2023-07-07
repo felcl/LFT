@@ -101,13 +101,13 @@ function App() {
       <Router></Router>
     {/* <span onClick={()=>connect({ connector: connectors[1] })}> 链接</span> */}
         {/* 邀请弹窗 */}
-    <Modal open={isinvitationModal} onCancel={()=>{setIsinvitationModal(false)}} closable={false} maskClosable={false} footer={null} wrapClassName="modalBox" width="676px">
+    {/* <Modal open={isinvitationModal} onCancel={()=>{setIsinvitationModal(false)}} closable={false} maskClosable={false} footer={null} wrapClassName="modalBox" width="676px">
       <div className="Title">{t('Invitationaddress')}</div>
       <div className='putBox'>
           <input type="text" placeholder='Enter invitation address' onChange={changeInvitationAddr} />
       </div>
       <div className="Confirm flexCenter" onClick={invitationAddrFun}>{t('Confirm')}</div>
-    </Modal>
+    </Modal> */}
     </>
   )
 }

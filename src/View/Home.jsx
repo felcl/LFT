@@ -183,22 +183,20 @@ export default function Home() {
                     <div className="joinItem">
                         <img src={Twitter} alt="" />
                         <div className="joinItemInfo">
-                            <div className="InfoNmae">{t('Telegram')}</div>
-                            <div className="InfoSub">Follow @LiftedStake</div>
-                        </div>
-                    </div>
-                    <div className="joinItem">
-                        <img src={In} alt="" />
-                        <div className="joinItemInfo">
-                            <div className="InfoNmae">{t('Telegram')}</div>
-                            <div className="InfoSub">Join chat</div>
-                        </div>
-                    </div>
-                    <div className="joinItem">
-                        <img src={In} alt="" />
-                        <div className="joinItemInfo">
                             <div className="InfoNmae">Twitter</div>
                             <div className="InfoSub">Follow @LiftedStake</div>
+                        </div>
+                    </div>
+                    <div className="joinItem">
+                        <img src={In} alt="" />
+                        <div className="joinItemInfo">
+                            <div className="InfoNmae">Official Linkedin</div>
+                        </div>
+                    </div>
+                    <div className="joinItem">
+                        <img src={In} alt="" />
+                        <div className="joinItemInfo">
+                            <div className="InfoNmae">Cofounder Linkedin</div>
                         </div>
                     </div>
                 </div>

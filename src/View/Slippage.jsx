@@ -30,7 +30,7 @@ export default function Slippage() {
                 <span className='Reset'>{t('Reset')}</span>
             </div>
             <div className="SlippageLabel">{t('SlippageTolerance')}</div>
-            <div className="SlippageSubLabel">{t('Yourtransactionwillrevert')}</div>
+            <div className="SlippageSubLabel">{t('Yourtransactionwillrevert')}<br></br>{t('Yourtransactionwillrevert2')}</div>
             <div className='percentageRow'>
                 <div className="percentageTab">
                     <div className={classnames(['TabItem','flexCenter'])} onClick={(event)=>{changeTab(event,0)}}>0.3%</div>

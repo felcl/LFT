@@ -27,14 +27,19 @@
   font-family: PingFang-Heavy;
   src: url(./assets/font/PingFang/PingFang-Heavy.ttf);
 }
+
+@font-face{
+  font-family: PingFang-Medium;
+  src: url(./assets/font/PingFang/PingFang-Medium.ttf);
+} */
 @font-face{
   font-family: PingFang-Bold;
   src: url(./assets/font/PingFang/PingFang-Bold.ttf);
 }
 @font-face{
-  font-family: PingFang-Medium;
-  src: url(./assets/font/PingFang/PingFang-Medium.ttf);
-} */
+  font-family: PingFang-Regular;
+  src: url(./assets/font/PingFang/PingFang-Regular.ttf);
+}
 a {
   font-weight: 500;
   color: #646cff;

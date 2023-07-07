@@ -103,7 +103,7 @@ export default function Header() {
         // console.log(chains, switchNetwork)
     }
     const AboutContent = (
-        <div className='AboutPopoverContent' style={{width:'170px'}}>
+        <div className='AboutPopoverContent'>
             <div className='SelItem' onClick={()=>{goPath('/Team')}}>
                 <img src={TeamIcon} alt="" />
                 {t('Team')}
@@ -179,7 +179,7 @@ export default function Header() {
                 <Popover content={AssetContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('Asset')}>
                     <div className={MenuClass()} id='Asset'><img src={MenuIcon(undefined,AssetIcon,AssetIconBlack,AssetIconOrange)} alt="" />{t('Asset')}</div>
                 </Popover>
-                <Popover content={AboutContent} placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
+                <Popover content={AboutContent} trigger="click" placement="bottom"  overlayClassName="AboutPopover" getPopupContainer={() => document.getElementById('About')}>
                     <div className={MenuClass()} id='About'><img src={MenuIcon(undefined,AboutIcon,AboutIconBlack,AboutIconOrange)} alt="" />{t('About')}</div>
                 </Popover>
             </div>

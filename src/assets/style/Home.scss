@@ -84,6 +84,7 @@
                 font-size: 24px;
                 color: #fff;
                 text-align: center;
+                font-family: PingFang-Bold;
             }
         }
         .TotalValueItem:nth-child(3){
@@ -233,6 +234,7 @@
                     font-size: 22px;
                     text-align: center;
                     color: #767676;
+                    font-family: PingFang-Bold;
                     @media (max-width:600px) {
                         font-size: 16px;
                     }
@@ -268,6 +270,7 @@
                     text-align: center;
                     color: #192E44;
                     margin-top: 20px;
+                    font-family: PingFang-Bold;
                     @media (max-width:600px) {
                         font-size: 16px;
                     }
@@ -279,6 +282,7 @@
                     text-align: center;
                     line-height: 1.69;
                     margin-top: 5px;
+                    font-family: PingFang-Regular;
                     @media (max-width:600px) {
                         font-size: 12px;
                     }
@@ -436,7 +440,7 @@
             .JoinMain{
                 grid-column-start: 1;
                 grid-column-end: 3;
-                background: url(../image/JoinMain.png) no-repeat center center / 100% auto;
+                background: url(../image/JoinMain.png) no-repeat center bottom / 100% auto;
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;

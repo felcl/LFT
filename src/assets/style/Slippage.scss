@@ -17,6 +17,7 @@
         font-size: 45px;
         color: #192E44;
         text-align: center;
+        font-family: PingFang-Bold;
         @media (max-width:500px) {
             font-size: 30px;
         }
@@ -171,6 +172,9 @@
                     border: none;
                     outline: none;
                     background: transparent;
+                    @media (max-width:600px) {
+                        font-size: 18px;
+                    }
                 }
             }
         }

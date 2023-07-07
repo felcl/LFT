@@ -145,7 +145,7 @@ export default function Convert() {
                     <span className="Max" onClick={()=>{changeFromValue(amount)}}>{t('MAX')}</span>
                     <div className='TokenInfo flexCenter'>
                         <img src={ELFTIcon} alt="" />
-                        ELFT
+                        eLFT
                     </div>
                 </div>
                 <div className="label">{t('To')}</div>
@@ -160,7 +160,6 @@ export default function Convert() {
                 {
                     fee !==0 && <div className="ServiceCharge"> {t('Servicecharge')}：{fee * 100}% </div>
                 }
-                
                 <div className={submitRunder()} onClick={exchange}>{t('Confirm')}</div>
             </div>
             <div className="goRecord" onClick={()=>{navigate('/ConvertRecord')}}>
