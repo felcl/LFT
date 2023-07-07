@@ -57,7 +57,7 @@ export default function Team() {
             })
             Axios.get('/uUser/teamAndReferee').then(res=>{
                 setRefereeUserAddress(res.data.data.refereeUserAddress)
-                setTeamAmount(res.data.data.teamAmount)
+                setTeamAmount(res.data.data.inviteReward)
                 setAllTeamAmount(res.data.data.allTeamAmount)
                 console.log(res,'获取上级地址和团队收益')
             })

@@ -6,7 +6,7 @@ import CloseIcon from '../assets/image/CloseIcon.png'
 import {useSearchParams,useNavigate} from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import Axios from '../axios';
-import { dateFormat } from '../utils/tool';
+import { dateFormat ,NumSplic} from '../utils/tool';
 import { useTranslation } from 'react-i18next'
 export default function SwapRecord() {
     const { t } = useTranslation()
@@ -68,6 +68,10 @@ export default function SwapRecord() {
     const redeemFun = ()=>{
         Axios.post('/dao/redemption').then(res=>{
             console.log(res,"赎回")
+            return notification.open({
+                message: 'Success',
+                description:t('successfulRedemption')
+            });
         })
     }
     const columns = [
@@ -80,7 +84,7 @@ export default function SwapRecord() {
         //   fixed: 'left',
         },
         {
-          title: 'Quantity',
+          title: t('Quantity'),
           dataIndex: 'buyAmount',
           key: 'buyAmount',
           render: (buyAmount,row) => {
@@ -93,7 +97,7 @@ export default function SwapRecord() {
           align:'center'
         },
         {
-          title: 'Period(days)',
+          title: t('Period(days)'),
           dataIndex: 'createTime',
           render: (createTime) => {
             return Math.ceil((new Date().getTime() - createTime) / 259200000) + 'day(s)'
@@ -110,17 +114,12 @@ export default function SwapRecord() {
     <div className="Record">
         <div className="Title">
             <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" />
-            {Type} amount pledged
+            {Type} {t('amountPledged')}
             <span></span>
         </div>
         {
             Type === 'ELFT' && 
             <div className='RecordList'>
-                <div className="RecordColumn">
-                    <div className="column" style={{width:'20%',textAlign:'center'}}>ID</div>
-                    <div className="column" style={{width:'30%',textAlign:'center'}}>Quantity</div>
-                    <div className="column" style={{width:'40%',textAlign:'center'}}>Period(days)</div>
-                </div>
                 {
                     RecordList.length ?
                     // RecordList.slice(0,5).map((item,index)=><div className="RecordItem" key={index}>
@@ -160,7 +159,11 @@ export default function SwapRecord() {
             </div>
             <div className='redeemInfoRow'>
                 <div className="label">{t('Expectedloss')}</div>
-                <div className="value">$158626</div>
+                {
+                    RecordList.length >0 && <div className="value" >${NumSplic(RecordList.slice(-5).reduce((a, b)=>{
+                        return a+b.pledgeAmount
+                    },0),2)}</div>
+                }
             </div>
             <div className="btnRow">
                 <div className="redeemConfirm flexCenter" onClick={redeemFun}>{t('Confirm')}</div>

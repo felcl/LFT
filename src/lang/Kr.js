@@ -112,6 +112,7 @@ export default {
   "Pleaseenterthe7": "올바른 LFT 수량을 입력하세요",
   "InsufficientUSDTbalance": "부족한 USDT 잔액",
   "Insufficientbalanceof1": "LFT의 불충분한 균형",
+  "Insufficientbalanceof2": "eLFT의 불충분한 균형",
   "successfulexchange1": "성공적인 교류",
   "Exchangefailed1": "교환 실패",
   "Connectwallet1": "지갑 연결",
@@ -141,5 +142,7 @@ export default {
   "Proceedsofpledge": "서약금",
   "Feeincome": "수수료 수입",
   "Amountpledged": "약정 금액",
-  "Withdrawalrecord": "출금기록"
+  "Withdrawalrecord": "출금기록",
+  "successfulRedemption": "성공적인 구속",
+  "amountPledged": "약정된  금액",
 }

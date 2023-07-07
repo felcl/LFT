@@ -113,6 +113,7 @@ export default {
   "Pleaseenterthe7": "請輸入正確的LFT數量",
   "InsufficientUSDTbalance": "USDT餘額不足",
   "Insufficientbalanceof1": "LFT餘額不足",
+  "Insufficientbalanceof2": "eLFT餘額不足",
   "successfulexchange1": "兌換成功",
   "Exchangefailed1": "兌換失敗",
   "Connectwallet1": "連接錢包",
@@ -142,5 +143,7 @@ export default {
   "Proceedsofpledge": "質押收益",
   "Feeincome": "手續費收入",
   "Amountpledged": "承諾金額",
-  "Withdrawalrecord": "提幣記錄"
+  "Withdrawalrecord": "提幣記錄",
+  "successfulRedemption": "贖回成功",
+  "amountPledged": "質押數量",
 }

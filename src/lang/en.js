@@ -113,6 +113,7 @@ export default {
   "Pleaseenterthe7": "Please enter the correct LFT quantity\n",
   "InsufficientUSDTbalance": "Insufficient USDT balance",
   "Insufficientbalanceof1": "Insufficient balance of LFT",
+  "Insufficientbalanceof2": "Insufficient balance of eLFT",
   "successfulexchange1": "successful exchange",
   "Exchangefailed1": "Exchange failed",
   "Connectwallet1": "Connect wallet",
@@ -142,5 +143,7 @@ export default {
   "Proceedsofpledge": "Proceeds of pledge",
   "Feeincome": "Fee income",
   "Amountpledged": "Amount pledged",
-  "Withdrawalrecord": "Withdrawal record"
+  "Withdrawalrecord": "Withdrawal record",
+  "successfulRedemption": "successful redemption",
+  "amountPledged": "amount pledged",
 }

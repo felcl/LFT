@@ -137,7 +137,7 @@ export default function Stake() {
         if(ELFTBalance.lt(amount) && Type === 'ELFT'){
             return notification.warning({
                 message: 'Warning',
-                description: 'ELFT余额不足'
+                description: t('Insufficientbalanceof2')
             });
         }
         setInStake(true)
