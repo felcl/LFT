@@ -4,7 +4,7 @@ import  dayjs from 'dayjs'
 import relativeTime  from 'dayjs/plugin/relativeTime'
 import Axios from '../axios'
 import { Empty,Table } from 'antd';
-import { AddrHandle, dateFormat} from '../utils/tool'
+import { AddrHandle, dateFormat, NumSplic} from '../utils/tool'
 import { createChart, ColorType } from 'lightweight-charts';
 import { useRef, useEffect, useState } from 'react'
 import JTReturn from '../assets/image/JTReturn.png'
@@ -43,9 +43,17 @@ export default function SwapChart() {
             width: chartContainerRef.current.clientWidth,
             height: 300,
             LineType:1,
-            // localization: { // 设置x周时间格式
-            //     dateFormat: "yyyy-MM-dd HH:mm:ss",
-            //   },
+            localization: { // 设置x周时间格式
+                dateFormat: "yyyy-MM-dd",
+            },
+            timeScale: {
+                visible: !0,
+                borderVisible: !1,
+                secondsVisible: !1,
+                tickMarkFormatter:(e)=>{
+                    return dateFormat('YYYY-mm-dd',new Date(e*1000))
+                }
+            },
             grid: {
                 vertLines: {
                     visible: false,
@@ -62,9 +70,9 @@ export default function SwapChart() {
                 },
                 borderVisible: false,
             },
-            timeScale:{
-                borderVisible: false,
-            },
+            // timeScale:{
+            //     borderVisible: false,
+            // },
             KineticScroll:{
                 touch:false,
                 mouse:false
@@ -102,12 +110,12 @@ export default function SwapChart() {
         }
     },[])
     useEffect(()=>{
-        // Axios.get('/swap/swapData').then(res=>{
-        //     if(res.data.data){
-        //         setSwapData(res.data.data)
-        //     }
-        //     console.log(res,"平台统计数据")
-        // })
+        Axios.get('/swap/swapData').then(res=>{
+            if(res.data.data){
+                setSwapData(res.data.data)
+            }
+            console.log(res,"平台统计数据")
+        })
         Axios.get('/swap/swapKline').then((res)=>{
             console.log(res,"折线数据")
             if(res.data.data){
@@ -121,7 +129,6 @@ export default function SwapChart() {
                     })){
                         dataArr.push(item)
                     }
-                    
                 })
                 RunderChart(
                     dataArr.map(item=>{
@@ -139,27 +146,27 @@ export default function SwapChart() {
     },[])
     const columns = [
         {
-          title: 'Time',
+          title: t('Time'),
           dataIndex: 'createTime',
           key: 'Time',
           render:(createTime)=>dayjs(createTime).fromNow()
         },
         {
-          title: 'Type',
+          title: t('Type'),
           dataIndex: 'swapType',
           key: 'Type',
           align:'center',
           render:(swapType,row)=><span  className={row.swapType === 1 ? 'buyColor':'sellColor'}>{swapTypeEnum[swapType]}</span>
         },
         {
-          title: 'Amount',
+          title: t('Amount'),
           dataIndex: 'swapType',
           key: 'Amount',
           align:'center',
           render:(swapType,row)=><span className={row.swapType === 1 ? 'buyColor':'sellColor'}>{row.swapType === 2 ? '- ' + row.token0Amount + ' ' + row.token0Name:'-' + row.token1Amount + ' ' + row.token1Name}</span>
         },
         {
-          title: 'User',
+          title: t('User'),
           dataIndex: 'userAddress',
           key: 'User',
           align:'right',
@@ -176,19 +183,19 @@ export default function SwapChart() {
             <div className="ChartInfo">
                 <div className="infoItem">
                     <div className="label">{t('24hHigh')}</div>
-                    {swapData && <div className="value">${swapData.high}</div>}
+                    {swapData && <div className="value">${NumSplic(swapData.high,6)}</div>}
                 </div>
                 <div className="infoItem">
                     <div className="label">{t('24hLow')}</div>
-                    {swapData && <div className="value">${swapData.low}</div>}
+                    {swapData && <div className="value">${NumSplic(swapData.low,6)}</div>}
                 </div>
                 <div className="infoItem">
                     <div className="label">{t('TVL（USD）')}</div>
-                    {swapData && <div className="value">${swapData.tvl}</div>}
+                    {swapData && <div className="value">${NumSplic(swapData.tvl,6)}</div>}
                 </div>
                 <div className="infoItem">
                     <div className="label">{t('24hVol')}</div>
-                    {swapData && <div className="value">${swapData.vol}</div>}
+                    {swapData && <div className="value">${NumSplic(swapData.vol,6)}</div>}
                 </div>
             </div>
             <div className="Chart" ref={chartContainerRef} />

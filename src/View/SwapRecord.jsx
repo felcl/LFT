@@ -7,7 +7,7 @@ import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
 import { useEffect, useState } from 'react';
 import Axios from '../axios';
-import { dateFormat} from '../utils/tool'
+import { dateFormat, NumSplic} from '../utils/tool'
 import { useTranslation } from 'react-i18next'
 export default function SwapRecord() {
     const navigate = useNavigate();
@@ -41,10 +41,10 @@ export default function SwapRecord() {
                 RecordList.map((item,index)=><div className="SwapRecord" key={index}>
                 <div className="form">
                     <div className="tokenInfo">
-                        <img src={IconMap[item.token0Name]} alt="" />
-                        {item.token0Name}
+                        <img src={IconMap[item.token1Name]} alt="" />
+                        {item.token1Name}
                     </div>
-                    <span>{item.token0Amount}</span>
+                    <span>{NumSplic(item.token0Amount,6)}</span>
                 </div>
                 <div className="SwapStatus">
                     <div className="status success">Succeed</div>
@@ -52,10 +52,10 @@ export default function SwapRecord() {
                 </div>
                 <div className="to">
                     <div className="tokenInfo">
-                        <img src={IconMap[item.token1Name]} alt="" />
-                        {item.token1Name}
+                        <img src={IconMap[item.token0Name]} alt="" />
+                        {item.token0Name}
                     </div>
-                    <span>{item.token1Amount}</span>
+                    <span>{NumSplic(item.token1Amount,6)}</span>
                 </div>
             </div>)
                 :

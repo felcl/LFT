@@ -6,7 +6,9 @@ import {useNavigate} from 'react-router-dom'
 import JTReturn from '../assets/image/JTReturn.png'
 import { useEffect, useState } from 'react';
 import { dateFormat } from '../utils/tool'
+import { useTranslation } from 'react-i18next'
 export default function SwapRecord() {
+    const { t } = useTranslation()
     const navigate = useNavigate();
     const Token = useSelector(Store =>Store.token)
     const [RecordList,setRecordList] = useState([])
@@ -26,7 +28,7 @@ export default function SwapRecord() {
     <div className="Record">
         <div className="Title">
             <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" />
-            Convert record
+            {t('Convertrecord')}
              <span></span>
         </div>
         <div className='RecordList'>

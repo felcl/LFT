@@ -6,6 +6,7 @@ import { Empty } from "antd";
 import { useEffect, useState } from "react";
 import Axios from "../axios";
 import { useTranslation } from "react-i18next";
+import { NumSplic } from "../utils/tool";
 export default function Earn() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function Earn() {
     <div className="Earn">
       <div className="Title">
         {/* <img src={JTReturn} onClick={()=>{navigate(-1)}} alt="" /> */}
-        Earn
+        {t('Earn')}
         {/* <span></span> */}
       </div>
       <div className="SubTitle">{t("StakeLFTand")}</div>
@@ -44,15 +45,15 @@ export default function Earn() {
               <div className="separate"></div>
               <div className="InfoRow">
                 <span className="Label">{t("Price")}</span>
-                <span className="Value">${LFTBase.price}</span>
+                <span className="Value">${NumSplic(LFTBase.price,6)}</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">{t("Staked")}</span>
-                <span className="Value">{LFTBase.staked} LFT</span>
+                <span className="Value">{NumSplic(LFTBase.staked,6)} LFT</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">{t("Wallet")}</span>
-                <span className="Value">{LFTBase.wallet} LFT</span>
+                <span className="Value">{NumSplic(LFTBase.wallet,6)} LFT</span>
               </div>
               <div className="separate"></div>
               <div className="InfoRow">
@@ -63,15 +64,15 @@ export default function Earn() {
                 <span className="Label">
                   {t("AccumulatedSharingIncentives")}
                 </span>
-                <span className="Value">{LFTBase.shareAmount} LFT</span>
+                <span className="Value">{NumSplic(LFTBase.shareAmount,6)} LFT</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">{t("TotalReleasedRewards")}</span>
-                <span className="Value">{LFTBase.releasedReward} LFT</span>
+                <span className="Value">{NumSplic(LFTBase.releasedReward,6)} LFT</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">{t("UnreleasedPercentage")}</span>
-                <span className="Value">{LFTBase.percentage}%</span>
+                <span className="Value">{LFTBase.percentage * 100}%</span>
               </div>
               <div className="separate"></div>
               <div className="InfoRow">
@@ -98,7 +99,7 @@ export default function Earn() {
                     navigate("/PledgedRecord?type=LFT");
                   }}
                 >
-                  {"Convert record >"}
+                  {t('Stake record') + '>'}
                 </div>
               </div>
             </>
@@ -115,43 +116,43 @@ export default function Earn() {
               <div className="separate"></div>
               <div className="InfoRow">
                 <span className="Label">{t("Price")}</span>
-                <span className="Value">${ELFTBase.price}</span>
+                <span className="Value">${NumSplic(ELFTBase.price,6)}</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">{t("Staked")}</span>
-                <span className="Value">{ELFTBase.staked} eLFT</span>
+                <span className="Value">{NumSplic(ELFTBase.staked,6)} eLFT</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">{t("Wallet")}</span>
-                <span className="Value">{ELFTBase.wallet} eLFT</span>
+                <span className="Value">{NumSplic(ELFTBase.wallet,6)} eLFT</span>
               </div>
               <div className="separate"></div>
               <div className="InfoRow">
-                <span className="Label">{t("DailyRewardRate")}</span>
-                <span className="Value">{ELFTBase.rewardRate}%</span>
+                <span className="Label">{t('ReceivedSwapFeeRewards')}</span>
+                <span className="Value">{ELFTBase.swapFeeReward} eLFT</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">
-                  {t("AccumulatedSharingIncentives")}
+                  {t('ExpectedDailySwapFee')}
                 </span>
-                <span className="Value">{ELFTBase.shareAmount} eLFT</span>
+                <span className="Value">$ {ELFTBase.daySwapFee}</span>
               </div>
               <div className="InfoRow">
-                <span className="Label">{t("TotalReleasedRewards")}</span>
-                <span className="Value">{ELFTBase.releasedReward} eLFT</span>
+                <span className="Label">{t('CurrentStakedMPValue')}</span>
+                <span className="Value">{ELFTBase.mps} eLFT</span>
               </div>
               <div className="InfoRow">
-                <span className="Label">{t("UnreleasedPercentage")}</span>
+                <span className="Label">{t('BoostPercentage')}</span>
                 <span className="Value">{ELFTBase.percentage}%</span>
               </div>
               <div className="separate"></div>
               <div className="InfoRow">
                 <span className="Label">{t("TotalStaked")}</span>
-                <span className="Value">{ELFTBase.totalStaked} LFT</span>
+                <span className="Value">{ELFTBase.totalStaked} eLFT</span>
               </div>
               <div className="InfoRow">
                 <span className="Label">{t("TotalSupply")}</span>
-                <span className="Value">{ELFTBase.totalSupply} LFT</span>
+                <span className="Value">{ELFTBase.totalSupply} eLFT</span>
               </div>
               <div className="separate"></div>
               <div className="BtnRow">
@@ -161,7 +162,7 @@ export default function Earn() {
                     navigate("/Stake?type=ELFT");
                   }}
                 >
-                  Stake eLFT
+                  {t('Stake')} eLFT
                 </div>
                 <div
                   className="Btn roseRed flexCenter"
@@ -169,7 +170,7 @@ export default function Earn() {
                     navigate("/PledgedRecord?type=ELFT");
                   }}
                 >
-                  Redeem eLFT
+                  {t('Redeem')} eLFT
                 </div>
                 <div
                   className="goRecord"
@@ -177,7 +178,7 @@ export default function Earn() {
                     navigate("/PledgedRecord?type=ELFT");
                   }}
                 >
-                  {"Record >"}
+                  {t('Stake record') + '>'}
                 </div>
               </div>
             </>

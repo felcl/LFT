@@ -127,7 +127,7 @@ export default function Team() {
     // RecordList = new Array(3).fill({});
   return (
     <div className="Invitation">
-        <div className="Title">Invitation</div>
+        <div className="Title">{t('Invitation')}</div>
         <div className="TeamBox">
             <div className="userAddress">
                 <div className="userHeaderBox">
@@ -144,7 +144,7 @@ export default function Team() {
             <div className="AmountRow">
                 <div className="AmountItem">
                     <div className="AmountLabel">{t('Members')}</div>
-                    <div className="AmountValue">7</div>
+                    <div className="AmountValue">{refereeList.length}</div>
                 </div>
                 <div className="AmountItem">
                     <div className="AmountLabel">{t('Totalperformance')}</div>

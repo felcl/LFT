@@ -163,9 +163,9 @@ export default function Asset() {
     }
     const WithdrawRunder = ()=>{
         if(!web3React.active){
-            return <div className="WithdrawBtn flexCenter" onClick={ConnectWallet}>Connect wallet</div>
+            return <div className="WithdrawBtn flexCenter" onClick={ConnectWallet}>{t('Connectwallet')}</div>
         }
-        return <div className="WithdrawBtn flexCenter" onClick={showWithdrawModal}>Withdraw</div>
+        return <div className="WithdrawBtn flexCenter" onClick={showWithdrawModal}>{t('Withdraw1')}</div>
     }
     // const content = (
     //     <div className='PopoverContent'>
@@ -205,7 +205,7 @@ export default function Asset() {
     ];
   return (
     <div className='Asset'>
-        <div className="Title">Asset</div>
+        <div className="Title">{t('Asset')}</div>
         <div className="AssetBox">
             <div className="TotalInfo">
                 <div className="TotalItem">
@@ -254,7 +254,7 @@ export default function Asset() {
             <img className="Close" src={CloseIcon} onClick={handleCancel} alt="" />
             <div className="Title">{t('Withdraw')}</div>
             <div className='putBox'>
-                <input type="text" placeholder='Enter the withdrawal amount' value={amount} onChange={putAmoubt} />
+                <input type="text" placeholder={t('EnterTheWithdrawalAmount')} value={amount} onChange={putAmoubt} />
                 {/* <Popover content={content} placement="bottom" overlayClassName="TeamPopover" trigger="click">
                     <div className="selToken">
                         <img src={LFTIcon} alt="" />

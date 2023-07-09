@@ -5,6 +5,7 @@ import {useNavigate, useSearchParams,} from 'react-router-dom'
 import classnames from 'classnames';
 import { notification } from 'antd';
 import '../assets/style/Swap.scss'
+import { NumSplic } from '../utils/tool'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
@@ -150,7 +151,7 @@ export default function Swap() {
           let amount = new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString()
           getAmountOut(amount,reserveUsdt,reserveLft).then(res=>{
             if(key === SerchKey.current){
-              setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+              setLftNum(NumSplic(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),6))
               console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
             }
           },()=>{
@@ -174,7 +175,7 @@ export default function Swap() {
     }
     const putLftNUm = (e)=>{
       let putVal = changeNumPut(e.target.value)
-      setLftNum(putVal)
+      setLftNum(NumSplic(putVal,6))
       if(putVal){
         let amount = new BigNumber(putVal).times(10 ** TokenConfig.LFT.decimals).toString()
         let key = SerchKey.current + 1
@@ -210,7 +211,7 @@ export default function Swap() {
         if(SellOrBuy === 'Buy'){
           getAmountOut(amount,reserveUsdt,reserveLft).then(res=>{
             if(key === SerchKey.current){
-              setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+              setLftNum(NumSplic(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),6))
               console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
             }
           })
@@ -218,7 +219,7 @@ export default function Swap() {
         if(SellOrBuy === 'Sell'){
           getAmountIn(amount,reserveLft,reserveUsdt).then(res=>{
             if(key === SerchKey.current){
-              setLftNum(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString())
+              setLftNum(NumSplic(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),6))
               console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输入量")
             }
           })
@@ -426,7 +427,7 @@ export default function Swap() {
                     </div> */}
                     <div className="InfoRow">
                         <div className="label">{t('Referenceprice')}</div>
-                        <div className="value">{Rate ? `1USDT ≈ ${Rate}LFT`:'-'}</div>
+                        <div className="value">{Rate ? `1USDT ≈ ${NumSplic(Rate,6)}LFT`:'-'}</div>
                     </div>
                     <div className="InfoRow">
                         <div className="label">{t('Fee')}</div>

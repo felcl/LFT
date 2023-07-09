@@ -266,6 +266,10 @@
         display: flex;
         align-items: center;
         margin-top: 45px;
+        @media (max-width:600px) {
+            margin-top: 25px !important;
+            height: 45px !important;
+        }
         input{
             flex: 1;
             height: 100%;
@@ -303,6 +307,10 @@
         color: #FFFFFF;
         margin: 70px auto 0;
         cursor: pointer;
+        @media (max-width:600px) {
+            margin: 30px auto 0 !important;
+            height: 45px !important;
+        }
     }
 }
 .TeamPopover{

@@ -163,7 +163,7 @@ export default function Convert() {
                 <div className={submitRunder()} onClick={exchange}>{t('Confirm')}</div>
             </div>
             <div className="goRecord" onClick={()=>{navigate('/ConvertRecord')}}>
-                {'Convert record >'}
+                {t('Convertrecord') + ' >'}
             </div>
         </div>
     )

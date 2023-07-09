@@ -145,4 +145,9 @@ export default {
   "Withdrawalrecord": "출금기록",
   "successfulRedemption": "성공적인 구속",
   "amountPledged": "약정된  금액",
+  "EnterTheWithdrawalAmount": "인출 금액을 입력하세요",
+  "ReceivedSwapFeeRewards": "누적 수수료",
+  "ExpectedDailySwapFee": "예상 일일 수수료 수입",
+  "CurrentStakedMPValue": "현재 스테이킹된 MP 값",
+  "BoostPercentage": "부스트 비율",
 }

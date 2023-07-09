@@ -33,7 +33,7 @@ export default function Slippage() {
             <div className="SlippageSubLabel">{t('Yourtransactionwillrevert')}<br></br>{t('Yourtransactionwillrevert2')}</div>
             <div className='percentageRow'>
                 <div className="percentageTab">
-                    <div className={classnames(['TabItem','flexCenter'])} onClick={(event)=>{changeTab(event,0)}}>0.3%</div>
+                    <div className={classnames(['TabItem','flexCenter','ActiveTab'])} onClick={(event)=>{changeTab(event,0)}}>0.3%</div>
                     <div className={classnames(['TabItem','flexCenter'])} onClick={(event)=>{changeTab(event,1)}}>1%</div>
                     <div className={classnames(['TabItem','flexCenter'])} onClick={(event)=>{changeTab(event,2)}}>3%</div>
                     <div className="ActiveTab" ref={ActiveTabRef}></div>

@@ -146,4 +146,9 @@ export default {
   "Withdrawalrecord": "Withdrawal record",
   "successfulRedemption": "successful redemption",
   "amountPledged": "amount pledged",
+  "EnterTheWithdrawalAmount": "Enter the withdrawal amount",
+  "ReceivedSwapFeeRewards": "Received Swap Fee Rewards",
+  "ExpectedDailySwapFee": "Expected Daily Swap Fee",
+  "CurrentStakedMPValue": "Largest MPs",
+  "BoostPercentage": "Boost Percentage",
 }

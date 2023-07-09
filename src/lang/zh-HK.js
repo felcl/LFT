@@ -146,4 +146,9 @@ export default {
   "Withdrawalrecord": "提幣記錄",
   "successfulRedemption": "贖回成功",
   "amountPledged": "質押數量",
+  "EnterTheWithdrawalAmount": "輸入提款金額",
+  "ReceivedSwapFeeRewards": "累計手續費",
+  "ExpectedDailySwapFee": "預計當日手續費收入",
+  "CurrentStakedMPValue": "當前質押的MP值",
+  "BoostPercentage": "提升百分比",
 }

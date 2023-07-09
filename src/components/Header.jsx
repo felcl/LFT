@@ -198,6 +198,11 @@ export default function Header() {
                     </div>
                 </Popover>
             </div>
+            <Popover content={LangContent} placement="bottom"  overlayClassName="LangPopover" getPopupContainer={() => document.getElementById('H5Lang')}>
+                <div className="H5Lang" id="H5Lang">
+                    <img src={LangIcon} alt="" />
+                </div>
+            </Popover>
             <img className="MenuIcon" onClick={showDrawer} src={location.pathname ==='/' ? MenuIconImg :blackMenuIcon} alt="" />
         </div>
         <Drawer placement="right" width={178} onClose={onClose} closable={false} open={open} rootClassName="DrawerBodyRoot" className="DrawerBody">
