@@ -440,7 +440,7 @@ export default function Swap() {
                         <div className="value">{SellOrBuy === 'Sell' ? UsdtNum:LftNum}</div>
                     </div>
                     <div className="InfoRow borderTop">
-                        <div className="label">slippage</div>
+                        <div className="label">{t('Slippage Tolerance')}</div>
                         <div className="value">{slippage}%</div>
                     </div>
                 </div>
