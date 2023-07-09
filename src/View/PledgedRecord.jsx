@@ -16,7 +16,10 @@ export default function SwapRecord() {
     const [RecordList,setRecordList] = useState([])
     const [Type,setType] = useState(search.get('type'))
     const [RedeemModal,setRedeemModal] = useState(false)
+    const [RedeemAmount,setRedeemAmount] = useState(0)
     const [scrollObj,setScrollObj] = useState({})
+    const [countdown,setcountdown] = useState('')
+    const [targetTime,setTargetTime] = useState(0)
     useEffect(()=>{
         if(search.get('type')){
             setType(search.get('type'))
@@ -24,6 +27,14 @@ export default function SwapRecord() {
             navigate(-1)
         }
     },[])
+    useEffect(()=>{
+        setInterval(()=>{
+            if(targetTime && RedeemModal){
+                let Time = targetTime - (+new Date() / 1000)
+                setcountdown(`${Math.floor(Time / 3600)} : ${Math.floor(Time % 3600 / 60)} : ${Math.floor(Time % 60)}`)
+            }
+        },1000)
+    },[targetTime,RedeemModal])
     useEffect(()=>{
         console.log(document.body.clientWidth)
         if(document.body.clientWidth <= 450){
@@ -60,7 +71,17 @@ export default function SwapRecord() {
                 description:t('Lessthanfive')
             });
         }
-        setRedeemModal(true)
+        Axios.post('/dao/checkRedemption',{
+            "idList": RecordList.slice(-5).map(item=>item.id)
+        }).then(res=>{
+            if(res.data.data){
+                setTargetTime((res.data.data.time+1) / 1000)
+                let targetTime = (res.data.data.time+1) / 1000 - (+new Date() / 1000)
+                setcountdown(`${Math.floor(targetTime / 3600)} : ${Math.floor(targetTime % 3600 / 60)} : ${Math.floor(targetTime % 60)}`)
+                setRedeemAmount(res.data.data.amount)
+            }
+            setRedeemModal(true)
+        })
     }
     const cancel = ()=>{
         setRedeemModal(false)
@@ -68,6 +89,12 @@ export default function SwapRecord() {
     const redeemFun = ()=>{
         Axios.post('/dao/redemption').then(res=>{
             console.log(res,"赎回")
+            Axios.get('/dao/elftPledgeRecord').then(res=>{
+                if(res.data.data){
+                    setRecordList(res.data.data)
+                }
+                console.log(res,"用户ELFT质押记录")
+            })
             return notification.open({
                 message: 'Success',
                 description:t('successfulRedemption')
@@ -155,14 +182,14 @@ export default function SwapRecord() {
             <div className="Title">{t('Redeemthesefive')}</div>
             <div className='redeemInfoRow'>
                 <div className="label">{t('untilthenext')}</div>
-                <div className="value">152:25:20</div>
+                {
+                    targetTime && <div className="value">{countdown}</div>
+                }
             </div>
             <div className='redeemInfoRow'>
                 <div className="label">{t('Expectedloss')}</div>
                 {
-                    RecordList.length >0 && <div className="value" >${NumSplic(RecordList.slice(-5).reduce((a, b)=>{
-                        return a+b.pledgeAmount
-                    },0),2)}</div>
+                    RecordList.length >0 && <div className="value" >{NumSplic(RedeemAmount,4)}</div>
                 }
             </div>
             <div className="btnRow">

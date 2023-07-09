@@ -5,6 +5,7 @@ import {useNavigate, useSearchParams,} from 'react-router-dom'
 import classnames from 'classnames';
 import { notification } from 'antd';
 import '../assets/style/Swap.scss'
+import { useSelector } from "react-redux";
 import { NumSplic } from '../utils/tool'
 import ChangeIcon from '../assets/image/ChangeIcon.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
@@ -12,7 +13,7 @@ import USDTIcon from '../assets/image/USDTIcon.png'
 import chartIcon from '../assets/image/chartIcon.png'
 import SlippageIcon from '../assets/image/SlippageIcon.png'
 import { useEffect, useState, useMemo, useRef} from 'react';
-import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, getAmountOut, getAmountIn, swapBuy, swapSell,swapFee} from '../web3'
+import { getReserves, getLftAllowance,getLFTBalance, getUsdtAllowance, getUSDTBalance, LftApprove, USDTApprove, getAmountOut,getFloatAmountOut, getAmountIn,getFloatAmountIn, swapBuy, swapSell,swapFee} from '../web3'
 import { ContractAddress, TokenConfig} from '../config'
 import BigNumber from "big.js";
 import { useTranslation } from 'react-i18next'
@@ -21,6 +22,7 @@ BigNumber.NE = -40;
 BigNumber.PE = 40;
 
 export default function Swap() {
+  const slippage = useSelector(Store =>Store.slippage)
   const { t } = useTranslation()
   const navigate = useNavigate();
   const web3React = useWeb3React();
@@ -149,7 +151,7 @@ export default function Swap() {
           let key = SerchKey.current + 1
           SerchKey.current = key
           let amount = new BigNumber(UsdtNum).times(10 ** TokenConfig.USDT.decimals).toString()
-          getAmountOut(amount,reserveUsdt,reserveLft).then(res=>{
+          getFloatAmountOut(amount,reserveUsdt,reserveLft,slippage*10).then(res=>{
             if(key === SerchKey.current){
               setLftNum(NumSplic(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),6))
               console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
@@ -164,7 +166,7 @@ export default function Swap() {
           let key = SerchKey.current + 1
           SerchKey.current = key
           let amount = new BigNumber(LftNum).times(10 ** TokenConfig.LFT.decimals).toString()
-          getAmountOut(amount,reserveLft,reserveUsdt).then(res=>{
+          getFloatAmountOut(amount,reserveLft,reserveUsdt,slippage*10).then(res=>{
             if(key === SerchKey.current){
               setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
               console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输出量")
@@ -181,7 +183,7 @@ export default function Swap() {
         let key = SerchKey.current + 1
         SerchKey.current = key
         if(SellOrBuy === 'Buy'){
-          getAmountIn(amount,reserveUsdt,reserveLft).then(res=>{
+          getFloatAmountIn(amount,reserveUsdt,reserveLft,slippage*10).then(res=>{
             if(key === SerchKey.current){
               setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
               console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输入量")
@@ -189,7 +191,7 @@ export default function Swap() {
           })
         }
         if(SellOrBuy === 'Sell'){
-          getAmountOut(amount,reserveLft,reserveUsdt).then(res=>{
+          getFloatAmountOut(amount,reserveLft,reserveUsdt,slippage*10).then(res=>{
             if(key === SerchKey.current){
               setUsdtNum(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString())
               console.log(new BigNumber(res).div(10 ** TokenConfig.USDT.decimals).toString(),"最小输出量")
@@ -209,7 +211,7 @@ export default function Swap() {
         let key = SerchKey.current + 1
         SerchKey.current = key
         if(SellOrBuy === 'Buy'){
-          getAmountOut(amount,reserveUsdt,reserveLft).then(res=>{
+          getFloatAmountOut(amount,reserveUsdt,reserveLft,slippage * 10).then(res=>{
             if(key === SerchKey.current){
               setLftNum(NumSplic(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),6))
               console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输出量")
@@ -217,7 +219,7 @@ export default function Swap() {
           })
         }
         if(SellOrBuy === 'Sell'){
-          getAmountIn(amount,reserveLft,reserveUsdt).then(res=>{
+          getFloatAmountIn(amount,reserveLft,reserveUsdt,slippage*10).then(res=>{
             if(key === SerchKey.current){
               setLftNum(NumSplic(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),6))
               console.log(new BigNumber(res).div(10 ** TokenConfig.LFT.decimals).toString(),"最小输入量")
@@ -437,10 +439,10 @@ export default function Swap() {
                         <div className="label">{t('Expectedoutput')}</div>
                         <div className="value">{SellOrBuy === 'Sell' ? UsdtNum:LftNum}</div>
                     </div>
-                    {/* <div className="InfoRow borderTop">
-                        <div className="label">Order routing</div>
-                        <div className="value">LFTswap API</div>
-                    </div> */}
+                    <div className="InfoRow borderTop">
+                        <div className="label">slippage</div>
+                        <div className="value">{slippage}%</div>
+                    </div>
                 </div>
                 {
                   submitBtnRun()

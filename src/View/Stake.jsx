@@ -247,7 +247,7 @@ export default function Stake() {
         </div>
         <div className="StakeBox">
             <div className="PutAmount">
-                <input type="text" placeholder='Please enter your amount' value={amount} onChange={changeAmount} />
+                <input type="text" placeholder={t('Pleaseenterthe4')} value={amount} onChange={changeAmount} />
                 <Popover content={content} placement="bottom" overlayClassName="StakePopover" trigger="click" open={openPopover} autoFocus={false}>
                     <div className="selToken" onClick={(e)=>{setOpenPopover(!openPopover);e.stopPropagation()}}>
                         <img src={LFTIcon} alt="" />
@@ -278,7 +278,7 @@ export default function Stake() {
             }
         </div>
         <div className="goRecord" onClick={()=>{navigate('/PledgedRecord?type='+Type)}}>
-            {'Stake  record >'}
+            {t('Stake record') + ' >'}
         </div>
     </div>
   )

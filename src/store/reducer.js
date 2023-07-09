@@ -1,6 +1,7 @@
 const defaultStates = {
     token: '',
     address: '',
+    slippage: '0.3',
 };
 
 export default (previousState = defaultStates, action) => {
@@ -9,6 +10,12 @@ export default (previousState = defaultStates, action) => {
             ...previousState,
             token:action.token,
             address:action.address
+        }
+    }
+    if(action.type === 'SETSLIPPAGE'){
+        return {
+            ...previousState,
+            slippage:action.slippage,
         }
     }
     return previousState;

@@ -153,10 +153,26 @@ export function getAmountOut(amountIn,reserveIn,reserveOut){
         return Promise.reject('contract Uninitialized')
     }
 }
+/* 获取输出数量 */
+export function getFloatAmountOut(amountIn,reserveIn,reserveOut,floatRate){
+    if(verifyExistence('Swap')){
+        return contract.Swap.methods.getFloatAmountOut(amountIn,reserveIn,reserveOut,floatRate).call()
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
 /* 获取输入数量 */
 export function getAmountIn(amountOut,reserveIn,reserveOut){
     if(verifyExistence('Swap')){
         return contract.Swap.methods.getAmountIn(amountOut,reserveIn,reserveOut).call()
+    }else{
+        return Promise.reject('contract Uninitialized')
+    }
+}
+/* 获取输入数量 */
+export function getFloatAmountIn(amountOut,reserveIn,reserveOut,floatRate){
+    if(verifyExistence('Swap')){
+        return contract.Swap.methods.getFloatAmountIn(amountOut,reserveIn,reserveOut,floatRate).call()
     }else{
         return Promise.reject('contract Uninitialized')
     }

@@ -41,8 +41,8 @@ export default function SwapRecord() {
                 RecordList.map((item,index)=><div className="SwapRecord" key={index}>
                 <div className="form">
                     <div className="tokenInfo">
-                        <img src={IconMap[item.token1Name]} alt="" />
-                        {item.token1Name}
+                        <img src={IconMap[item.token0Name]} alt="" />
+                        {item.token0Name}
                     </div>
                     <span>{NumSplic(item.token0Amount,6)}</span>
                 </div>
@@ -52,8 +52,8 @@ export default function SwapRecord() {
                 </div>
                 <div className="to">
                     <div className="tokenInfo">
-                        <img src={IconMap[item.token0Name]} alt="" />
-                        {item.token0Name}
+                        <img src={IconMap[item.token1Name]} alt="" />
+                        {item.token1Name}
                     </div>
                     <span>{NumSplic(item.token1Amount,6)}</span>
                 </div>
