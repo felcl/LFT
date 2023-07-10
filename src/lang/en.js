@@ -151,4 +151,5 @@ export default {
   "ExpectedDailySwapFee": "Expected Daily Swap Fee",
   "CurrentStakedMPValue": "Largest MPs",
   "BoostPercentage": "Boost Percentage",
+  "RedeemTips": "Reminder: The longer the pledge period, the higher the dividend ratio of transaction fees!",
 }

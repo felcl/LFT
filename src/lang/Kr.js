@@ -150,4 +150,5 @@ export default {
   "ExpectedDailySwapFee": "예상 일일 수수료 수입",
   "CurrentStakedMPValue": "현재 스테이킹된 MP 값",
   "BoostPercentage": "부스트 비율",
+  "RedeemTips": "알림: 약속 기간이 길수록 거래 수수료 배당률이 높아집니다!",
 }

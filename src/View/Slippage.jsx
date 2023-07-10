@@ -5,9 +5,11 @@ import { useDispatch } from "react-redux";
 import { useNavigate} from 'react-router-dom'
 import JTReturn from '../assets/image/JTReturn.png'
 import { useState, useRef, useEffect} from 'react';
+import { useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next'
 export default function Slippage() {
     const { t } = useTranslation()
+    const slippage = useSelector(Store =>Store.slippage)
     const navigate = useNavigate();
     const [ ActiveTabIndex, setActiveTabIndex] = useState(-1)
     const [ inputSlippage, setInputSlippage] = useState('')
@@ -25,16 +27,25 @@ export default function Slippage() {
             type:'SETSLIPPAGE',
             slippage
         })
+        setInputSlippage('')
         setActiveTabIndex(index)
         ActiveTabRef.current.style.width = event.target.clientWidth + 'px'
         ActiveTabRef.current.style.height = event.target.clientHeight + 'px'
         ActiveTabRef.current.style.left = event.target.offsetLeft + 'px'
     }
     useEffect(()=>{
-        setActiveTabIndex(0)
-        ActiveTabRef.current.style.width = defaultActiveTabRef.current.clientWidth + 'px'
-        ActiveTabRef.current.style.height = defaultActiveTabRef.current.clientHeight + 'px'
-        ActiveTabRef.current.style.left = defaultActiveTabRef.current.offsetLeft + 'px'
+        console.log()
+        let Index = slippageMap.findIndex(item=>{
+            return item === slippage
+        })
+        if(Index === -1){
+            Index = 0
+            setInputSlippage(slippage)
+        }
+        setActiveTabIndex(Index)
+        ActiveTabRef.current.style.width = parent.current.childNodes[Index].clientWidth + 'px'
+        ActiveTabRef.current.style.height = parent.current.childNodes[Index].clientHeight + 'px'
+        ActiveTabRef.current.style.left = parent.current.childNodes[Index].offsetLeft + 'px'
     },[])
     const Reset = () => {
         dispatch({
@@ -91,15 +102,15 @@ export default function Slippage() {
                     <div className={classnames(['TabItem','flexCenter'])} ref={defaultActiveTabRef} onClick={(event)=>{changeTab(event,0,0.3)}}>0.3%</div>
                     <div className={classnames(['TabItem','flexCenter'])} onClick={(event)=>{changeTab(event,1,1)}}>1%</div>
                     <div className={classnames(['TabItem','flexCenter'])} onClick={(event)=>{changeTab(event,2,3)}}>3%</div>
-                    <div className={classnames(['ActiveTab',{'disabled':!!inputSlippage}])} ref={ActiveTabRef}></div>
+                    <div className={classnames(['ActiveTab',{'Disabled':!!inputSlippage}])} ref={ActiveTabRef}></div>
                 </div>
                 <div className="percentagePut flexCenter">
                     <input type="text" value={inputSlippage} onChange={(e)=>changeNumPut(e.target.value)} />
                     %
                 </div>
             </div>
-            <div className="switchLabel">{t('LFTswapreceive')} </div>
-            <Switch defaultChecked className='percentageSwitch' />
+            {/* <div className="switchLabel">{t('LFTswapreceive')} </div>
+            <Switch defaultChecked className='percentageSwitch' /> */}
         </div>
     </div>
   )

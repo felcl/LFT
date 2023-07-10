@@ -196,7 +196,7 @@ export default function SwapRecord() {
                 <div className="redeemConfirm flexCenter" onClick={redeemFun}>{t('Confirm')}</div>
                 <div className="redeemConfirm cancel flexCenter" onClick={cancel}>{t('cancel')}</div>
             </div>
-            
+            <div className='Tips'>{t('RedeemTips')}</div>
         </Modal>
     </div>
   )

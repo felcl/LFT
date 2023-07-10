@@ -151,4 +151,5 @@ export default {
   "ExpectedDailySwapFee": "預計當日手續費收入",
   "CurrentStakedMPValue": "當前質押的MP值",
   "BoostPercentage": "提升百分比",
+  "RedeemTips": "溫馨提示：質押的周期越長，獲得交易手續費的分紅比例越高哦！",
 }
