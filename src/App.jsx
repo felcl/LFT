@@ -8,6 +8,7 @@ import {contract,contractInit,useConnectWallet} from './web3'
 import Axios from './axios'
 import Router from './Router/Router'
 import Header from './components/Header'
+import Footer from './components/Footer'
 import CloseIcon from './assets/image/CloseIcon.png'
 import './App.css'
 
@@ -99,15 +100,16 @@ function App() {
     
       <Header></Header>
       <Router></Router>
+      <Footer></Footer>
     {/* <span onClick={()=>connect({ connector: connectors[1] })}> 链接</span> */}
         {/* 邀请弹窗 */}
-    <Modal open={isinvitationModal} onCancel={()=>{setIsinvitationModal(false)}} closable={false} maskClosable={false} footer={null} wrapClassName="modalBox" width="676px">
+    {/* <Modal open={isinvitationModal} onCancel={()=>{setIsinvitationModal(false)}} closable={false} maskClosable={false} footer={null} wrapClassName="modalBox" width="676px">
       <div className="Title">{t('Invitationaddress')}</div>
       <div className='putBox'>
           <input type="text" placeholder='Enter invitation address' value={invitationAddr} onChange={changeInvitationAddr} />
       </div>
       <div className="Confirm flexCenter" onClick={invitationAddrFun}>{t('Confirm')}</div>
-    </Modal>
+    </Modal> */}
     </>
   )
 }

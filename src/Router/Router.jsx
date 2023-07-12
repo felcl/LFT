@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 import { Route, Routes, useLocation} from "react-router-dom";
-import Home from '../View/Home'
+import Home from '../Page/Home'
 import Swap from '../View/Swap'
 import Convert from '../View/Convert'
 import Wallet from '../View/Wallet'
