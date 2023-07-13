@@ -41,6 +41,18 @@
   src: url(./assets/font/PingFang/PingFang-Regular.ttf);
 } */
 @font-face{
+  font-family: PingFang-Regular;
+  src: url(./assets/font/PingFang/PingFang-Regular.ttf);
+}
+@font-face{
+  font-family: PingFang-Bold;
+  src: url(./assets/font/PingFang/PingFang-Bold.ttf);
+}
+@font-face{
+  font-family: PingFang-Medium;
+  src: url(./assets/font/PingFang/PingFang-Medium.ttf);
+}
+@font-face{
   font-family: Rubik-Regular;
   src: url(./assets/font/Rubik/Rubik-Regular.ttf);
 }
@@ -117,12 +129,12 @@ button:focus-visible {
     top: 15px;
   }
 }
-.ant-modal-content{
+/* .ant-modal-content{
   padding: 60px 40px 45px !important;
   @media (max-width:600px) {
     padding: 30px 20px 25px !important;
   }
-}
+} */
 .ant-modal-content .Title{
   color: #3D3D3D;
   font-size: 35px;

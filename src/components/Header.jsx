@@ -3,16 +3,21 @@ import HeaderLogo from '../assets/img/HeaderLogo.png'
 import ArbiturmIcon from '../assets/img/ArbiturmIcon.png'
 import arrowDown from '../assets/img/arrowDown.png'
 import LangIcon from '../assets/img/LangIcon.png'
+import { useNavigate } from 'react-router-dom'
 export default function Header() {
+    const navigate = useNavigate();
+    const goPath = (path)=>{
+        navigate(path)
+    }
   return (
     <div className="Header">
         <div className="HeaderContent">
             <div className="HeaderLeft">
                 <img src={HeaderLogo} alt="" />
                 <div className="Menu">
-                    <div className="MenuItem">Swap</div>
-                    <div className="MenuItem">Stake</div>
-                    <div className="MenuItem">Earn</div>
+                    <div className="MenuItem" onClick={()=>{goPath('/Swap')}}>Swap</div>
+                    <div className="MenuItem" onClick={()=>{goPath('/Stake')}}>Stake</div>
+                    <div className="MenuItem" onClick={()=>{goPath('/Earn')}}>Earn</div>
                 </div>
             </div>
             <div className="HeaderRight">

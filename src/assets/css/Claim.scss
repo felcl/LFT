@@ -1,0 +1,79 @@
+.Claim{
+  .Title{
+    font-size: 45px;
+    font-family: Rubik-Medium;
+    text-align: center;
+    color: #EA601F;
+    margin-top: 123px;
+  }
+  .ClaimBox{
+    max-width: 1075px;
+    margin:33px auto 113px;
+    border-radius: 15px;
+    background: #232323;
+    overflow: hidden;
+    .ant-table{
+      background: transparent;
+      color: #FFFFFF;
+      font-size: 16px;
+      th{
+        background: transparent;
+        border-bottom: 2px solid #363636;
+        color: #767676;
+        font-size: 16px;
+        font-family: Rubik-Regular;
+      }
+      .ant-table-cell{
+        border-bottom: 1px solid #363636;
+        background: transparent !important;
+      }
+    }
+    .ClaimTips{
+      color: #EA601F;
+      font-size: 30px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .ClaimInfo{
+      margin-top: 37px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .infoLabel{
+        color: #FFFFFF;
+        font-size: 18px;
+        font-family: Rubik-Light;
+        margin-right: 20px;
+      }
+      .infovalue{
+        font-family: Rubik-Regular;
+        font-size: 30px;
+        color: #FFFFFF;
+      }
+    }
+    .btnRow{
+      display: flex;
+      justify-content:center;
+      margin: 50px 0;
+      .btn1{
+        width: 311px;
+        height: 56px;
+        font-family: PingFang-Medium;
+        border-radius: 10px;
+        background: #767676;
+        margin-right: 27px;
+        color: #FFFFFF;
+        font-size: 20px;
+      }
+      .btn2{
+        color: #FFFFFF;
+        font-size: 20px;
+        font-family: PingFang-Medium;
+        width: 311px;
+        height: 56px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #EB6120 29%, #ED059B 100%);
+      }
+    }
+  }
+}

@@ -1,7 +1,8 @@
 import {useEffect} from 'react'
 import { Route, Routes, useLocation} from "react-router-dom";
 import Home from '../Page/Home'
-import Swap from '../View/Swap'
+import Swap from '../Page/Swap'
+import Claim from '../Page/Claim'
 import Convert from '../View/Convert'
 import Wallet from '../View/Wallet'
 import Subscribe from '../View/Subscribe'
@@ -10,8 +11,8 @@ import PledgedRecord from '../View/PledgedRecord'
 import ConvertRecord from '../View/ConvertRecord'
 import Invitation from '../View/Invitation'
 import Slippage from '../View/Slippage'
-import Earn from '../View/Earn'
-import Stake from '../View/Stake'
+import Earn from '../Page/Earn'
+import Stake from '../Page/Stake'
 import SwapChart from '../View/SwapChart'
 import Asset from '../View/Asset'
 import Team from '../View/Team'
@@ -26,6 +27,7 @@ export default function Router() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Swap' element={<Swap />} />
+          <Route path='/Claim' element={<Claim />} />
           <Route path='/Convert' element={<Convert />} />
           <Route path='/Slippage' element={<Slippage />} />
           <Route path='/Wallet' element={<Wallet />} />

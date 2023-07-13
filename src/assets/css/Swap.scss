@@ -1,0 +1,263 @@
+.Swap{
+  .Title{
+    font-size: 45px;
+    font-family: Rubik-Medium;
+    text-align: center;
+    color: #EA601F;
+    margin-top: 123px;
+  }
+  .SwapContent{
+    margin-top: 50px;
+    margin-bottom: 200px;
+    display: flex;
+    justify-content: center;
+    .main{
+      width: 550px;
+      margin-right: 32px;
+      box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+      background: #232323;
+      border-radius: 15px;
+      padding: 33px 17px 26px 17px;
+      box-sizing: border-box;
+      .PutBox{
+        position: relative;
+        height: 264px;
+        .FromPut{
+          height: 87px;
+          background: #EEEEEE;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          input{
+            flex: 1;
+            width: 100%;
+            padding: 0 28px;
+            border: none;
+            outline: none;
+            font-size: 35px;
+            background: transparent;
+            color: #000000;
+          }
+          .TokenInfo{
+            width: 120px;
+            height: 50px;
+            flex-shrink: 0;
+            background: #C5C5C5;
+            border-radius: 30px;
+            margin-right: 8px ;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-size: 18px;
+            font-family: PingFang-Bold;
+            img{
+              margin-right: 10px;
+            }
+          }
+        }
+        .ToPut{
+          height: 87px;
+          // background: #EEEEEE;
+          box-sizing: border-box;
+          border: 1px solid #FFFFFF;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          input{
+            flex: 1;
+            width: 100%;
+            padding: 0 28px;
+            border: none;
+            outline: none;
+            font-size: 35px;
+            background: transparent;
+            color: #AAAAAA;
+          }
+          .TokenInfo{
+            width: 120px;
+            height: 50px;
+            flex-shrink: 0;
+            background: #C5C5C5;
+            border-radius: 30px;
+            margin-right: 8px ;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-size: 18px;
+            font-family: PingFang-Bold;
+            img{
+              margin-right: 10px;
+            }
+          }
+        }
+        .top{
+          position: absolute;
+            top: 0;
+        }
+        .bottom{
+          position: absolute;
+            top: 180px;
+        }
+        >img{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+        }
+      }
+      .SwapInfo{
+        border: 1px solid #EEEEEE;
+        box-sizing: border-box;
+        border-radius: 15px;
+        height: 115px;
+        margin-top: 30px;
+        padding: 0 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content:space-evenly;
+        .InfoRow{
+          display: flex;
+          justify-content: space-between;
+          .label{
+            color: #FFFFFF;
+            font-size: 14px;
+            font-family: PingFang-Regular;
+          }
+          .value{
+            color: #FFFFFF;
+            font-size: 14px;
+            font-family: PingFang-Regular;
+          }
+        }
+      }
+      .operate{
+        display: flex;
+        flex-direction:row-reverse;
+        margin: 16px 0;
+      }
+      .SwapBtn{
+        height: 56px;
+        background: linear-gradient(180deg, #EB6120 29%, #ED059B 100%);
+        border-radius: 10px;
+        color: #FFFFFF;
+        font-size: 28px;
+        font-family: PingFang-Bold;
+      }
+    }
+    .vice{
+      width: 550px;
+      .Competitive{
+        padding: 30px;
+        box-sizing: border-box;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        background: #232323;
+        border-radius: 15px;
+        .CompetitiveTitle{
+          color: #EA601F;
+          font-size: 30px;
+          font-family: Rubik-Medium;
+        }
+        .CompetitiveText{
+          color: #FFFFFF;
+          font-size: 20px;
+          font-family: Rubik-Regular;
+          margin-top: 18px;
+        }
+        .ReadDocs{
+          height: 40px;
+          padding: 0 27px;
+          width: max-content;
+          border: 1px solid #FFFFFF;
+          border-radius: 35px;
+          box-sizing: border-box;
+          margin-top:60px;
+        }
+      }
+      .Balance{
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        background: #232323;
+        border-radius: 15px;
+        .InfoRow{
+          margin-bottom: 17px;
+        }
+        .label{
+          color: #AAAAAA;
+          font-size: 24px;
+        }
+        .value{
+          color: #FFFFFF;
+          font-size: 20px;
+        }
+        .BalencesItem{
+          display: flex;
+          align-items: center;
+          color: #FFFFFF;
+          font-size: 20px;
+          margin-bottom: 13px;
+          img{
+            margin-right: 5px;
+          }
+        }
+      }
+      .exchangeRate{
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        background: #232323;
+        border-radius: 15px;
+        padding: 40px 17px 30px 17px;
+        box-sizing: border-box;
+        margin-top: 22px;
+        .Rate{
+          height: 65px;
+          border: 1px solid #FFFFFF;
+          border-radius: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #FFFFFF;
+          font-size: 20px;
+          font-family: Rubik-Regular;
+          .ToIcon{
+            margin: 0 25px;
+          }
+          .TokenIcon{
+            margin-right: 14px;
+          }
+        }
+        .contract{
+          margin: 30px 33px;
+          color: #AAAAAA;
+          font-size: 18px;
+          font-family: Rubik-Light;
+          display: flex;
+          align-items: center;
+          .Logo{
+            height: 14px;
+          }
+          span{
+            color: #FFFFFF;
+            font-size: 18px;
+            font-family: Rubik-Regular;
+            margin-left: 16px;
+            margin-right: 10px;
+          }
+        }
+        .goRecord{
+          height: 30px;
+          font-size: 14px;
+          font-family: Rubik-Regular;
+          border: 1px solid #767676;
+          background: #232323;
+          padding: 0 18px;
+          width: max-content;
+          border-radius: 8px;
+          color: rgba(255, 255, 255, 0.92);
+        }
+      }
+    }
+    .Balance{
+      padding: 35px 50px;
+    }
+  }
+}
