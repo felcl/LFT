@@ -2,7 +2,7 @@ import '../assets/style/Record.scss'
 import { Empty } from 'antd';
 import { useSelector } from "react-redux";
 import {useNavigate} from 'react-router-dom'
-import JTReturn from '../assets/image/JTReturn.png'
+import JTReturn from '../assets/img/JTReturn.png'
 import LFTIcon from '../assets/image/LFTIcon.png'
 import USDTIcon from '../assets/image/USDTIcon.png'
 import { useEffect, useState } from 'react';

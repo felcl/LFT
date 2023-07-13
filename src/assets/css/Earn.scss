@@ -28,4 +28,184 @@
       }
     }
   }
+  .progress{
+    color: #fff;
+    font-size: 16px;
+    font-family: Rubik-Regular;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    line-height: 1;
+    span{
+      font-size: 20px;
+      color: #EA601F;
+    }
+  }
+  .EarnMain{
+    max-width: 1100px;
+    margin:33px auto 0;
+    display: flex;
+    .EarnLeft{
+      flex: 1;
+      margin-right: 34px;
+      .EarnItem{
+        padding: 45px 45px 65px;
+        box-sizing: border-box;
+        background: #232323;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        border-radius: 15px;
+        margin-bottom: 40px;
+        .EarnName{
+          color: #EA601F;
+          font-size: 35px;
+          font-family: Rubik-Medium;
+          line-height: 1;
+          margin-bottom: 50px;
+        }
+        .EarnInfoRow{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 25px;
+          .Label{
+            color: #767676;
+            font-family: Rubik-Regular;
+            font-size: 16px;
+            line-height: 1;
+          }
+          .Value{
+            color: #FFFFFF;
+            font-family: Rubik-Medium;
+            font-size: 17px;
+            display: flex;
+            line-height: 1;
+            align-items: center;
+            img{
+              margin-right: 7px;
+              width: 18px;
+            }
+          }
+        }
+        .Btn{
+          margin-top: 48px;
+          width: 165px;
+          height: 40px;
+          border-radius: 30px;
+          background: linear-gradient(180deg, #EB6120 29%, #ED059B 100%);
+          color: #FFFFFF;
+          font-size: 20px;
+          font-family: PingFang-Medium;
+        }
+      }
+    }
+    .EarnRight{
+      width: 430px;
+      .Balance{
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        background: #232323;
+        border-radius: 15px;
+        padding: 35px 50px;
+        .InfoRow{
+          margin-bottom: 17px;
+        }
+        .label{
+          color: #AAAAAA;
+          font-size: 24px;
+        }
+        .value{
+          color: #FFFFFF;
+          font-size: 20px;
+        }
+        .BalencesItem{
+          display: flex;
+          align-items: center;
+          color: #FFFFFF;
+          font-size: 20px;
+          margin-bottom: 13px;
+          img{
+            margin-right: 5px;
+          }
+        }
+      }
+      .InvitationInfo{
+        background: #232323;
+        border-radius: 15px;
+        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
+        padding: 45px;
+        margin-top: 28px;
+        .InvitationTitle{
+          color: #EA601F;
+          font-size: 35px;
+          font-family: Rubik-Medium;
+          margin-bottom: 35px;
+          line-height: 1;
+        }
+        .label{
+          color: #767676;
+          font-size: 22px;
+          font-family: Rubik-Light;
+          line-height: 1;
+        }
+        .value1{
+          color: #FFFFFF;
+          font-size: 40px;
+          font-family: Rubik-Regular;
+          line-height: 1.2;
+          margin-top: 6px;
+          margin-bottom: 40px;
+        }
+        .value2{
+          color: #FFFFFF;
+          font-size: 18px;
+          font-family: Rubik-Regular;
+          margin-bottom: 55px;
+          margin-top: 6px;
+        }
+        .value3{
+          color: #FFFFFF;
+          font-size: 18px;
+          font-family: Rubik-Medium;
+          margin-top: 6px;
+          margin-bottom: 50px;
+          img{
+            margin-left: 10px;
+          }
+        }
+        .value4{
+          color: #FFFFFF;
+          font-family: Rubik-Regular;
+          font-size: 40px;
+          margin-bottom: 32px;
+        }
+        .inviterItem{
+          height: 44px;
+          border-top: 1px solid #363636;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .address,.time{
+            color: #FFFFFF;
+            font-size: 14px;
+            font-family: Rubik-Regular;
+          }
+        }
+        .inviterItem:nth-of-type(11){
+          margin-top: 13px;
+          border-top: 2px solid #363636;
+        }
+        .More{
+          width: 140px;
+          height: 30px;
+          background: #1A1A1A;
+          border: 1px solid #767676;
+          border-radius: 8px;
+          color: rgba(255, 255, 255, 0.92);
+          font-size: 14px;
+          font-family: Rubik-Regular;
+          margin-top: 80px;
+        }
+      }
+    }
+  }
 }

@@ -134,21 +134,21 @@ export default function Stake() {
           </div>
         </div>
         <div className="Balance">
-            <div className="InfoRow">
-              <span className="label">Address: </span><span className="value">212155S.......D65S4565</span>
-            </div>
-            <div className="InfoRow">
-              <span className="label">Balences: </span>
-            </div>
-            <div className="BalencesItem">
-              <img src={LFTIcon} alt="" />
-              255623.2323 LFT
-            </div>
-            <div className="BalencesItem">
-              <img src={USDTIcon} alt="" />
-              255623.2323 USDT
-            </div>
+          <div className="InfoRow">
+            <span className="label">Address: </span><span className="value">212155S.......D65S4565</span>
           </div>
+          <div className="InfoRow">
+            <span className="label">Balences: </span>
+          </div>
+          <div className="BalencesItem">
+            <img src={LFTIcon} alt="" />
+            255623.2323 LFT
+          </div>
+          <div className="BalencesItem">
+            <img src={USDTIcon} alt="" />
+            255623.2323 USDT
+          </div>
+        </div>
       </div>
       <div className="combination">
         <div className="combinationItem">

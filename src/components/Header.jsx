@@ -3,11 +3,18 @@ import HeaderLogo from '../assets/img/HeaderLogo.png'
 import ArbiturmIcon from '../assets/img/ArbiturmIcon.png'
 import arrowDown from '../assets/img/arrowDown.png'
 import LangIcon from '../assets/img/LangIcon.png'
-import { useNavigate } from 'react-router-dom'
+import {useNavigate ,useLocation} from 'react-router-dom'
 export default function Header() {
     const navigate = useNavigate();
+    const location = useLocation();
     const goPath = (path)=>{
         navigate(path)
+    }
+    const MenuClass = (path) => {
+        if(location.pathname === path){
+            return 'MenuItem activeMenuItem'
+        }
+        return 'MenuItem'
     }
   return (
     <div className="Header">
@@ -15,9 +22,9 @@ export default function Header() {
             <div className="HeaderLeft">
                 <img src={HeaderLogo} alt="" />
                 <div className="Menu">
-                    <div className="MenuItem" onClick={()=>{goPath('/Swap')}}>Swap</div>
-                    <div className="MenuItem" onClick={()=>{goPath('/Stake')}}>Stake</div>
-                    <div className="MenuItem" onClick={()=>{goPath('/Earn')}}>Earn</div>
+                    <div className={MenuClass('/Swap')} onClick={()=>{goPath('/Swap')}}>Swap</div>
+                    <div className={MenuClass('/Stake')} onClick={()=>{goPath('/Stake')}}>Stake</div>
+                    <div className={MenuClass('/Earn')} onClick={()=>{goPath('/Earn')}}>Earn</div>
                 </div>
             </div>
             <div className="HeaderRight">

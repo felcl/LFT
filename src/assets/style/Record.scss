@@ -1,5 +1,4 @@
 .Record{
-    background: url(../image/PolkaDotsBg.png);
     overflow: hidden;
     padding-top: 80px;
     box-sizing: border-box;
@@ -23,7 +22,7 @@
         align-items: center;
         justify-content: space-between;
         font-size: 45px;
-        color: #192E44;
+        color: #EA601F;
         font-family: PingFang-Bold;
         @media (max-width:780px) {
             img{
@@ -43,13 +42,12 @@
         }
     }
     .RecordList{
-        box-shadow: 0px 10px 5px 0px rgba(0, 0, 0, 0.03);
         border-radius: 15px;
         width: 800px;
         margin:25px auto;
         padding: 30px 85px 40px;
         box-sizing: border-box;
-        background: #FFFFFF;
+        background: #232323;
         @media (max-width:850px) {
             padding: 30px 45px 40px;
             width: auto;
@@ -116,7 +114,7 @@
                 flex-direction: column;
                 justify-content: center;
                 .tokenInfo{
-                    color: #000;
+                    color: #FFFFFF;
                     display: flex;
                     align-items: center;
                     font-size: 20px;
@@ -132,7 +130,7 @@
                 }
                 span{
                     font-size: 16px;
-                    color: #000000;
+                    color: #FFFFFF;
                     @media (max-width:450px) {
                         font-size: 14px;
                     }
